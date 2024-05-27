@@ -311,19 +311,19 @@ public class MkbTransformDto {
             e.printStackTrace();
         }
 
-        System.out.println("vd51 " + vd51.size());
-        System.out.println("vd52 " + vd52.size());
-        System.out.println("vd53 " + vd53.size());
-        System.out.println("vd54 " + vd54.size());
-        System.out.println("vd55 " + vd55.size());
-        System.out.println("vd56a " + vd56a.size());
-        System.out.println("vd56b " + vd56b.size());
-        System.out.println("vd56c " + vd56c.size());
-        System.out.println("vd57a " + vd57a.size());
-        System.out.println("vd57b " + vd57b.size());
-        System.out.println("vd57c " + vd57c.size());
-        System.out.println("vd58 " + vd58.size());
-        System.out.println("vd59 " + vd59.size());
+        System.out.println("total vd51 " + vd51.size());
+        System.out.println("total vd52 " + vd52.size());
+        System.out.println("total vd53 " + vd53.size());
+        System.out.println("total vd54 " + vd54.size());
+        System.out.println("total vd55 " + vd55.size());
+        System.out.println("total vd56a " + vd56a.size());
+        System.out.println("total vd56b " + vd56b.size());
+        System.out.println("total vd56c " + vd56c.size());
+        System.out.println("total vd57a " + vd57a.size());
+        System.out.println("total vd57b " + vd57b.size());
+        System.out.println("total vd57c " + vd57c.size());
+        System.out.println("total vd58 " + vd58.size());
+        System.out.println("total vd59 " + vd59.size());
     }
 
     private void processLine(String line, Map<String, String> key) {

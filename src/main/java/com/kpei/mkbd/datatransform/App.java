@@ -2,7 +2,10 @@ package com.kpei.mkbd.datatransform;
 
 import com.kpei.mkbd.datatransform.dto.MkbTransformDto;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,28 +18,35 @@ public class App
 {
     public static void main( String[] args )
     {
-        Map<String, String> key = new HashMap<>();
         File file = new File("/Users/andri/Documents/solecode/datatransform/XA231006.mkb");
+        File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
         System.out.println(LocalDateTime.now());
+        Map<String, String> key = generateMappingKey(mappingKey);
 
-        key.put("VD51.10", "VD51");
-        key.put("VD52.129", "VD52");
-        key.put("VD53.16", "VD53");
-        key.put("VD54.10", "VD54");
-        key.put("VD55.T", "VD55");
-        key.put("VD56.10", "VD56A");
-        key.put("VD56.20", "VD56B");
-        key.put("VD56.24", "VD56C");
-        key.put("VD56.P", "VD56C");
-        key.put("VD57.11", "VD57A");
-        key.put("VD57.33", "VD57B");
-        key.put("VD57.63", "VD57C");
-        key.put("VD58.20", "VD58");
-        key.put("VD59.20", "VD59");
-        key.put("VD59.28", "VD59");
         MkbTransformDto mkbTransformDto = new MkbTransformDto();
         mkbTransformDto.constructVd5Dto(file, key);
 
         System.out.println(LocalDateTime.now());
+    }
+
+    public static Map<String, String> generateMappingKey(File file) {
+        Map<String, String> key = new HashMap<>();
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new FileReader(file));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                String[] lineArr = line.split("\\|");
+                key.put(lineArr[0], lineArr[1]);
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return key;
     }
 }
