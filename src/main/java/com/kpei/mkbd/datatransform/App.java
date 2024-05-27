@@ -37,7 +37,6 @@ public class App
 
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
                 String[] lineArr = line.split("\\|");
                 key.put(lineArr[0], lineArr[1]);
             }
