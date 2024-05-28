@@ -1025,7 +1025,24 @@ public class MkbTransformDto {
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
 
-        // set another value
+        if (items.length > 1 && !items[1].trim().isEmpty()) {
+            dto.setTanggalKomitmen(convertStringToDate(items[1]));
+        }
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setRincianBelanja(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setTanggalRealisasi(convertStringToDate(items[3]));
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setKomitmenTerealisasi(normalizeBigDecimalValue(items[4]));
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setKomitmenBelumTerealisasi(normalizeBigDecimalValue(items[4]));
+        }
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[4]));
+        }
 
         this.vd510h.add(dto);
     }
@@ -1054,7 +1071,24 @@ public class MkbTransformDto {
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
 
-        // set another value
+        if (items.length > 1 && !items[1].trim().isEmpty()) {
+            dto.setJenisTransaksi(items[2]);
+        }
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setTanggalTransaksi(convertStringToDate(items[1]));
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setJenisMataUang(items[3]);
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setNilaiTransaksi(normalizeBigDecimalValue(items[4]));
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setUntungRugiBelumTerealisasi(normalizeBigDecimalValue(items[4]));
+        }
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[4]));
+        }
 
         this.vd510i.add(dto);
     }
