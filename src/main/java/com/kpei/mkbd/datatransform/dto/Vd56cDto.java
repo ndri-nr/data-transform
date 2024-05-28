@@ -2,6 +2,8 @@ package com.kpei.mkbd.datatransform.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @Builder
@@ -9,10 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 public class Vd56cDto extends Vd5Base {
     private String kodeBank;
-    private boolean isSendiriNasabah;
+    private BigDecimal saldo;
+    private Boolean isSendiriNasabah;
     private String noRekening;
     private String kodeCurrency;
-    private double saldo;
-    private double saldoRupiah;
+    private BigDecimal saldoRupiah;
     private String penjelasan;
 }

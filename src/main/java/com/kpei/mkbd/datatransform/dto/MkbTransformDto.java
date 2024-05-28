@@ -345,19 +345,19 @@ public class MkbTransformDto {
             dto.setNilaiEfek(normalizeDoubleValue(items[2]));
         }
         if (items.length > 3 && !items[3].trim().isEmpty()) {
-            dto.setKodeEfekLN(items[3]);
+            dto.setKodeEfekLn(items[3]);
         }
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setNilaiEfekLN(normalizeDoubleValue(items[4]));
+            dto.setNilaiEfekLn(normalizeDoubleValue(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setNilaiEfekTutupLN(normalizeDoubleValue(items[5]));
+            dto.setNilaiEfekTutupLn(normalizeDoubleValue(items[5]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setNilaiHaircutTutupLN(normalizeDoubleValue(items[6]));
+            dto.setNilaiHaircutTutupLn(normalizeDoubleValue(items[6]));
         }
         if (items.length > 7 && !items[7].trim().isEmpty()) {
-            dto.setNilaiHaircutLN(normalizeDoubleValue(items[7]));
+            dto.setNilaiHaircutLn(normalizeDoubleValue(items[7]));
         }
         if (items.length > 8 && !items[8].trim().isEmpty()) {
             dto.setJmlPengembalianHaircut(normalizeDoubleValue(items[8]));
@@ -394,13 +394,13 @@ public class MkbTransformDto {
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
-                dto.setSaldo(normalizeDoubleValue(items[1]));
+                dto.setSaldo(normalizeBigDecimalValue(items[1]));
             }
             if (items.length > 2 && !items[2].trim().isEmpty()) {
-                dto.setTerafiliasi(normalizeDoubleValue(items[2]));
+                dto.setTerafiliasi(normalizeBigDecimalValue(items[2]));
             }
             if (items.length > 3 && !items[3].trim().isEmpty()) {
-                dto.setTidakTerafiliasi(normalizeDoubleValue(items[3]));
+                dto.setTidakTerafiliasi(normalizeBigDecimalValue(items[3]));
             }
 
             this.vd56a.add(dto);
@@ -416,16 +416,16 @@ public class MkbTransformDto {
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
-                dto.setSaldo(normalizeDoubleValue(items[1]));
+                dto.setSaldo(normalizeBigDecimalValue(items[1]));
             }
             if (items.length > 2 && !items[2].trim().isEmpty()) {
-                dto.setDimiliki(normalizeDoubleValue(items[2]));
+                dto.setDimiliki(normalizeBigDecimalValue(items[2]));
             }
             if (items.length > 3 && !items[3].trim().isEmpty()) {
-                dto.setDipisahkan(normalizeDoubleValue(items[3]));
+                dto.setDipisahkan(normalizeBigDecimalValue(items[3]));
             }
             if (items.length > 4 && !items[4].trim().isEmpty()) {
-                dto.setTidakDipisahkan(normalizeDoubleValue(items[4]));
+                dto.setTidakDipisahkan(normalizeBigDecimalValue(items[4]));
             }
 
             this.vd56b.add(dto);
@@ -449,7 +449,7 @@ public class MkbTransformDto {
                     dto.setKodeBank(items[1]);
                 }
                 if (items.length > 2 && !items[2].trim().isEmpty()) {
-                    dto.setSendiriNasabah(!items[2].equals("N"));
+                    dto.setIsSendiriNasabah(!items[2].equals("N"));
                 }
                 if (items.length > 3 && !items[3].trim().isEmpty()) {
                     dto.setNoRekening(items[3].equalsIgnoreCase("NIHIL") ? "" : items[3]);
@@ -458,10 +458,10 @@ public class MkbTransformDto {
                     dto.setKodeCurrency(items[4]);
                 }
                 if (items.length > 5 && !items[5].trim().isEmpty()) {
-                    dto.setSaldo(normalizeDoubleValue(items[5]));
+                    dto.setSaldo(normalizeBigDecimalValue(items[5]));
                 }
                 if (items.length > 6 && !items[6].trim().isEmpty()) {
-                    dto.setSaldoRupiah(normalizeDoubleValue(items[6]));
+                    dto.setSaldoRupiah(normalizeBigDecimalValue(items[6]));
                 }
             }
 
@@ -497,13 +497,13 @@ public class MkbTransformDto {
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
-                dto.setSaldo(normalizeDoubleValue(items[1]));
+                dto.setSaldo(normalizeBigDecimalValue(items[1]));
             }
             if (items.length > 2 && !items[2].trim().isEmpty()) {
-                dto.setTerafiliasi(normalizeDoubleValue(items[2]));
+                dto.setTerafiliasi(normalizeBigDecimalValue(items[2]));
             }
             if (items.length > 3 && !items[3].trim().isEmpty()) {
-                dto.setTidakTerafiliasi(normalizeDoubleValue(items[3]));
+                dto.setTidakTerafiliasi(normalizeBigDecimalValue(items[3]));
             }
 
             this.vd57a.add(dto);
@@ -520,16 +520,16 @@ public class MkbTransformDto {
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
-                dto.setSaldo(normalizeDoubleValue(items[1]));
+                dto.setSaldo(normalizeBigDecimalValue(items[1]));
             }
             if (items.length > 2 && !items[2].trim().isEmpty()) {
-                dto.setDimiliki(normalizeDoubleValue(items[2]));
+                dto.setDimiliki(normalizeBigDecimalValue(items[2]));
             }
             if (items.length > 3 && !items[3].trim().isEmpty()) {
-                dto.setDipisahkan(normalizeDoubleValue(items[3]));
+                dto.setDipisahkan(normalizeBigDecimalValue(items[3]));
             }
             if (items.length > 4 && !items[4].trim().isEmpty()) {
-                dto.setTidakDipisahkan(normalizeDoubleValue(items[4]));
+                dto.setTidakDipisahkan(normalizeBigDecimalValue(items[4]));
             }
 
             this.vd57b.add(dto);
@@ -551,16 +551,16 @@ public class MkbTransformDto {
                 }
             } else {
                 if (items.length > 1 && !items[1].trim().isEmpty()) {
-                    dto.setSaldo(normalizeDoubleValue(items[1]));
+                    dto.setSaldo(normalizeBigDecimalValue(items[1]));
                 }
                 if (items.length > 2 && !items[2].trim().isEmpty()) {
-                    dto.setLmHrKerja(normalizeDoubleValue(items[2]));
+                    dto.setLmHrKerja(normalizeBigDecimalValue(items[2]));
                 }
                 if (items.length > 3 && !items[3].trim().isEmpty()) {
-                    dto.setDimiliki(normalizeDoubleValue(items[3]));
+                    dto.setDimiliki(normalizeBigDecimalValue(items[3]));
                 }
                 if (items.length > 4 && !items[4].trim().isEmpty()) {
-                    dto.setDipisahkan(normalizeDoubleValue(items[4]));
+                    dto.setDipisahkan(normalizeBigDecimalValue(items[4]));
                 }
             }
 

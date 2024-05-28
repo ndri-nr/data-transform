@@ -2,13 +2,15 @@ package com.kpei.mkbd.datatransform.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Vd57aDto extends Vd5Base {
-    private double saldo;
-    private double terafiliasi;
-    private double tidakTerafiliasi;
+    private BigDecimal saldo;
+    private BigDecimal terafiliasi;
+    private BigDecimal tidakTerafiliasi;
 }
