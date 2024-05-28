@@ -78,9 +78,7 @@ public class MkbTransformDto {
             String line;
             int counter = 1;
             while ((line = reader.readLine()) != null) {
-                if (counter > 3) {
-                    processLine(line, key);
-                }
+                processLine(line, key);
                 counter++;
             }
 
@@ -93,7 +91,13 @@ public class MkbTransformDto {
     private void processLine(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (items[0].startsWith("VD51.")) {
+        if (items[0].startsWith("Tanggal")) {
+            this.tahun = Integer.parseInt(items[1].substring(0, 4));
+            this.bulan = Integer.parseInt(items[1].substring(4, 6));
+            this.tanggal = Integer.parseInt(items[1].substring(6, 8));
+        } else if (items[0].startsWith("Direktur")) {
+            this.managerName = items[1];
+        } else if (items[0].startsWith("VD51.")) {
             processVd51(line, key);
         }
         else if (items[0].startsWith("VD52.")) {
