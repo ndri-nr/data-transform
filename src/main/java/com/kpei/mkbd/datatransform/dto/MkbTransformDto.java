@@ -1,5 +1,7 @@
 package com.kpei.mkbd.datatransform.dto;
 
+import lombok.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,8 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Setter
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MkbTransformDto {
     private String username;
+    private String userId;
     private String filename;
     private String kodePe;
     private int tahun;
@@ -43,10 +51,8 @@ public class MkbTransformDto {
     private List<Vd510hDto> vd510h = new ArrayList<>();
     private List<Vd510iDto> vd510i = new ArrayList<>();
 
-    public MkbTransformDto() {
-    }
-
     public MkbTransformDto(String username,
+                           String userId,
                            String filename,
                            String kodePe,
                            int tahun,
@@ -54,244 +60,13 @@ public class MkbTransformDto {
                            int tanggal,
                            String managerName) {
         this.username = username;
+        this.userId = userId;
         this.filename = filename;
         this.kodePe = kodePe;
         this.tahun = tahun;
         this.bulan = bulan;
         this.tanggal = tanggal;
         this.managerName = managerName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public String getKodePe() {
-        return kodePe;
-    }
-
-    public void setKodePe(String kodePe) {
-        this.kodePe = kodePe;
-    }
-
-    public int getTahun() {
-        return tahun;
-    }
-
-    public void setTahun(int tahun) {
-        this.tahun = tahun;
-    }
-
-    public int getBulan() {
-        return bulan;
-    }
-
-    public void setBulan(int bulan) {
-        this.bulan = bulan;
-    }
-
-    public int getTanggal() {
-        return tanggal;
-    }
-
-    public void setTanggal(int tanggal) {
-        this.tanggal = tanggal;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public List<Vd51Dto> getVd51() {
-        return vd51;
-    }
-
-    public void setVd51(List<Vd51Dto> vd51) {
-        this.vd51 = vd51;
-    }
-
-    public List<Vd52Dto> getVd52() {
-        return vd52;
-    }
-
-    public void setVd52(List<Vd52Dto> vd52) {
-        this.vd52 = vd52;
-    }
-
-    public List<Vd53Dto> getVd53() {
-        return vd53;
-    }
-
-    public void setVd53(List<Vd53Dto> vd53) {
-        this.vd53 = vd53;
-    }
-
-    public List<Vd54Dto> getVd54() {
-        return vd54;
-    }
-
-    public void setVd54(List<Vd54Dto> vd54) {
-        this.vd54 = vd54;
-    }
-
-    public List<Vd55Dto> getVd55() {
-        return vd55;
-    }
-
-    public void setVd55(List<Vd55Dto> vd55) {
-        this.vd55 = vd55;
-    }
-
-    public List<Vd56aDto> getVd56a() {
-        return vd56a;
-    }
-
-    public void setVd56a(List<Vd56aDto> vd56a) {
-        this.vd56a = vd56a;
-    }
-
-    public List<Vd56bDto> getVd56b() {
-        return vd56b;
-    }
-
-    public void setVd56b(List<Vd56bDto> vd56b) {
-        this.vd56b = vd56b;
-    }
-
-    public List<Vd56cDto> getVd56c() {
-        return vd56c;
-    }
-
-    public void setVd56c(List<Vd56cDto> vd56c) {
-        this.vd56c = vd56c;
-    }
-
-    public List<Vd57aDto> getVd57a() {
-        return vd57a;
-    }
-
-    public void setVd57a(List<Vd57aDto> vd57a) {
-        this.vd57a = vd57a;
-    }
-
-    public List<Vd57bDto> getVd57b() {
-        return vd57b;
-    }
-
-    public void setVd57b(List<Vd57bDto> vd57b) {
-        this.vd57b = vd57b;
-    }
-
-    public List<Vd57cDto> getVd57c() {
-        return vd57c;
-    }
-
-    public void setVd57c(List<Vd57cDto> vd57c) {
-        this.vd57c = vd57c;
-    }
-
-    public List<Vd58Dto> getVd58() {
-        return vd58;
-    }
-
-    public void setVd58(List<Vd58Dto> vd58) {
-        this.vd58 = vd58;
-    }
-
-    public List<Vd59Dto> getVd59() {
-        return vd59;
-    }
-
-    public void setVd59(List<Vd59Dto> vd59) {
-        this.vd59 = vd59;
-    }
-
-    public List<Vd510aDto> getVd510a() {
-        return vd510a;
-    }
-
-    public void setVd510a(List<Vd510aDto> vd510a) {
-        this.vd510a = vd510a;
-    }
-
-    public List<Vd510bDto> getVd510b() {
-        return vd510b;
-    }
-
-    public void setVd510b(List<Vd510bDto> vd510b) {
-        this.vd510b = vd510b;
-    }
-
-    public List<Vd510cDto> getVd510c() {
-        return vd510c;
-    }
-
-    public void setVd510c(List<Vd510cDto> vd510c) {
-        this.vd510c = vd510c;
-    }
-
-    public List<Vd510dDto> getVd510d() {
-        return vd510d;
-    }
-
-    public void setVd510d(List<Vd510dDto> vd510d) {
-        this.vd510d = vd510d;
-    }
-
-    public List<Vd510eDto> getVd510e() {
-        return vd510e;
-    }
-
-    public void setVd510e(List<Vd510eDto> vd510e) {
-        this.vd510e = vd510e;
-    }
-
-    public List<Vd510fDto> getVd510f() {
-        return vd510f;
-    }
-
-    public void setVd510f(List<Vd510fDto> vd510f) {
-        this.vd510f = vd510f;
-    }
-
-    public List<Vd510gDto> getVd510g() {
-        return vd510g;
-    }
-
-    public void setVd510g(List<Vd510gDto> vd510g) {
-        this.vd510g = vd510g;
-    }
-
-    public List<Vd510hDto> getVd510h() {
-        return vd510h;
-    }
-
-    public void setVd510h(List<Vd510hDto> vd510h) {
-        this.vd510h = vd510h;
-    }
-
-    public List<Vd510iDto> getVd510i() {
-        return vd510i;
-    }
-
-    public void setVd510i(List<Vd510iDto> vd510i) {
-        this.vd510i = vd510i;
     }
 
     public void constructVd5Dto(File file, Map<String, String> key) {
@@ -399,9 +174,16 @@ public class MkbTransformDto {
     private void processVd51(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (!key.containsKey(items[0])) {
-            return;
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
         }
+
+        if (!exist) return;
 
         Vd51Dto dto = new Vd51Dto();
         dto.setId(UUID.randomUUID().toString());
@@ -423,9 +205,16 @@ public class MkbTransformDto {
     private void processVd52(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (!key.containsKey(items[0])) {
-            return;
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
         }
+
+        if (!exist) return;
 
         Vd52Dto dto = new Vd52Dto();
         dto.setId(UUID.randomUUID().toString());
@@ -447,9 +236,16 @@ public class MkbTransformDto {
     private void processVd53(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (!key.containsKey(items[0])) {
-            return;
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
         }
+
+        if (!exist) return;
 
         Vd53Dto dto = new Vd53Dto();
         dto.setId(UUID.randomUUID().toString());
@@ -470,29 +266,17 @@ public class MkbTransformDto {
 
     private void processVd54(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
-        String kodeAkun = items[0];
-        String[] kodeAkunArr = kodeAkun.split("\\.");
-        String sub = "";
-        if (!key.containsKey(items[0]) && kodeAkunArr.length == 2) {
-            return;
-        } else if (!key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1]) &&
-                !key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + ".") &&
-                !key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + "." + kodeAkunArr[2]) &&
-                kodeAkunArr.length == 3) {
-            return;
-        } else if (key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1])) {
-            sub = key.get(kodeAkunArr[0] + "." + kodeAkunArr[1]);
-        } else if (key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + ".")) {
-            sub = key.get(kodeAkunArr[0] + "." + kodeAkunArr[1] + ".");
-        } else if (key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + "." + kodeAkunArr[2])) {
-            sub = key.get(kodeAkunArr[0] + "." + kodeAkunArr[1] + "." + kodeAkunArr[2]);
-        } else {
-            sub = key.get(items[0]);
+
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
         }
 
-        if (sub.isEmpty()) {
-            return;
-        }
+        if (!exist) return;
 
         Vd54Dto dto = new Vd54Dto();
         dto.setId(UUID.randomUUID().toString());
@@ -532,9 +316,16 @@ public class MkbTransformDto {
     private void processVd55(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (!key.containsKey(items[0])) {
-            return;
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
         }
+
+        if (!exist) return;
 
         Vd55Dto dto = new Vd55Dto();
         dto.setId(UUID.randomUUID().toString());
@@ -576,27 +367,19 @@ public class MkbTransformDto {
 
     private void processVd56(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
-        String kodeAkun = items[0];
-        String[] kodeAkunArr = kodeAkun.split("\\.");
+
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         String sub = "";
-        if (!key.containsKey(items[0]) && kodeAkunArr.length == 2) {
-            return;
-        } else if (!key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1]) &&
-                !key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + ".") &&
-                !key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + "." + kodeAkunArr[2]) &&
-                kodeAkunArr.length == 3) {
-            return;
-        } else if (key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1])) {
-            sub = key.get(kodeAkunArr[0] + "." + kodeAkunArr[1]);
-        } else if (key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + ".")) {
-            sub = key.get(kodeAkunArr[0] + "." + kodeAkunArr[1] + ".");
-        } else if (key.containsKey(kodeAkunArr[0] + "." + kodeAkunArr[1] + "." + kodeAkunArr[2])) {
-            sub = key.get(kodeAkunArr[0] + "." + kodeAkunArr[1] + "." + kodeAkunArr[2]);
-        } else {
-            sub = key.get(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                sub = key.get(allKey);
+                break;
+            }
         }
 
-        if (sub.isEmpty()) {
+        if (!exist) {
             return;
         } else if (sub.equalsIgnoreCase("VD56A")) {
             Vd56aDto dto = new Vd56aDto();
@@ -688,11 +471,18 @@ public class MkbTransformDto {
     private void processVd57(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (!key.containsKey(items[0])) {
-            return;
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        String sub = "";
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                sub = key.get(allKey);
+                break;
+            }
         }
 
-        String sub = key.get(items[0]);
+        if(!exist) return;
 
         if (sub.equalsIgnoreCase("VD57A")) {
             Vd57aDto dto = new Vd57aDto();
@@ -781,9 +571,16 @@ public class MkbTransformDto {
     private void processVd58(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (!key.containsKey(items[0])) {
-            return;
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
         }
+
+        if(!exist) return;
 
         Vd58Dto dto = new Vd58Dto();
         dto.setId(UUID.randomUUID().toString());
@@ -805,9 +602,16 @@ public class MkbTransformDto {
     private void processVd59(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        if (!key.containsKey(items[0])) {
-            return;
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
         }
+
+        if(!exist) return;
 
         Vd59Dto dto = new Vd59Dto();
         dto.setId(UUID.randomUUID().toString());
@@ -832,7 +636,7 @@ public class MkbTransformDto {
     private void processVd510A(String line, Map<String, String> key) {
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -890,7 +694,7 @@ public class MkbTransformDto {
     private void processVd510B(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -948,7 +752,7 @@ public class MkbTransformDto {
     private void processVd510C(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -990,7 +794,7 @@ public class MkbTransformDto {
     private void processVd510D(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -1019,7 +823,7 @@ public class MkbTransformDto {
     private void processVd510E(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -1048,7 +852,7 @@ public class MkbTransformDto {
     private void processVd510F(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -1077,7 +881,7 @@ public class MkbTransformDto {
     private void processVd510G(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -1106,7 +910,7 @@ public class MkbTransformDto {
     private void processVd510H(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -1135,7 +939,7 @@ public class MkbTransformDto {
     private void processVd510I(String line, Map<String, String> key){
         String[] items = line.split("\\|");
 
-        List<String> allKeys = getAllKeysVd510(items[0]);
+        List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
@@ -1166,14 +970,17 @@ public class MkbTransformDto {
         return Double.parseDouble(value);
     }
 
-    private List<String> getAllKeysVd510(String kodeAkun) {
+    private List<String> getAllKeysPossibilities(String kodeAkun) {
         String[] kodeAkunArr = kodeAkun.split("\\.");
         List<String> keys = new ArrayList<>();
 
         String baseKey = kodeAkunArr[0] + "." + kodeAkunArr[1];
+        keys.add(baseKey);
+        keys.add(baseKey + ".");
         for (int i = 2; i < kodeAkunArr.length; i++) {
             baseKey = baseKey + "." + kodeAkunArr[i];
             keys.add(baseKey);
+            keys.add(baseKey + ".");
         }
 
         return keys;
