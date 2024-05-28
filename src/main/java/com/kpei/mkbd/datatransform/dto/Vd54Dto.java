@@ -2,6 +2,8 @@ package com.kpei.mkbd.datatransform.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @Builder
@@ -9,10 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 public class Vd54Dto extends Vd5Base {
     private String kodeJenisReksadana;
-    private String namaReksadana;
+    private String namaJenisReksadana;
     private boolean isAfiliasi;
-    private double nilaiAktivaBersihUnit;
-    private double nilaiAktivaBersihReksadana;
-    private double batasaMkbd;
-    private double kelebihanBatasan;
+    private BigDecimal nilaiAktivaBersihUnit;
+    private BigDecimal nilaiAktivaBersihReksadana;
+    private BigDecimal batasanMkbd;
+    private BigDecimal kelebihanMkbd;
 }

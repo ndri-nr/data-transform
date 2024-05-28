@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -196,7 +197,7 @@ public class MkbTransformDto {
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
-            dto.setSaldo(normalizeDoubleValue(items[1]));
+            dto.setSaldo(normalizeBigDecimalValue(items[1]));
         }
 
         this.vd51.add(dto);
@@ -227,7 +228,7 @@ public class MkbTransformDto {
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
-            dto.setSaldo(normalizeDoubleValue(items[1]));
+            dto.setSaldo(normalizeBigDecimalValue(items[1]));
         }
 
         this.vd52.add(dto);
@@ -258,7 +259,7 @@ public class MkbTransformDto {
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
-            dto.setNilaiDitambahkan(normalizeDoubleValue(items[1]));
+            dto.setNilaiDitambahkan(normalizeBigDecimalValue(items[1]));
         }
 
         this.vd53.add(dto);
@@ -292,22 +293,22 @@ public class MkbTransformDto {
             dto.setKodeJenisReksadana(items[1]);
         }
         if (items.length > 2 && !items[2].trim().isEmpty()) {
-            dto.setNamaReksadana(items[2]);
+            dto.setNamaJenisReksadana(items[2]);
         }
         if (items.length > 3 && !items[3].trim().isEmpty()) {
             dto.setAfiliasi(items[3].equalsIgnoreCase("afiliasi"));
         }
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setNilaiAktivaBersihUnit(normalizeDoubleValue(items[4]));
+            dto.setNilaiAktivaBersihUnit(normalizeBigDecimalValue(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setNilaiAktivaBersihReksadana(normalizeDoubleValue(items[5]));
+            dto.setNilaiAktivaBersihReksadana(normalizeBigDecimalValue(items[5]));
         }
         if (items.length > 7 && !items[7].trim().isEmpty()) {
-            dto.setBatasaMkbd(normalizeDoubleValue(items[7]));
+            dto.setBatasanMkbd(normalizeBigDecimalValue(items[7]));
         }
         if (items.length > 8 && !items[8].trim().isEmpty()) {
-            dto.setKelebihanBatasan(normalizeDoubleValue(items[8]));
+            dto.setKelebihanMkbd(normalizeBigDecimalValue(items[8]));
         }
 
         this.vd54.add(dto);
@@ -965,9 +966,14 @@ public class MkbTransformDto {
         this.vd510i.add(dto);
     }
 
-    private double normalizeDoubleValue(String value) {
+    private Double normalizeDoubleValue(String value) {
         value = value.replaceAll(",", ".");
         return Double.parseDouble(value);
+    }
+
+    private BigDecimal normalizeBigDecimalValue(String value) {
+        value = value.replaceAll(",", ".");
+        return new BigDecimal(value);
     }
 
     private List<String> getAllKeysPossibilities(String kodeAkun) {
