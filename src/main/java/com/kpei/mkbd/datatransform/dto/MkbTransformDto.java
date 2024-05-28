@@ -88,29 +88,6 @@ public class MkbTransformDto {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println("total vd51 " + vd51.size());
-        System.out.println("total vd52 " + vd52.size());
-        System.out.println("total vd53 " + vd53.size());
-        System.out.println("total vd54 " + vd54.size());
-        System.out.println("total vd55 " + vd55.size());
-        System.out.println("total vd56a " + vd56a.size());
-        System.out.println("total vd56b " + vd56b.size());
-        System.out.println("total vd56c " + vd56c.size());
-        System.out.println("total vd57a " + vd57a.size());
-        System.out.println("total vd57b " + vd57b.size());
-        System.out.println("total vd57c " + vd57c.size());
-        System.out.println("total vd58 " + vd58.size());
-        System.out.println("total vd59 " + vd59.size());
-        System.out.println("total vd510A " + vd510a.size());
-        System.out.println("total vd510B " + vd510b.size());
-        System.out.println("total vd510C " + vd510c.size());
-        System.out.println("total vd510D " + vd510d.size());
-        System.out.println("total vd510E " + vd510e.size());
-        System.out.println("total vd510F " + vd510f.size());
-        System.out.println("total vd510G " + vd510g.size());
-        System.out.println("total vd510H " + vd510h.size());
-        System.out.println("total vd510I " + vd510i.size());
     }
 
     private void processLine(String line, Map<String, String> key) {

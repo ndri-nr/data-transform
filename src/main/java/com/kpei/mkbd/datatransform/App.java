@@ -22,6 +22,29 @@ public class App
         MkbTransformDto mkbTransformDto = new MkbTransformDto();
         mkbTransformDto.constructVd5Dto(file, key);
 
+        System.out.println("total vd51 " + mkbTransformDto.getVd51().size());
+        System.out.println("total vd52 " + mkbTransformDto.getVd52().size());
+        System.out.println("total vd53 " + mkbTransformDto.getVd53().size());
+        System.out.println("total vd54 " + mkbTransformDto.getVd54().size());
+        System.out.println("total vd55 " + mkbTransformDto.getVd55().size());
+        System.out.println("total vd56a " + mkbTransformDto.getVd56a().size());
+        System.out.println("total vd56b " + mkbTransformDto.getVd56b().size());
+        System.out.println("total vd56c " + mkbTransformDto.getVd56c().size());
+        System.out.println("total vd57a " + mkbTransformDto.getVd57a().size());
+        System.out.println("total vd57b " + mkbTransformDto.getVd57b().size());
+        System.out.println("total vd57c " + mkbTransformDto.getVd57c().size());
+        System.out.println("total vd58 " + mkbTransformDto.getVd58().size());
+        System.out.println("total vd59 " + mkbTransformDto.getVd59().size());
+        System.out.println("total vd510A " + mkbTransformDto.getVd510a().size());
+        System.out.println("total vd510B " + mkbTransformDto.getVd510b().size());
+        System.out.println("total vd510C " + mkbTransformDto.getVd510c().size());
+        System.out.println("total vd510D " + mkbTransformDto.getVd510d().size());
+        System.out.println("total vd510E " + mkbTransformDto.getVd510e().size());
+        System.out.println("total vd510F " + mkbTransformDto.getVd510f().size());
+        System.out.println("total vd510G " + mkbTransformDto.getVd510g().size());
+        System.out.println("total vd510H " + mkbTransformDto.getVd510h().size());
+        System.out.println("total vd510I " + mkbTransformDto.getVd510i().size());
+
         System.out.println(LocalDateTime.now());
     }
 
