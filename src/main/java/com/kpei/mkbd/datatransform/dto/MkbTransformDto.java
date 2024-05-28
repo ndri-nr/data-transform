@@ -869,7 +869,7 @@ public class MkbTransformDto {
             dto.setNilaiPenjualan(normalizeDoubleValue(items[5]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setNilaiPenjualan(normalizeDoubleValue(items[6]));
+            dto.setNilaiPembelian(normalizeDoubleValue(items[6]));
         }
         if (items.length > 7 && !items[7].trim().isEmpty()) {
             dto.setKodeEfekKolateral(items[7]);
@@ -911,7 +911,36 @@ public class MkbTransformDto {
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
 
-        // set another value
+        if (items.length > 1 && !items[1].trim().isEmpty()) {
+            dto.setKodeEfek(items[1]);
+        }
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setPenjual(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setTglPembelian(convertStringToDate(items[3]));
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setTglPenjualan(convertStringToDate(items[4]));
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setNilaiPembelian(normalizeDoubleValue(items[5]));
+        }
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setNilaiPenjualan(normalizeDoubleValue(items[6]));
+        }
+        if (items.length > 7 && !items[7].trim().isEmpty()) {
+            dto.setKodeEfekKolateral(items[7]);
+        }
+        if (items.length > 8 && !items[8].trim().isEmpty()) {
+            dto.setJmlJaminan(normalizeDoubleValue(items[8]));
+        }
+        if (items.length > 9 && !items[9].trim().isEmpty()) {
+            dto.setNilaiPasarWajar(normalizeDoubleValue(items[9]));
+        }
+        if (items.length > 10 && !items[10].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilities(normalizeDoubleValue(items[10]));
+        }
 
         this.vd510b.add(dto);
     }
@@ -939,6 +968,19 @@ public class MkbTransformDto {
         dto.setCreatedAt(LocalDateTime.now());
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
+
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setKodeEfek(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setTerafiliasi(items[3].equalsIgnoreCase("Terafiliasi"));
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setLembarNominal(items[4]);
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setHargaPerolehan(normalizeDoubleValue(items[5]));
+        }
 
         // set another value
 
