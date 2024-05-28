@@ -1141,9 +1141,8 @@ public class MkbTransformDto {
         Date sqlDate = null;
         
         try {
-            String strDate = "24/11/1996";
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            java.util.Date parsed = format.parse(strDate);
+            java.util.Date parsed = format.parse(dateStr);
             sqlDate = new Date(parsed.getTime());
         } catch (Exception e) {
             e.printStackTrace();
