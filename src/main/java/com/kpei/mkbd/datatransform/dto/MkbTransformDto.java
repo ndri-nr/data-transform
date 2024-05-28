@@ -973,7 +973,7 @@ public class MkbTransformDto {
             dto.setKodeEfek(items[2]);
         }
         if (items.length > 3 && !items[3].trim().isEmpty()) {
-            dto.setTerafiliasi(items[3].equalsIgnoreCase("Terafiliasi"));
+            dto.setTerafiliasi(items[3]);
         }
         if (items.length > 4 && !items[4].trim().isEmpty()) {
             dto.setLembarNominal(items[4]);
