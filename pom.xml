@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.kpei.mkbd</groupId>
-  <artifactId>datatransform</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>data-transform</artifactId>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>data-transform</name>
