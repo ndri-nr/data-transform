@@ -170,7 +170,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -201,7 +201,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -232,7 +232,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -263,7 +263,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -312,7 +312,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -367,7 +367,7 @@ public class MkbTransformDto {
             dto.setBulan(this.bulan);
             dto.setTahun(this.tahun);
             dto.setCreatedAt(LocalDateTime.now());
-            dto.setCreatedBy(this.username);
+            dto.setCreatedBy(this.userId);
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -389,7 +389,7 @@ public class MkbTransformDto {
             dto.setBulan(this.bulan);
             dto.setTahun(this.tahun);
             dto.setCreatedAt(LocalDateTime.now());
-            dto.setCreatedBy(this.username);
+            dto.setCreatedBy(this.userId);
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -414,7 +414,7 @@ public class MkbTransformDto {
             dto.setBulan(this.bulan);
             dto.setTahun(this.tahun);
             dto.setCreatedAt(LocalDateTime.now());
-            dto.setCreatedBy(this.username);
+            dto.setCreatedBy(this.userId);
             dto.setKodeAkun(items[0]);
 
             if (items[0].equalsIgnoreCase("VD56.P")) {
@@ -470,7 +470,7 @@ public class MkbTransformDto {
             dto.setBulan(this.bulan);
             dto.setTahun(this.tahun);
             dto.setCreatedAt(LocalDateTime.now());
-            dto.setCreatedBy(this.username);
+            dto.setCreatedBy(this.userId);
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -493,7 +493,7 @@ public class MkbTransformDto {
             dto.setBulan(this.bulan);
             dto.setTahun(this.tahun);
             dto.setCreatedAt(LocalDateTime.now());
-            dto.setCreatedBy(this.username);
+            dto.setCreatedBy(this.userId);
             dto.setKodeAkun(items[0]);
 
             if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -519,7 +519,7 @@ public class MkbTransformDto {
             dto.setBulan(this.bulan);
             dto.setTahun(this.tahun);
             dto.setCreatedAt(LocalDateTime.now());
-            dto.setCreatedBy(this.username);
+            dto.setCreatedBy(this.userId);
             dto.setKodeAkun(items[0]);
 
             if (items[0].equalsIgnoreCase("VD57.P")) {
@@ -567,7 +567,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 4 && !items[4].trim().isEmpty()) {
@@ -598,7 +598,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 4 && !items[4].trim().isEmpty()) {
@@ -632,7 +632,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -690,7 +690,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -748,7 +748,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 2 && !items[2].trim().isEmpty()) {
@@ -803,7 +803,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -852,7 +852,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 2 && !items[2].trim().isEmpty()) {
@@ -892,7 +892,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -947,7 +947,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -999,7 +999,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.getUserId());
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
@@ -1045,7 +1045,7 @@ public class MkbTransformDto {
         dto.setBulan(this.bulan);
         dto.setTahun(this.tahun);
         dto.setCreatedAt(LocalDateTime.now());
-        dto.setCreatedBy(this.username);
+        dto.setCreatedBy(this.userId);
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
