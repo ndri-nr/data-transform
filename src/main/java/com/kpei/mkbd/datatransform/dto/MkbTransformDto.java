@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -324,6 +326,15 @@ public class MkbTransformDto {
         System.out.println("total vd57c " + vd57c.size());
         System.out.println("total vd58 " + vd58.size());
         System.out.println("total vd59 " + vd59.size());
+        System.out.println("total vd510A " + vd510a.size());
+        System.out.println("total vd510B " + vd510b.size());
+        System.out.println("total vd510C " + vd510c.size());
+        System.out.println("total vd510D " + vd510d.size());
+        System.out.println("total vd510E " + vd510e.size());
+        System.out.println("total vd510F " + vd510f.size());
+        System.out.println("total vd510G " + vd510g.size());
+        System.out.println("total vd510H " + vd510h.size());
+        System.out.println("total vd510I " + vd510i.size());
     }
 
     private void processLine(String line, Map<String, String> key) {
@@ -355,6 +366,33 @@ public class MkbTransformDto {
         }
         else if (items[0].startsWith("VD59.")) {
             processVd59(line, key);
+        }
+        else if (items[0].startsWith("VD510.A")) {
+            processVd510A(line, key);
+        }
+        else if (items[0].startsWith("VD510.B")) {
+            processVd510B(line, key);
+        }
+        else if (items[0].startsWith("VD510.C")) {
+            processVd510C(line, key);
+        }
+        else if (items[0].startsWith("VD510.D")) {
+            processVd510D(line, key);
+        }
+        else if (items[0].startsWith("VD510.E")) {
+            processVd510E(line, key);
+        }
+        else if (items[0].startsWith("VD510.F")) {
+            processVd510F(line, key);
+        }
+        else if (items[0].startsWith("VD510.G")) {
+            processVd510G(line, key);
+        }
+        else if (items[0].startsWith("VD510.H")) {
+            processVd510H(line, key);
+        }
+        else if (items[0].startsWith("VD510.I")) {
+            processVd510I(line, key);
         }
     }
 
@@ -791,8 +829,326 @@ public class MkbTransformDto {
         this.vd59.add(dto);
     }
 
+    private void processVd510A(String line, Map<String, String> key) {
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510aDto dto = new Vd510aDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        if (items.length > 1 && !items[1].trim().isEmpty()) {
+            dto.setKodeEfek(items[1]);
+        }
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setPembeli(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setTglPenjualan(convertStringToDate(items[3]));
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setTglPembelian(convertStringToDate(items[4]));
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setNilaiPenjualan(normalizeDoubleValue(items[5]));
+        }
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setNilaiPenjualan(normalizeDoubleValue(items[6]));
+        }
+        if (items.length > 7 && !items[7].trim().isEmpty()) {
+            dto.setKodeEfekKolateral(items[7]);
+        }
+        if (items.length > 8 && !items[8].trim().isEmpty()) {
+            dto.setJmlJaminan(normalizeDoubleValue(items[8]));
+        }
+        if (items.length > 9 && !items[9].trim().isEmpty()) {
+            dto.setNilaiPasarWajar(normalizeDoubleValue(items[9]));
+        }
+        if (items.length > 10 && !items[10].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilities(normalizeDoubleValue(items[10]));
+        }
+
+        this.vd510a.add(dto);
+    }
+
+    private void processVd510B(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510bDto dto = new Vd510bDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510b.add(dto);
+    }
+
+    private void processVd510C(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510cDto dto = new Vd510cDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510c.add(dto);
+    }
+
+    private void processVd510D(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510dDto dto = new Vd510dDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510d.add(dto);
+    }
+
+    private void processVd510E(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510eDto dto = new Vd510eDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510e.add(dto);
+    }
+
+    private void processVd510F(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510fDto dto = new Vd510fDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510f.add(dto);
+    }
+
+    private void processVd510G(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510gDto dto = new Vd510gDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510g.add(dto);
+    }
+
+    private void processVd510H(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510hDto dto = new Vd510hDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510h.add(dto);
+    }
+
+    private void processVd510I(String line, Map<String, String> key){
+        String[] items = line.split("\\|");
+
+        List<String> allKeys = getAllKeysVd510(items[0]);
+        boolean exist = false;
+        for (String allKey : allKeys) {
+            if (key.containsKey(allKey)) {
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) return;
+
+        Vd510iDto dto = new Vd510iDto();
+        dto.setId(UUID.randomUUID().toString());
+        dto.setKodePe(this.kodePe);
+        dto.setTanggal(this.tanggal);
+        dto.setBulan(this.bulan);
+        dto.setTahun(this.tahun);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setCreatedBy(this.username);
+        dto.setKodeAkun(items[0]);
+
+        // set another value
+
+        this.vd510i.add(dto);
+    }
+
     private double normalizeDoubleValue(String value) {
         value = value.replaceAll(",", ".");
         return Double.parseDouble(value);
+    }
+
+    private List<String> getAllKeysVd510(String kodeAkun) {
+        String[] kodeAkunArr = kodeAkun.split("\\.");
+        List<String> keys = new ArrayList<>();
+
+        String baseKey = kodeAkunArr[0] + "." + kodeAkunArr[1];
+        for (int i = 2; i < kodeAkunArr.length; i++) {
+            baseKey = baseKey + "." + kodeAkunArr[i];
+            keys.add(baseKey);
+        }
+
+        return keys;
+    }
+    
+    private Date convertStringToDate(String dateStr) {
+        Date sqlDate = null;
+        
+        try {
+            String strDate = "24/11/1996";
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date parsed = format.parse(strDate);
+            sqlDate = new Date(parsed.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return sqlDate;
     }
 }
