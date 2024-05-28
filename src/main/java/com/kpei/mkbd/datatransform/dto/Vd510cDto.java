@@ -2,6 +2,8 @@ package com.kpei.mkbd.datatransform.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @Builder
@@ -10,11 +12,11 @@ import lombok.*;
 public class Vd510cDto extends Vd5Base {
     private String kodeEfek;
     private String terafiliasi;
-    private String lembarNominal;
-    private double hargaPerolehan;
-    private double hargaPasarWajar;
-    private double jmlJaminan;
     private String grupEmiten;
-    private double persentaseNilaiPasar;
-    private double nilaiRankingLiabilities;
+    private String persentaseNilaiPasar;
+    private BigDecimal lembarNominal;
+    private BigDecimal hargaPerolehan;
+    private BigDecimal hargaPasarWajar;
+    private BigDecimal nilaiPasarWajar;
+    private BigDecimal nilaiRankingLiabilitas;
 }

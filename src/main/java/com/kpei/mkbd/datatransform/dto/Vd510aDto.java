@@ -2,6 +2,7 @@ package com.kpei.mkbd.datatransform.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Setter
@@ -12,12 +13,12 @@ import java.sql.Date;
 public class Vd510aDto extends Vd5Base {
     private String kodeEfek;
     private String pembeli;
-    private Date tglPenjualan;
-    private Date tglPembelian;
-    private double nilaiPenjualan;
-    private double nilaiPembelian;
+    private Date tanggalPembelian;
+    private Date tanggalPenjualan;
+    private BigDecimal nilaiPembelian;
+    private BigDecimal nilaiPenjualan;
     private String kodeEfekKolateral;
-    private double jmlJaminan;
-    private double nilaiPasarWajar;
-    private double nilaiRankingLiabilities;
+    private BigDecimal jumlahJaminan;
+    private BigDecimal nilaiPasarWajar;
+    private BigDecimal nilaiRankingLiabilitas;
 }

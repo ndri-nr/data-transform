@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Vd5Base {
     private String id;
-    private int tanggal;
-    private int bulan;
-    private int tahun;
+    private Integer tanggal;
+    private Integer bulan;
+    private Integer tahun;
     private String kodePe;
     private String kodeAkun;
     private LocalDateTime createdAt;

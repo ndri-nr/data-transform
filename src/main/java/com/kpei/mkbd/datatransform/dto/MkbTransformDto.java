@@ -25,9 +25,9 @@ public class MkbTransformDto {
     private String userId;
     private String filename;
     private String kodePe;
-    private int tahun;
-    private int bulan;
-    private int tanggal;
+    private Integer tahun;
+    private Integer bulan;
+    private Integer tanggal;
     private String managerName;
     private List<Vd51Dto> vd51 = new ArrayList<>();
     private List<Vd52Dto> vd52 = new ArrayList<>();
@@ -594,7 +594,7 @@ public class MkbTransformDto {
         dto.setKodeAkun(items[0]);
 
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setNilai(normalizeDoubleValue(items[4]));
+            dto.setNilai(normalizeBigDecimalValue(items[4]));
         }
 
         this.vd58.add(dto);
@@ -625,10 +625,10 @@ public class MkbTransformDto {
         dto.setKodeAkun(items[0]);
 
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setJumlah(normalizeDoubleValue(items[4]));
+            dto.setJumlah(normalizeBigDecimalValue(items[4]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setTotal(normalizeDoubleValue(items[6]));
+            dto.setTotal(normalizeBigDecimalValue(items[6]));
         }
 
         this.vd59.add(dto);
@@ -665,28 +665,28 @@ public class MkbTransformDto {
             dto.setPembeli(items[2]);
         }
         if (items.length > 3 && !items[3].trim().isEmpty()) {
-            dto.setTglPenjualan(convertStringToDate(items[3]));
+            dto.setTanggalPenjualan(convertStringToDate(items[3]));
         }
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setTglPembelian(convertStringToDate(items[4]));
+            dto.setTanggalPembelian(convertStringToDate(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setNilaiPenjualan(normalizeDoubleValue(items[5]));
+            dto.setNilaiPenjualan(normalizeBigDecimalValue(items[5]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setNilaiPembelian(normalizeDoubleValue(items[6]));
+            dto.setNilaiPembelian(normalizeBigDecimalValue(items[6]));
         }
         if (items.length > 7 && !items[7].trim().isEmpty()) {
             dto.setKodeEfekKolateral(items[7]);
         }
         if (items.length > 8 && !items[8].trim().isEmpty()) {
-            dto.setJmlJaminan(normalizeDoubleValue(items[8]));
+            dto.setJumlahJaminan(normalizeBigDecimalValue(items[8]));
         }
         if (items.length > 9 && !items[9].trim().isEmpty()) {
-            dto.setNilaiPasarWajar(normalizeDoubleValue(items[9]));
+            dto.setNilaiPasarWajar(normalizeBigDecimalValue(items[9]));
         }
         if (items.length > 10 && !items[10].trim().isEmpty()) {
-            dto.setNilaiRankingLiabilities(normalizeDoubleValue(items[10]));
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[10]));
         }
 
         this.vd510a.add(dto);
@@ -723,28 +723,28 @@ public class MkbTransformDto {
             dto.setPenjual(items[2]);
         }
         if (items.length > 3 && !items[3].trim().isEmpty()) {
-            dto.setTglPembelian(convertStringToDate(items[3]));
+            dto.setTanggalPembelian(convertStringToDate(items[3]));
         }
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setTglPenjualan(convertStringToDate(items[4]));
+            dto.setTanggalPenjualan(convertStringToDate(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setNilaiPembelian(normalizeDoubleValue(items[5]));
+            dto.setNilaiPembelian(normalizeBigDecimalValue(items[5]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setNilaiPenjualan(normalizeDoubleValue(items[6]));
+            dto.setNilaiPenjualan(normalizeBigDecimalValue(items[6]));
         }
         if (items.length > 7 && !items[7].trim().isEmpty()) {
             dto.setKodeEfekKolateral(items[7]);
         }
         if (items.length > 8 && !items[8].trim().isEmpty()) {
-            dto.setJmlJaminan(normalizeDoubleValue(items[8]));
+            dto.setJumlahJaminan(normalizeBigDecimalValue(items[8]));
         }
         if (items.length > 9 && !items[9].trim().isEmpty()) {
-            dto.setNilaiPasarWajar(normalizeDoubleValue(items[9]));
+            dto.setNilaiPasarWajar(normalizeBigDecimalValue(items[9]));
         }
         if (items.length > 10 && !items[10].trim().isEmpty()) {
-            dto.setNilaiRankingLiabilities(normalizeDoubleValue(items[10]));
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[10]));
         }
 
         this.vd510b.add(dto);
@@ -781,10 +781,10 @@ public class MkbTransformDto {
             dto.setTerafiliasi(items[3]);
         }
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setLembarNominal(items[4]);
+            dto.setLembarNominal(normalizeBigDecimalValue(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setHargaPerolehan(normalizeDoubleValue(items[5]));
+            dto.setHargaPerolehan(normalizeBigDecimalValue(items[5]));
         }
 
         // set another value

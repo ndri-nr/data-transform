@@ -2,6 +2,8 @@ package com.kpei.mkbd.datatransform.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
 @Builder
@@ -9,10 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 public class Vd510dDto extends Vd5Base {
     private String namaNasabah;
-    private double marginSelling;
-    private double nilaiPembiayaan;
-    private double nilaiJaminan;
-    private double rasioPembiayaan;
-    private double nilaiRankingLiabilities;
-    private double nilaiRankingLiabilitiesRasio;
+    private String marginSelling;
+    private BigDecimal nilaiPembiayaan;
+    private BigDecimal nilaiJaminan;
+    private BigDecimal rasioPembiayaan;
+    private BigDecimal nilaiRankingLiabilitiesNasabah;
+    private BigDecimal nilaiRankingLiabilitiesRasio;
 }
