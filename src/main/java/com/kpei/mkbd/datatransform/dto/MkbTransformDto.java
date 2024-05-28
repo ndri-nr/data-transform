@@ -918,7 +918,33 @@ public class MkbTransformDto {
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
 
-        // set another value
+        if (items.length > 1 && !items[1].trim().isEmpty()) {
+            dto.setTanggalKontrak(convertStringToDate(items[1]));
+        }
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setJenisPenjaminan(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setPihakDijamin(items[3]);
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setStatuPenjaminan(items[4]);
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setNilaiKomitmenPenjaminan(normalizeBigDecimalValue(items[5]));
+        }
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setHaircutAtasEfek(normalizeBigDecimalValue(items[6]));
+        }
+        if (items.length > 7 && !items[7].trim().isEmpty()) {
+            dto.setNilaiBelumTerserap(normalizeBigDecimalValue(items[7]));
+        }
+        if (items.length > 8 && !items[8].trim().isEmpty()) {
+            dto.setNilaiBankGaransi(normalizeBigDecimalValue(items[8]));
+        }
+        if (items.length > 9 && !items[9].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[9]));
+        }
 
         this.vd510f.add(dto);
     }
@@ -947,7 +973,30 @@ public class MkbTransformDto {
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
 
-        // set another value
+        if (items.length > 1 && !items[1].trim().isEmpty()) {
+            dto.setTanggalKontrak(convertStringToDate(items[1]));
+        }
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setPihakDijamin(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setTerafiliasi(items[3]);
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setRincianPenjaminan(items[4]);
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setJangkaWaktuPnejaminan(items[5]);
+        }
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setTanggalBerakhir(convertStringToDate(items[6]));
+        }
+        if (items.length > 7 && !items[7].trim().isEmpty()) {
+            dto.setNilaiPenjaminan(normalizeBigDecimalValue(items[7]));
+        }
+        if (items.length > 8 && !items[8].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[8]));
+        }
 
         this.vd510g.add(dto);
     }
