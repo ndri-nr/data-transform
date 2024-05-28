@@ -786,8 +786,21 @@ public class MkbTransformDto {
         if (items.length > 5 && !items[5].trim().isEmpty()) {
             dto.setHargaPerolehan(normalizeBigDecimalValue(items[5]));
         }
-
-        // set another value
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setHargaPasarWajar(normalizeBigDecimalValue(items[6]));
+        }
+        if (items.length > 7 && !items[7].trim().isEmpty()) {
+            dto.setNilaiPasarWajar(normalizeBigDecimalValue(items[7]));
+        }
+        if (items.length > 8 && !items[8].trim().isEmpty()) {
+            dto.setGrupEmiten(items[8]);
+        }
+        if (items.length > 9 && !items[9].trim().isEmpty()) {
+            dto.setPersentaseNilaiPasar(items[9]);
+        }
+        if (items.length > 10 && !items[10].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[10]));
+        }
 
         this.vd510c.add(dto);
     }
@@ -816,7 +829,27 @@ public class MkbTransformDto {
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
 
-        // set another value
+        if (items.length > 1 && !items[1].trim().isEmpty()) {
+            dto.setNamaNasabah(items[1]);
+        }
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setMarginSelling(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setNilaiPembiayaan(normalizeBigDecimalValue(items[3]));
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setNilaiJaminan(normalizeBigDecimalValue(items[4]));
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setRasioPembiayaan(normalizeBigDecimalValue(items[5]));
+        }
+        if (items.length > 6 && !items[6].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilitiesNasabah(normalizeBigDecimalValue(items[6]));
+        }
+        if (items.length > 7 && !items[7].trim().isEmpty()) {
+            dto.setNilaiRankingLiabilitiesRasio(normalizeBigDecimalValue(items[7]));
+        }
 
         this.vd510d.add(dto);
     }
@@ -845,7 +878,18 @@ public class MkbTransformDto {
         dto.setCreatedBy(this.username);
         dto.setKodeAkun(items[0]);
 
-        // set another value
+        if (items.length > 2 && !items[2].trim().isEmpty()) {
+            dto.setKodeEfek(items[2]);
+        }
+        if (items.length > 3 && !items[3].trim().isEmpty()) {
+            dto.setVolume(normalizeBigDecimalValue(items[3]));
+        }
+        if (items.length > 4 && !items[4].trim().isEmpty()) {
+            dto.setHarga(normalizeBigDecimalValue(items[4]));
+        }
+        if (items.length > 5 && !items[5].trim().isEmpty()) {
+            dto.setNilaiPasarWajar(normalizeBigDecimalValue(items[5]));
+        }
 
         this.vd510e.add(dto);
     }
