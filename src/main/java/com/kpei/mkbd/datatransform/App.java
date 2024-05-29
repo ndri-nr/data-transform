@@ -3,6 +3,7 @@ package com.kpei.mkbd.datatransform;
 import com.kpei.mkbd.datatransform.dto.LogDto;
 import com.kpei.mkbd.datatransform.dto.MkbTransformDto;
 import com.kpei.mkbd.datatransform.util.FileUtil;
+import com.kpei.mkbd.datatransform.util.LogUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,10 +19,10 @@ public class App
 {
     public static void main( String[] args )
     {
-//        File file = new File("/Users/andri/Documents/solecode/datatransform/XA231006.mkb");
-//        File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
-        File file = new File("C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\XA231006.mkb");
-        File mappingKey = new File("C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\mapping-key-list.txt");
+        File file = new File("/Users/andri/Documents/solecode/datatransform/XA231006.mkb");
+        File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
+//        File file = new File("C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\XA231006.mkb");
+//        File mappingKey = new File("C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\mapping-key-list.txt");
         System.out.println(LocalDateTime.now());
         Map<String, String> key = generateMappingKey(mappingKey);
 
@@ -53,31 +54,12 @@ public class App
 
         System.out.println(LocalDateTime.now());
 
-        String baseDirectoryLog = "C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\documents\\logs";
-        String processLogPath = FileUtil.getProcessLogFilePath(baseDirectoryLog);
-        String errorLogPath = FileUtil.getErrorLogFilePath(baseDirectoryLog);
+        String baseDirectoryLog = "/Users/andri/Documents/solecode/datatransform/documents/logs";
+        LogUtil logUtil = new LogUtil(baseDirectoryLog);
 
-        FileUtil.appendContentToFIle(processLogPath,
-                LogDto.builder()
-                        .username("abdul")
-                        .filename("MKBD.mkb")
-                        .message("Melakukan process data")
-                        .functionName("Transformasi VD51")
-                        .build().processLogToString());
-        FileUtil.appendContentToFIle(processLogPath,
-                LogDto.builder()
-                        .username("abdul")
-                        .filename("MKBD.mkb")
-                        .message("Melakukan process data")
-                        .functionName("Transformasi VD52")
-                        .build().processLogToString());
-        FileUtil.appendContentToFIle(errorLogPath,
-                LogDto.builder()
-                        .username("abdul")
-                        .filename("MKBD.mkb")
-                        .message("Gagal insert duplicate key")
-                        .functionName("Transformasi VD52")
-                        .build().errorLogToString());
+        logUtil.process("abdul", "MKBD.mkb", "Transformasi VD51");
+        logUtil.process("abdul", "MKBD.mkb", "Transformasi VD52");
+        logUtil.error("abdul", "MKBD.mkb", "Transformasi VD52", "error tidak diketahui");
 
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(new Runnable() {

@@ -35,8 +35,8 @@ public class LogDto {
                 + "|"
                 + filename
                 + "|"
-                + message
+                + functionName
                 + "|"
-                + functionName + "\n";
+                + message + "\n";
     }
 }
