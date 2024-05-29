@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class App 
 {
@@ -76,6 +78,22 @@ public class App
                         .message("Gagal insert duplicate key")
                         .functionName("Transformasi VD52")
                         .build().errorLogToString());
+
+        ExecutorService service = Executors.newFixedThreadPool(4);
+        service.submit(new Runnable() {
+            public void run() {
+                try {
+                    int i = 0;
+                    while(i <= 60) {
+                        System.out.println("Hello World");
+                        Thread.sleep(5000);
+                        i++;
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     public static Map<String, String> generateMappingKey(File file) {
