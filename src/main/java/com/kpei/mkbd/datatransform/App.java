@@ -79,12 +79,12 @@ public class App
                         .functionName("Transformasi VD52")
                         .build().errorLogToString());
 
-        ExecutorService service = Executors.newFixedThreadPool(4);
+        ExecutorService service = Executors.newSingleThreadExecutor();
         service.submit(new Runnable() {
             public void run() {
                 try {
                     int i = 0;
-                    while(i <= 60) {
+                    while(i < 3) {
                         System.out.println("Hello World");
                         Thread.sleep(5000);
                         i++;
@@ -92,6 +92,8 @@ public class App
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
+                service.shutdown();
             }
         });
     }
