@@ -1,6 +1,8 @@
 package com.kpei.mkbd.datatransform;
 
+import com.kpei.mkbd.datatransform.dto.LogDto;
 import com.kpei.mkbd.datatransform.dto.MkbTransformDto;
+import com.kpei.mkbd.datatransform.util.FileUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,8 +16,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        File file = new File("/Users/andri/Documents/solecode/datatransform/XA231006.mkb");
-        File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
+//        File file = new File("/Users/andri/Documents/solecode/datatransform/XA231006.mkb");
+//        File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
+        File file = new File("C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\XA231006.mkb");
+        File mappingKey = new File("C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\mapping-key-list.txt");
         System.out.println(LocalDateTime.now());
         Map<String, String> key = generateMappingKey(mappingKey);
 
@@ -46,6 +50,32 @@ public class App
         System.out.println("total vd510I " + mkbTransformDto.getVd510i().size());
 
         System.out.println(LocalDateTime.now());
+
+        String baseDirectoryLog = "C:\\Users\\andri.rochman\\projects\\Custom\\data-transform\\documents\\logs";
+        String processLogPath = FileUtil.getProcessLogFilePath(baseDirectoryLog);
+        String errorLogPath = FileUtil.getErrorLogFilePath(baseDirectoryLog);
+
+        FileUtil.appendContentToFIle(processLogPath,
+                LogDto.builder()
+                        .username("abdul")
+                        .filename("MKBD.mkb")
+                        .message("Melakukan process data")
+                        .functionName("Transformasi VD51")
+                        .build().processLogToString());
+        FileUtil.appendContentToFIle(processLogPath,
+                LogDto.builder()
+                        .username("abdul")
+                        .filename("MKBD.mkb")
+                        .message("Melakukan process data")
+                        .functionName("Transformasi VD52")
+                        .build().processLogToString());
+        FileUtil.appendContentToFIle(errorLogPath,
+                LogDto.builder()
+                        .username("abdul")
+                        .filename("MKBD.mkb")
+                        .message("Gagal insert duplicate key")
+                        .functionName("Transformasi VD52")
+                        .build().errorLogToString());
     }
 
     public static Map<String, String> generateMappingKey(File file) {
