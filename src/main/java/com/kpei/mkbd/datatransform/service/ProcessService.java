@@ -52,33 +52,33 @@ public class ProcessService {
 
             functionName = "Transformasi VD59";
             insertDataTrVd59(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510A";
-//            insertDataTrVd510A(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510B";
-//            insertDataTrVd510B(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510C";
-//            insertDataTrVd510C(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510D";
-//            insertDataTrVd510D(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510E";
-//            insertDataTrVd510E(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510F";
-//            insertDataTrVd510F(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510G";
-//            insertDataTrVd510G(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510H";
-//            insertDataTrVd510H(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD510I";
-//            insertDataTrVd510I(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510A";
+            insertDataTrVd510A(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510B";
+            insertDataTrVd510B(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510C";
+            insertDataTrVd510C(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510D";
+            insertDataTrVd510D(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510E";
+            insertDataTrVd510E(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510F";
+            insertDataTrVd510F(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510G";
+            insertDataTrVd510G(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510H";
+            insertDataTrVd510H(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD510I";
+            insertDataTrVd510I(conn, dto, log, functionName);
 
             functionName = "Transformasi VD51";
             insertDataTrVd51(conn, dto, log, functionName);
@@ -87,7 +87,7 @@ public class ProcessService {
         } catch (Exception e) {
             try {
                 log.error(dto.getUsername(), dto.getFilename(), functionName, e.getMessage());
-                System.out.println(e.getMessage());
+                System.out.println("Rollback because : " + e.getMessage());
                 conn.rollback();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -481,6 +481,308 @@ public class ProcessService {
             stmt.setBigDecimal(8, temp.getTotal());
             stmt.setTimestamp(9, Timestamp.valueOf(temp.getCreatedAt()));
             stmt.setString(10, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510A\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
+                "\"Bulan\", \"Tanggal\", \"Pembeli\", \"TanggalPembelian\", \"TanggalPenjualan\", " +
+                "\"NilaiPembelian\", \"NilaiPenjualan\", \"KodeEfekKolateral\", \"JumlahJaminan\", \"NilaiPasarWajar\", " +
+                "\"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510aDto temp : dto.getVd510a()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setString(4, temp.getKodeEfek());
+            stmt.setInt(5, temp.getTahun());
+            stmt.setInt(6, temp.getBulan());
+            stmt.setInt(7, temp.getTanggal());
+            stmt.setString(8, temp.getPembeli());
+            stmt.setDate(9, temp.getTanggalPembelian());
+            stmt.setDate(10, temp.getTanggalPenjualan());
+            stmt.setBigDecimal(11, temp.getNilaiPembelian());
+            stmt.setBigDecimal(12, temp.getNilaiPenjualan());
+            stmt.setString(13, temp.getKodeEfekKolateral());
+            stmt.setBigDecimal(14, temp.getJumlahJaminan());
+            stmt.setBigDecimal(15, temp.getNilaiPasarWajar());
+            stmt.setBigDecimal(16, temp.getNilaiRankingLiabilitas());
+            stmt.setTimestamp(17, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(18, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510B\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
+                "\"Bulan\", \"Tanggal\", \"Penjual\", \"TanggalPembelian\", \"TanggalPenjualan\", " +
+                "\"NilaiPembelian\", \"NilaiPenjualan\", \"KodeEfekKolateral\", \"JumlahJaminan\", \"NilaiPasarWajar\", " +
+                "\"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510bDto temp : dto.getVd510b()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setString(4, temp.getKodeEfek());
+            stmt.setInt(5, temp.getTahun());
+            stmt.setInt(6, temp.getBulan());
+            stmt.setInt(7, temp.getTanggal());
+            stmt.setString(8, temp.getPenjual());
+            stmt.setDate(9, temp.getTanggalPembelian());
+            stmt.setDate(10, temp.getTanggalPenjualan());
+            stmt.setBigDecimal(11, temp.getNilaiPembelian());
+            stmt.setBigDecimal(12, temp.getNilaiPenjualan());
+            stmt.setString(13, temp.getKodeEfekKolateral());
+            stmt.setBigDecimal(14, temp.getJumlahJaminan());
+            stmt.setBigDecimal(15, temp.getNilaiPasarWajar());
+            stmt.setBigDecimal(16, temp.getNilaiRankingLiabilitas());
+            stmt.setTimestamp(17, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(18, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510C\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
+                "\"Bulan\", \"Tanggal\", \"Terafiliasi\", \"GrupEmiten\", \"PersentaseNilaiPasar\", " +
+                "\"LembarNominal\", \"HargaPerolehan\", \"HargaPasarWajar\", \"NilaiPasarWajar\", " +
+                "\"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510cDto temp : dto.getVd510c()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setString(4, temp.getKodeEfek());
+            stmt.setInt(5, temp.getTahun());
+            stmt.setInt(6, temp.getBulan());
+            stmt.setInt(7, temp.getTanggal());
+            stmt.setString(8, temp.getTerafiliasi());
+            stmt.setString(9, temp.getGrupEmiten());
+            stmt.setString(10, temp.getPersentaseNilaiPasar());
+            stmt.setBigDecimal(11, temp.getLembarNominal());
+            stmt.setBigDecimal(12, temp.getHargaPerolehan());
+            stmt.setBigDecimal(13, temp.getHargaPasarWajar());
+            stmt.setBigDecimal(14, temp.getNilaiPasarWajar());
+            stmt.setBigDecimal(15, temp.getNilaiRankingLiabilitas());
+            stmt.setTimestamp(16, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(17, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510D(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510D\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"NamaNasabah\", \"Tahun\", " +
+                "\"Bulan\", \"Tanggal\", \"MarginSelling\", \"NilaiPembiayaan\", \"NilaiJaminan\", " +
+                "\"RasioPembiayaan\", \"NilaiRankingLiabilitiesNasabah\", \"NilaiRankingLiabilitiesRasio\", " +
+                "\"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510dDto temp : dto.getVd510d()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setString(4, temp.getNamaNasabah());
+            stmt.setInt(5, temp.getTahun());
+            stmt.setInt(6, temp.getBulan());
+            stmt.setInt(7, temp.getTanggal());
+            stmt.setString(8, temp.getMarginSelling());
+            stmt.setBigDecimal(9, temp.getNilaiPembiayaan());
+            stmt.setBigDecimal(10, temp.getNilaiJaminan());
+            stmt.setBigDecimal(11, temp.getRasioPembiayaan());
+            stmt.setBigDecimal(12, temp.getNilaiRankingLiabilitiesNasabah());
+            stmt.setBigDecimal(13, temp.getNilaiRankingLiabilitiesRasio());
+            stmt.setTimestamp(14, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(15, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510E(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510E\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
+                "\"Bulan\", \"Tanggal\", \"Volume\", \"Harga\", \"NilaiPasarWajar\", " +
+                "\"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510eDto temp : dto.getVd510e()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setString(4, temp.getKodeEfek());
+            stmt.setInt(5, temp.getTahun());
+            stmt.setInt(6, temp.getBulan());
+            stmt.setInt(7, temp.getTanggal());
+            stmt.setBigDecimal(8, temp.getVolume());
+            stmt.setBigDecimal(9, temp.getHarga());
+            stmt.setBigDecimal(10, temp.getNilaiPasarWajar());
+            stmt.setTimestamp(11, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(12, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510F(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510F\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
+                "\"Tanggal\", \"TanggalKontrak\", \"JenisPenjaminan\", \"PihakDijamin\", \"StatuPenjaminan\", " +
+                "\"NilaiKomitmenPenjaminan\", \"HaircutAtasEfek\", \"NilaiBelumTerserap\", \"NilaiBankGaransi\", " +
+                "\"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510fDto temp : dto.getVd510f()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setInt(4, temp.getTahun());
+            stmt.setInt(5, temp.getBulan());
+            stmt.setInt(6, temp.getTanggal());
+            stmt.setDate(7, temp.getTanggalKontrak());
+            stmt.setString(8, temp.getJenisPenjaminan());
+            stmt.setString(9, temp.getPihakDijamin());
+            stmt.setString(10, temp.getStatuPenjaminan());
+            stmt.setBigDecimal(11, temp.getNilaiKomitmenPenjaminan());
+            stmt.setBigDecimal(12, temp.getHaircutAtasEfek());
+            stmt.setBigDecimal(13, temp.getNilaiBelumTerserap());
+            stmt.setBigDecimal(14, temp.getNilaiBankGaransi());
+            stmt.setBigDecimal(15, temp.getNilaiRankingLiabilitas());
+            stmt.setTimestamp(16, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(17, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510G(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510G\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
+                "\"Tanggal\", \"TanggalKontrak\", \"Terafiliasi\", \"PihakDijamin\", \"RincianPenjaminan\", " +
+                "\"JangkaWaktuPnejaminan\", \"TanggalBerakhir\", \"NilaiPenjaminan\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510gDto temp : dto.getVd510g()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setInt(4, temp.getTahun());
+            stmt.setInt(5, temp.getBulan());
+            stmt.setInt(6, temp.getTanggal());
+            stmt.setDate(7, temp.getTanggalKontrak());
+            stmt.setString(8, temp.getTerafiliasi());
+            stmt.setString(9, temp.getPihakDijamin());
+            stmt.setString(10, temp.getRincianPenjaminan());
+            stmt.setString(11, temp.getJangkaWaktuPnejaminan());
+            stmt.setDate(12, temp.getTanggalBerakhir());
+            stmt.setBigDecimal(13, temp.getNilaiPenjaminan());
+            stmt.setBigDecimal(14, temp.getNilaiRankingLiabilitas());
+            stmt.setTimestamp(15, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(16, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510H(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510H\"\n" +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
+                "\"Tanggal\", \"TanggalKomitmen\", \"RincianBelanja\", \"TanggalRealisasi\", \"RincianPenjaminan\", " +
+                "\"KomitmenTerealisasi\", \"KomitmenBelumTerealisasi\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510hDto temp : dto.getVd510h()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setInt(4, temp.getTahun());
+            stmt.setInt(5, temp.getBulan());
+            stmt.setInt(6, temp.getTanggal());
+            stmt.setDate(7, temp.getTanggalKomitmen());
+            stmt.setString(8, temp.getRincianBelanja());
+            stmt.setDate(9, temp.getTanggalRealisasi());
+            stmt.setString(10, temp.getRincianPenjaminan());
+            stmt.setBigDecimal(11, temp.getKomitmenTerealisasi());
+            stmt.setBigDecimal(12, temp.getKomitmenBelumTerealisasi());
+            stmt.setBigDecimal(13, temp.getNilaiRankingLiabilitas());
+            stmt.setTimestamp(14, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(15, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd510I(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD510I\"\n" +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
+                "\"Tanggal\", \"TanggalTransaksi\", \"JenisTransaksi\", \"JenisMataUang\", \"NilaiTransaksi\", " +
+                "\"UntungRugiBelumTerealisasi\", \"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd510iDto temp : dto.getVd510i()) {
+            stmt.setString(1, temp.getId());
+            stmt.setString(2, temp.getKodeAkun());
+            stmt.setString(3, temp.getKodePe());
+            stmt.setInt(4, temp.getTahun());
+            stmt.setInt(5, temp.getBulan());
+            stmt.setInt(6, temp.getTanggal());
+            stmt.setDate(7, temp.getTanggalTransaksi());
+            stmt.setString(8, temp.getJenisTransaksi());
+            stmt.setString(9, temp.getJenisMataUang());
+            stmt.setBigDecimal(10, temp.getNilaiTransaksi());
+            stmt.setBigDecimal(11, temp.getUntungRugiBelumTerealisasi());
+            stmt.setBigDecimal(12, temp.getNilaiRankingLiabilitas());
+            stmt.setTimestamp(13, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(14, temp.getCreatedBy());
             stmt.addBatch();
         }
         stmt.executeUpdate();
