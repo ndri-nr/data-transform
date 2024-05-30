@@ -17,9 +17,6 @@ public class ProcessService {
             functionName = "Update Manager Name";
             updateManagerName(conn, dto, log, functionName);
 
-            functionName = "Transformasi VD51";
-            insertDataTrVd51(conn, dto, log, functionName);
-
             functionName = "Transformasi VD52";
             insertDataTrVd52(conn, dto, log, functionName);
 
@@ -46,15 +43,15 @@ public class ProcessService {
 
             functionName = "Transformasi VD57B";
             insertDataTrVd57B(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD57C";
-//            insertDataTrVd57C(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD58";
-//            insertDataTrVd58(conn, dto, log, functionName);
-//
-//            functionName = "Transformasi VD59";
-//            insertDataTrVd59(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD57C";
+            insertDataTrVd57C(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD58";
+            insertDataTrVd58(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD59";
+            insertDataTrVd59(conn, dto, log, functionName);
 //
 //            functionName = "Transformasi VD510A";
 //            insertDataTrVd510A(conn, dto, log, functionName);
@@ -82,6 +79,9 @@ public class ProcessService {
 //
 //            functionName = "Transformasi VD510I";
 //            insertDataTrVd510I(conn, dto, log, functionName);
+
+            functionName = "Transformasi VD51";
+            insertDataTrVd51(conn, dto, log, functionName);
 
             conn.commit();
         } catch (Exception e) {
@@ -400,6 +400,87 @@ public class ProcessService {
             stmt.setString(10, temp.getKodeAkun());
             stmt.setTimestamp(11, Timestamp.valueOf(temp.getCreatedAt()));
             stmt.setString(12, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd57C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD57C\"\n" +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
+                "\"Saldo\", \"LmHrKerja\", \"Dimiliki\", \"Dipisahkan\", \"KodeAkun\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"Penjelasan\")" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd57cDto temp : dto.getVd57c()) {
+            stmt.setString(1, temp.getId());
+            stmt.setInt(2, temp.getTahun());
+            stmt.setInt(3, temp.getBulan());
+            stmt.setInt(4, temp.getTanggal());
+            stmt.setString(5, temp.getKodePe());
+            stmt.setBigDecimal(6, temp.getSaldo());
+            stmt.setBigDecimal(7, temp.getLmHrKerja());
+            stmt.setBigDecimal(8, temp.getDimiliki());
+            stmt.setBigDecimal(9, temp.getDipisahkan());
+            stmt.setString(10, temp.getKodeAkun());
+            stmt.setTimestamp(11, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(12, temp.getCreatedBy());
+            stmt.setString(13, temp.getPenjelasan());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd58(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD58\" " +
+                "(\"Id\", \"Nilai\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
+                "\"KodeAkun\", \"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd58Dto temp : dto.getVd58()) {
+            stmt.setString(1, temp.getId());
+            stmt.setBigDecimal(2, temp.getNilai());
+            stmt.setInt(3, temp.getTanggal());
+            stmt.setInt(4, temp.getBulan());
+            stmt.setInt(5, temp.getTahun());
+            stmt.setString(6, temp.getKodePe());
+            stmt.setString(7, temp.getKodeAkun());
+            stmt.setTimestamp(8, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(9, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static void insertDataTrVd59(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+            throws Exception {
+        String insertQuery = "INSERT INTO public.\"Tr_VD59\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
+                "\"KodeAkun\", \"Jumlah\", \"Total\", \"CreatedAt\", \"CreatedBy\") " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+
+        for (Vd59Dto temp : dto.getVd59()) {
+            stmt.setString(1, temp.getId());
+            stmt.setInt(2, temp.getTahun());
+            stmt.setInt(3, temp.getBulan());
+            stmt.setInt(4, temp.getTanggal());
+            stmt.setString(5, temp.getKodePe());
+            stmt.setString(6, temp.getKodeAkun());
+            stmt.setBigDecimal(7, temp.getJumlah());
+            stmt.setBigDecimal(8, temp.getTotal());
+            stmt.setTimestamp(9, Timestamp.valueOf(temp.getCreatedAt()));
+            stmt.setString(10, temp.getCreatedBy());
             stmt.addBatch();
         }
         stmt.executeUpdate();
