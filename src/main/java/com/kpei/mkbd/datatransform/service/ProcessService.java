@@ -88,7 +88,7 @@ public class ProcessService {
         } catch (Exception e) {
             try {
                 log.error(dto.getUsername(), dto.getFilename(), functionName, e.getMessage());
-                System.out.println("Rollback because : " + e.getMessage());
+                logger.error("Rollback because : " + e.getMessage());
                 conn.rollback();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
