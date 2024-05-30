@@ -18,6 +18,9 @@ public class ProcessService {
             functionName = "Update Manager Name";
             updateManagerName(conn, dto, log, functionName, logger);
 
+            functionName = "Transformasi VD51";
+            insertDataTrVd51(conn, dto, log, functionName, logger);
+
             functionName = "Transformasi VD52";
             insertDataTrVd52(conn, dto, log, functionName, logger);
 
@@ -80,9 +83,6 @@ public class ProcessService {
 
             functionName = "Transformasi VD510I";
             insertDataTrVd510I(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD51";
-            insertDataTrVd51(conn, dto, log, functionName, logger);
 
             conn.commit();
         } catch (Exception e) {
