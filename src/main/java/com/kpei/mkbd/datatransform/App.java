@@ -3,6 +3,8 @@ package com.kpei.mkbd.datatransform;
 import com.kpei.mkbd.datatransform.dto.*;
 import com.kpei.mkbd.datatransform.service.ProcessService;
 import com.kpei.mkbd.datatransform.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,6 +64,7 @@ public class App
 
         String baseDirectoryLog = "/Users/andri/Documents/solecode/datatransform/documents/logs";
         LogUtil logUtil = new LogUtil(baseDirectoryLog);
+        Logger logger = LoggerFactory.getLogger(App.class);
 
         String url = "jdbc:postgresql://pgsql15-dev.solecode.tech:5432/kpei_mkbd";
         String username = "kpei_mkbd";
@@ -78,7 +81,7 @@ public class App
         Connection finalConn = conn;
         service.submit(new Runnable() {
             public void run() {
-                ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil);
+                ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
                 service.shutdown();
             }
         });

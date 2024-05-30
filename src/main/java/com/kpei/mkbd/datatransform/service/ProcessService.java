@@ -2,6 +2,7 @@ package com.kpei.mkbd.datatransform.service;
 
 import com.kpei.mkbd.datatransform.dto.*;
 import com.kpei.mkbd.datatransform.util.LogUtil;
+import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,79 +10,79 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class ProcessService {
-    public static void processDataVD(Connection conn, MkbTransformDto dto, LogUtil log) {
+    public static void processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
         String functionName = "";
         try {
             conn.setAutoCommit(false);
 
             functionName = "Update Manager Name";
-            updateManagerName(conn, dto, log, functionName);
+            updateManagerName(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD52";
-            insertDataTrVd52(conn, dto, log, functionName);
+            insertDataTrVd52(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD53";
-            insertDataTrVd53(conn, dto, log, functionName);
+            insertDataTrVd53(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD54";
-            insertDataTrVd54(conn, dto, log, functionName);
+            insertDataTrVd54(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD55";
-            insertDataTrVd55(conn, dto, log, functionName);
+            insertDataTrVd55(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD56A";
-            insertDataTrVd56A(conn, dto, log, functionName);
+            insertDataTrVd56A(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD56B";
-            insertDataTrVd56B(conn, dto, log, functionName);
+            insertDataTrVd56B(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD56C";
-            insertDataTrVd56C(conn, dto, log, functionName);
+            insertDataTrVd56C(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD57A";
-            insertDataTrVd57A(conn, dto, log, functionName);
+            insertDataTrVd57A(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD57B";
-            insertDataTrVd57B(conn, dto, log, functionName);
+            insertDataTrVd57B(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD57C";
-            insertDataTrVd57C(conn, dto, log, functionName);
+            insertDataTrVd57C(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD58";
-            insertDataTrVd58(conn, dto, log, functionName);
+            insertDataTrVd58(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD59";
-            insertDataTrVd59(conn, dto, log, functionName);
+            insertDataTrVd59(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510A";
-            insertDataTrVd510A(conn, dto, log, functionName);
+            insertDataTrVd510A(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510B";
-            insertDataTrVd510B(conn, dto, log, functionName);
+            insertDataTrVd510B(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510C";
-            insertDataTrVd510C(conn, dto, log, functionName);
+            insertDataTrVd510C(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510D";
-            insertDataTrVd510D(conn, dto, log, functionName);
+            insertDataTrVd510D(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510E";
-            insertDataTrVd510E(conn, dto, log, functionName);
+            insertDataTrVd510E(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510F";
-            insertDataTrVd510F(conn, dto, log, functionName);
+            insertDataTrVd510F(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510G";
-            insertDataTrVd510G(conn, dto, log, functionName);
+            insertDataTrVd510G(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510H";
-            insertDataTrVd510H(conn, dto, log, functionName);
+            insertDataTrVd510H(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD510I";
-            insertDataTrVd510I(conn, dto, log, functionName);
+            insertDataTrVd510I(conn, dto, log, functionName, logger);
 
             functionName = "Transformasi VD51";
-            insertDataTrVd51(conn, dto, log, functionName);
+            insertDataTrVd51(conn, dto, log, functionName, logger);
 
             conn.commit();
         } catch (Exception e) {
@@ -103,13 +104,14 @@ public class ProcessService {
         }
     }
 
-    private static void updateManagerName(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void updateManagerName(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String updateQuery = "UPDATE \"Ms_Pe\" " +
                 "SET \"ManagerName\" = ?, \"ModifiedAt\" = now(), \"ModifiedBy\" = ? " +
                 "WHERE \"Kode\" = ?";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(updateQuery);
         stmt.setString(1, dto.getManagerName());
         stmt.setString(2, dto.getUserId());
@@ -117,7 +119,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd51(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd51(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD51\" " +
                 "(\"Id\", \"Saldo\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -125,6 +127,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd51Dto temp : dto.getVd51()) {
@@ -142,7 +145,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd52(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd52(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD52\" " +
                 "(\"Id\", \"Saldo\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -150,6 +153,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd52Dto temp : dto.getVd52()) {
@@ -167,7 +171,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd53(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd53(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD53\" " +
                 "(\"Id\", \"NilaiDitambahkan\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -175,6 +179,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd53Dto temp : dto.getVd53()) {
@@ -192,7 +197,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd54(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd54(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD54\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -202,6 +207,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd54Dto temp : dto.getVd54()) {
@@ -225,7 +231,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd55(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd55(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD55\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -235,6 +241,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd55Dto temp : dto.getVd55()) {
@@ -259,7 +266,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd56A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd56A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD56A\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -268,6 +275,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd56aDto temp : dto.getVd56a()) {
@@ -287,7 +295,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd56B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd56B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD56B\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -296,6 +304,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd56bDto temp : dto.getVd56b()) {
@@ -316,7 +325,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd56C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd56C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD56C\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -325,6 +334,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd56cDto temp : dto.getVd56c()) {
@@ -348,7 +358,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd57A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd57A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD57A\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -357,6 +367,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd57aDto temp : dto.getVd57a()) {
@@ -376,7 +387,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd57B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd57B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD57B\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -385,6 +396,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd57bDto temp : dto.getVd57b()) {
@@ -405,7 +417,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd57C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd57C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD57C\"\n" +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -414,6 +426,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd57cDto temp : dto.getVd57c()) {
@@ -435,7 +448,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd58(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd58(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD58\" " +
                 "(\"Id\", \"Nilai\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -443,6 +456,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd58Dto temp : dto.getVd58()) {
@@ -460,7 +474,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd59(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd59(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD59\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -468,6 +482,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd59Dto temp : dto.getVd59()) {
@@ -486,7 +501,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510A\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -496,6 +511,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510aDto temp : dto.getVd510a()) {
@@ -522,7 +538,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510B\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -532,6 +548,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510bDto temp : dto.getVd510b()) {
@@ -558,7 +575,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510C\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -568,6 +585,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510cDto temp : dto.getVd510c()) {
@@ -593,7 +611,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510D(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510D(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510D\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"NamaNasabah\", \"Tahun\", " +
@@ -603,6 +621,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510dDto temp : dto.getVd510d()) {
@@ -626,7 +645,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510E(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510E(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510E\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -635,6 +654,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510eDto temp : dto.getVd510e()) {
@@ -655,7 +675,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510F(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510F(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510F\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -665,6 +685,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510fDto temp : dto.getVd510f()) {
@@ -690,7 +711,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510G(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510G(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510G\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -700,6 +721,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510gDto temp : dto.getVd510g()) {
@@ -724,7 +746,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510H(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510H(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510H\"\n" +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -734,6 +756,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510hDto temp : dto.getVd510h()) {
@@ -757,7 +780,7 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510I(Connection conn, MkbTransformDto dto, LogUtil log, String functionName)
+    private static void insertDataTrVd510I(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510I\"\n" +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -766,6 +789,7 @@ public class ProcessService {
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
 
         for (Vd510iDto temp : dto.getVd510i()) {
