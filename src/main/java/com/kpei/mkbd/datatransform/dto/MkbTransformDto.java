@@ -323,25 +323,25 @@ public class MkbTransformDto {
             dto.setKodeEfek(items[1]);
         }
         if (items.length > 2 && !items[2].trim().isEmpty()) {
-            dto.setNilaiEfek(normalizeDoubleValue(items[2]));
+            dto.setNilaiEfek(normalizeBigDecimalValue(items[2]));
         }
         if (items.length > 3 && !items[3].trim().isEmpty()) {
             dto.setKodeEfekLn(items[3]);
         }
         if (items.length > 4 && !items[4].trim().isEmpty()) {
-            dto.setNilaiEfekLn(normalizeDoubleValue(items[4]));
+            dto.setNilaiEfekLn(normalizeBigDecimalValue(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setNilaiEfekTutupLn(normalizeDoubleValue(items[5]));
+            dto.setNilaiEfekTutupLn(normalizeBigDecimalValue(items[5]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setNilaiHaircutTutupLn(normalizeDoubleValue(items[6]));
+            dto.setNilaiHaircutTutupLn(normalizeBigDecimalValue(items[6]));
         }
         if (items.length > 7 && !items[7].trim().isEmpty()) {
-            dto.setNilaiHaircutLn(normalizeDoubleValue(items[7]));
+            dto.setNilaiHaircutLn(normalizeBigDecimalValue(items[7]));
         }
         if (items.length > 8 && !items[8].trim().isEmpty()) {
-            dto.setJmlPengembalianHaircut(normalizeDoubleValue(items[8]));
+            dto.setJmlPengembalianHaircut(normalizeBigDecimalValue(items[8]));
         }
 
         this.vd55.add(dto);
@@ -1074,9 +1074,9 @@ public class MkbTransformDto {
         this.vd510i.add(dto);
     }
 
-    private Double normalizeDoubleValue(String value) {
+    private Float normalizeFloatValue(String value) {
         value = value.replaceAll(",", ".");
-        return Double.parseDouble(value);
+        return Float.parseFloat(value);
     }
 
     private BigDecimal normalizeBigDecimalValue(String value) {

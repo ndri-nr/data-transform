@@ -1,10 +1,7 @@
 package com.kpei.mkbd.datatransform.util;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 
 public class ProcessUtil {
     private static String getProcessDirectoryPath() {
@@ -47,5 +44,18 @@ public class ProcessUtil {
     public static boolean isProcessLocked(String process) {
         Path path = Paths.get(getProcessDirectoryPath() + "/" + process);
         return Files.exists(path);
+    }
+
+    public static void releaseAllProcess() {
+        Path dir = Paths.get(getProcessDirectoryPath());
+        if (Files.exists(dir)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+                for (Path path : stream) {
+                    Files.delete(path);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

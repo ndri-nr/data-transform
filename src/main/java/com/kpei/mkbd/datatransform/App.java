@@ -1,12 +1,16 @@
 package com.kpei.mkbd.datatransform;
 
 import com.kpei.mkbd.datatransform.dto.*;
+import com.kpei.mkbd.datatransform.service.ProcessService;
 import com.kpei.mkbd.datatransform.util.*;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +29,10 @@ public class App
         Map<String, String> key = generateMappingKey(mappingKey);
 
         MkbTransformDto mkbTransformDto = new MkbTransformDto();
+        mkbTransformDto.setUserId("fb68b928-f8f9-46f0-8cd1-2081f27483e7");
+        mkbTransformDto.setUsername("admin");
+        mkbTransformDto.setFilename("XA231006");
+        mkbTransformDto.setKodePe("XA");
         mkbTransformDto.constructVd5Dto(file, key);
 
         System.out.println("total vd51 " + mkbTransformDto.getVd51().size());
@@ -55,24 +63,22 @@ public class App
         String baseDirectoryLog = "/Users/andri/Documents/solecode/datatransform/documents/logs";
         LogUtil logUtil = new LogUtil(baseDirectoryLog);
 
-        logUtil.process("abdul", "MKBD.mkb", "Transformasi VD51");
-        logUtil.process("abdul", "MKBD.mkb", "Transformasi VD52");
-        logUtil.error("abdul", "MKBD.mkb", "Transformasi VD52", "error tidak diketahui");
+        String url = "jdbc:postgresql://pgsql15-dev.solecode.tech:5432/kpei_mkbd";
+        String username = "kpei_mkbd";
+        String password = "a3BlaV9ta2JkXzI4MDIq";
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         ExecutorService service = Executors.newSingleThreadExecutor();
+        Connection finalConn = conn;
         service.submit(new Runnable() {
             public void run() {
-                try {
-                    int i = 0;
-                    while(i < 3) {
-                        System.out.println("Hello World");
-                        Thread.sleep(5000);
-                        i++;
-                    }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
+                ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil);
                 service.shutdown();
             }
         });
