@@ -1,11 +1,14 @@
 package com.kpei.mkbd.datatransform.service;
 
 import com.kpei.mkbd.datatransform.dto.*;
+import com.kpei.mkbd.datatransform.model.FormulaAkun;
 import com.kpei.mkbd.datatransform.util.LogUtil;
 import org.slf4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProcessService {
     public static void processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
@@ -13,74 +16,74 @@ public class ProcessService {
         try {
             conn.setAutoCommit(false);
 
-            functionName = "Update Manager Name";
-            updateManagerName(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD51";
-            insertDataTrVd51(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD52";
-            insertDataTrVd52(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD53";
-            insertDataTrVd53(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD54";
-            insertDataTrVd54(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD55";
-            insertDataTrVd55(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD56A";
-            insertDataTrVd56A(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD56B";
-            insertDataTrVd56B(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD56C";
-            insertDataTrVd56C(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD57A";
-            insertDataTrVd57A(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD57B";
-            insertDataTrVd57B(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD57C";
-            insertDataTrVd57C(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD58";
-            insertDataTrVd58(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD59";
-            insertDataTrVd59(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510A";
-            insertDataTrVd510A(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510B";
-            insertDataTrVd510B(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510C";
-            insertDataTrVd510C(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510D";
-            insertDataTrVd510D(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510E";
-            insertDataTrVd510E(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510F";
-            insertDataTrVd510F(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510G";
-            insertDataTrVd510G(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510H";
-            insertDataTrVd510H(conn, dto, log, functionName, logger);
-
-            functionName = "Transformasi VD510I";
-            insertDataTrVd510I(conn, dto, log, functionName, logger);
+//            functionName = "Update Manager Name";
+//            updateManagerName(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD51";
+//            insertDataTrVd51(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD52";
+//            insertDataTrVd52(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD53";
+//            insertDataTrVd53(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD54";
+//            insertDataTrVd54(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD55";
+//            insertDataTrVd55(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD56A";
+//            insertDataTrVd56A(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD56B";
+//            insertDataTrVd56B(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD56C";
+//            insertDataTrVd56C(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD57A";
+//            insertDataTrVd57A(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD57B";
+//            insertDataTrVd57B(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD57C";
+//            insertDataTrVd57C(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD58";
+//            insertDataTrVd58(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD59";
+//            insertDataTrVd59(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510A";
+//            insertDataTrVd510A(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510B";
+//            insertDataTrVd510B(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510C";
+//            insertDataTrVd510C(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510D";
+//            insertDataTrVd510D(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510E";
+//            insertDataTrVd510E(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510F";
+//            insertDataTrVd510F(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510G";
+//            insertDataTrVd510G(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510H";
+//            insertDataTrVd510H(conn, dto, log, functionName, logger);
+//
+//            functionName = "Transformasi VD510I";
+//            insertDataTrVd510I(conn, dto, log, functionName, logger);
 
             functionName = "Get Jenis Usaha PPE";
             String jenisUsahaPpe = getJenisUsahaPPE(conn, dto, log, functionName, logger);
@@ -101,6 +104,10 @@ public class ProcessService {
             functionName = "Update Nilai Transaksi Table Tr_VD58_KPEI berdasarkan Jenis Usaha";
             updateNilaiTransaksiKpeiByJenisUsaha(
                     conn, dto, log, functionName, logger, jenisUsahaPpe, jenisUsahaMi, nilaiPpe, nilaiMi);
+
+            functionName = "Get List Formula Akun";
+            List<FormulaAkun> formulaAkun = getFormulaAkun(conn, dto, log, functionName, logger);
+            logger.info(formulaAkun.size() + " item");
 
             conn.commit();
         } catch (Exception e) {
@@ -1002,5 +1009,56 @@ public class ProcessService {
             stmt.addBatch();
         }
         stmt.executeUpdate();
+    }
+
+    private static List<FormulaAkun> getFormulaAkun(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger) throws SQLException {
+        List<FormulaAkun> result = new ArrayList<>();
+
+        String query = "select kode_akun, tabel, mf.\"KdFormula\" as kd_formula, a.kolom_a as kolom " +
+                "from vw_mapping_formula_akun a " +
+                "join \"Ms_Formula\" mf on a.formula_a = mf.\"Id\" " +
+                "where a.is_formula_a = true " +
+                "union all " +
+                "select kode_akun, tabel, mf.\"KdFormula\" as kd_formula, a.kolom_b as kolom " +
+                "from vw_mapping_formula_akun a " +
+                "join \"Ms_Formula\" mf on a.formula_b = mf.\"Id\" " +
+                "where a.is_formula_b = true " +
+                "union all " +
+                "select kode_akun, tabel, mf.\"KdFormula\" as kd_formula, a.kolom_c as kolom " +
+                "from vw_mapping_formula_akun a " +
+                "join \"Ms_Formula\" mf on a.formula_c = mf.\"Id\" " +
+                "where a.is_formula_c = true " +
+                "union all " +
+                "select kode_akun, tabel, mf.\"KdFormula\" as kd_formula, a.kolom_d as kolom " +
+                "from vw_mapping_formula_akun a " +
+                "join \"Ms_Formula\" mf on a.formula_d = mf.\"Id\" " +
+                "where a.is_formula_d = true " +
+                "union all " +
+                "select kode_akun, tabel, mf.\"KdFormula\" as kd_formula, a.kolom_e as kolom " +
+                "from vw_mapping_formula_akun a " +
+                "join \"Ms_Formula\" mf on a.formula_e = mf.\"Id\" " +
+                "where a.is_formula_e = true " +
+                "union all " +
+                "select kode_akun, tabel, mf.\"KdFormula\" as kd_formula, a.kolom_f as kolom " +
+                "from vw_mapping_formula_akun a " +
+                "join \"Ms_Formula\" mf on a.formula_f = mf.\"Id\" " +
+                "where a.is_formula_f = true";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result.add(FormulaAkun.builder()
+                    .tabel(myRs.getString("tabel"))
+                    .kodeAkun(myRs.getString("kode_akun"))
+                    .kdFormula(myRs.getString("kd_formula"))
+                    .kolom(myRs.getString("kolom"))
+                    .build());
+        }
+
+        return result;
     }
 }
