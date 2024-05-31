@@ -4,10 +4,8 @@ import com.kpei.mkbd.datatransform.dto.*;
 import com.kpei.mkbd.datatransform.util.LogUtil;
 import org.slf4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.sql.*;
 
 public class ProcessService {
     public static void processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
@@ -84,6 +82,26 @@ public class ProcessService {
             functionName = "Transformasi VD510I";
             insertDataTrVd510I(conn, dto, log, functionName, logger);
 
+            functionName = "Get Jenis Usaha PPE";
+            String jenisUsahaPpe = getJenisUsahaPPE(conn, dto, log, functionName, logger);
+            logger.info(jenisUsahaPpe);
+
+            functionName = "Get Jenis Usaha MI";
+            String jenisUsahaMi = getJenisUsahaMI(conn, dto, log, functionName, logger);
+            logger.info(jenisUsahaMi);
+
+            functionName = "Get Nilai PPE";
+            BigDecimal nilaiPpe = getNilaiBigDecimalByParameter(conn, dto, log, functionName, logger, jenisUsahaPpe);
+            logger.info(nilaiPpe + "");
+
+            functionName = "Get Nilai MI";
+            BigDecimal nilaiMi = getNilaiBigDecimalByParameter(conn, dto, log, functionName, logger, jenisUsahaMi);
+            logger.info(nilaiMi + "");
+
+            functionName = "Update Nilai Transaksi Table Tr_VD58_KPEI berdasarkan Jenis Usaha";
+            updateNilaiTransaksiKpeiByJenisUsaha(
+                    conn, dto, log, functionName, logger, jenisUsahaPpe, jenisUsahaMi, nilaiPpe, nilaiMi);
+
             conn.commit();
         } catch (Exception e) {
             try {
@@ -104,7 +122,8 @@ public class ProcessService {
         }
     }
 
-    private static void updateManagerName(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void updateManagerName(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String updateQuery = "UPDATE \"Ms_Pe\" " +
                 "SET \"ManagerName\" = ?, \"ModifiedAt\" = now(), \"ModifiedBy\" = ? " +
@@ -119,7 +138,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd51(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd51(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD51\" " +
                 "(\"Id\", \"Saldo\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -145,7 +165,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd52(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd52(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD52\" " +
                 "(\"Id\", \"Saldo\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -171,7 +192,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd53(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd53(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD53\" " +
                 "(\"Id\", \"NilaiDitambahkan\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -197,7 +219,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd54(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd54(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD54\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -231,7 +254,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd55(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd55(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD55\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -266,7 +290,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd56A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd56A(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD56A\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -295,7 +320,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd56B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd56B(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD56B\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -325,7 +351,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd56C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd56C(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD56C\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -358,7 +385,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd57A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd57A(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD57A\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -387,7 +415,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd57B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd57B(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD57B\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -417,7 +446,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd57C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd57C(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD57C\"\n" +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -448,7 +478,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd58(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd58(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD58\" " +
                 "(\"Id\", \"Nilai\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", " +
@@ -474,7 +505,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd59(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd59(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD59\" " +
                 "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", " +
@@ -501,7 +533,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510A(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510A(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510A\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -538,7 +571,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510B(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510B(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510B\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -575,7 +609,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510C(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510C(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510C\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -611,7 +646,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510D(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510D(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510D\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"NamaNasabah\", \"Tahun\", " +
@@ -645,7 +681,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510E(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510E(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510E\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
@@ -675,7 +712,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510F(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510F(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510F\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -711,7 +749,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510G(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510G(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510G\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -746,7 +785,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510H(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510H(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510H\"\n" +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -780,7 +820,8 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
-    private static void insertDataTrVd510I(Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
+    private static void insertDataTrVd510I(
+            Connection conn, MkbTransformDto dto, LogUtil log, String functionName, Logger logger)
             throws Exception {
         String insertQuery = "INSERT INTO public.\"Tr_VD510I\"\n" +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", " +
@@ -807,6 +848,157 @@ public class ProcessService {
             stmt.setBigDecimal(12, temp.getNilaiRankingLiabilitas());
             stmt.setTimestamp(13, Timestamp.valueOf(temp.getCreatedAt()));
             stmt.setString(14, temp.getCreatedBy());
+            stmt.addBatch();
+        }
+        stmt.executeUpdate();
+    }
+
+    private static String getJenisUsahaPPE(
+            Connection conn,
+            MkbTransformDto dto,
+            LogUtil log,
+            String functionName,
+            Logger logger)
+            throws SQLException {
+        String result = "";
+        String query = "SELECT " +
+                "    CASE " +
+                "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =false AND \"IsPEE\"=false " +
+                "        THEN 'NON AB' " +
+                "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =false AND \"IsPEE\"=true " +
+                "        THEN 'NON AB' " +
+                "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND  \"IsPEE\"=false AND \"IsMI\" =false " +
+                "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =true AND  \"IsPEE\"=false AND \"IsMI\" =false " +
+                "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =true AND  \"IsPEE\"=false AND \"IsMI\" =true " +
+                "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND \"IsPEE\"=false AND \"IsMI\" =true " +
+                "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND \"IsPEE\"=false AND \"IsMI\" =false " +
+                "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND \"IsPEE\"=true AND \"IsMI\" =false " +
+                "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND \"IsPEE\"=true AND \"IsMI\" =true " +
+                "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =false AND \"IsPEE\"=true AND \"IsMI\" =false " +
+                "        THEN 'PEE' " +
+                "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =false AND \"IsPEE\"=false AND \"IsMI\" =false " +
+                "             AND \"IsPED\" = true " +
+                "        THEN 'PED' " +
+                "        ELSE 'NONE' " +
+                "    END AS jenis_usaha_pe " +
+                "FROM \"Ms_Pe\" " +
+                "WHERE \"Kode\"= ?";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getString("jenis_usaha_pe");
+        }
+
+        return result;
+    }
+
+    private static String getJenisUsahaMI(
+            Connection conn,
+            MkbTransformDto dto,
+            LogUtil log,
+            String functionName,
+            Logger logger)
+            throws SQLException {
+        String result = "";
+        String query = "SELECT " +
+                "    CASE WHEN \"IsMI\" = true " +
+                "        THEN 'MI' " +
+                "        ELSE 'NONE' " +
+                "    END AS jenis_usaha_mi " +
+                "FROM \"Ms_Pe\" " +
+                "WHERE \"Kode\" = ?";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getString("jenis_usaha_mi");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiBigDecimalByParameter(
+            Connection conn,
+            MkbTransformDto dto,
+            LogUtil log,
+            String functionName,
+            Logger logger,
+            String jenisUsaha)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "SELECT CAST(mp.\"Value\" AS FLOAT) as nilai " +
+                "FROM \"Ms_Parameter\" mp  WHERE \"Name\" = ?";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, jenisUsaha);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static void updateNilaiTransaksiKpeiByJenisUsaha(
+            Connection conn,
+            MkbTransformDto dto,
+            LogUtil log,
+            String functionName,
+            Logger logger,
+            String jenisUsahaPpe,
+            String jenisUsahaMi,
+            BigDecimal nilaiPpe,
+            BigDecimal nilaiMi) throws SQLException {
+        String[] kodeAkunArr = {"VD58.18", "VD58.22"};
+
+        String updateQuery = "UPDATE public.\"Tr_VD58_KPEI\" " +
+                "SET \"Nilai\"= ? " +
+                "WHERE \"Tahun\"= ? AND \"Bulan\"= ? AND \"Tanggal\"= ? " +
+                "AND \"KodePe\"= ? AND \"KodeAkun\"= ? ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(updateQuery);
+        for (String kodeAKun : kodeAkunArr) {
+            if (kodeAKun.equalsIgnoreCase("VD58.18")) {
+                if (!jenisUsahaPpe.equalsIgnoreCase("NONE")) {
+                    stmt.setBigDecimal(1, nilaiPpe);
+                } else {
+                    stmt.setBigDecimal(1, new BigDecimal(0));
+                }
+            } else if (kodeAKun.equalsIgnoreCase("VD58.22")) {
+                if (!jenisUsahaMi.equalsIgnoreCase("NONE")) {
+                    stmt.setBigDecimal(1, nilaiMi);
+                } else {
+                    stmt.setBigDecimal(1, new BigDecimal(0));
+                }
+            }
+
+            stmt.setInt(2, dto.getTahun());
+            stmt.setInt(3, dto.getBulan());
+            stmt.setInt(4, dto.getTanggal());
+            stmt.setString(5, dto.getKodePe());
+            stmt.setString(6, kodeAKun);
+
             stmt.addBatch();
         }
         stmt.executeUpdate();
