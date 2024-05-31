@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ProcessService {
     private static String functionName = "";
@@ -21,7 +23,7 @@ public class ProcessService {
             processInsertCurrent(conn, dto, log, logger);
             processInsertCurrentKPEI(conn, dto, log, logger);
             processKPEI(conn, dto, log, logger);
-//            processPerhitungan(conn, dto, log, logger);
+            processPerhitungan(conn, dto, log, logger);
 
             conn.commit();
         } catch (Exception e) {
@@ -41,182 +43,6 @@ public class ProcessService {
                 }
             }
         }
-    }
-
-    private static void processPerhitungan(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws Exception {
-        log.process(dto.getUsername(), dto.getFilename(), "Perhitungan Process Started");
-        logger.info("=========== Perhitungan Process Started ===========");
-
-        functionName = "Get Jenis Usaha PPE";
-        String jenisUsahaPpe = getJenisUsahaPPE(conn, dto, log, logger);
-
-        functionName = "Get Jenis Usaha MI";
-        String jenisUsahaMi = getJenisUsahaMI(conn, dto, log, logger);
-
-        String jenis = "";
-        if (jenisUsahaPpe.equalsIgnoreCase("NONE") && jenisUsahaMi.equalsIgnoreCase("NONE")) {
-            jenis = "NON AB";
-        } else if (!jenisUsahaMi.equalsIgnoreCase("NONE")) {
-            jenis = jenisUsahaPpe + jenisUsahaMi;
-        } else {
-            jenis = jenisUsahaPpe;
-        }
-
-        functionName = "Get NIlai Min Ppe";
-        BigDecimal nilaiMinPpe = getNilaiMinPPE(conn, dto, log, logger);
-
-        functionName = "Get NIlai Min MI";
-        BigDecimal nilaiMinMi = getNilaiMinMI(conn, dto, log, logger);
-
-        functionName = "Get NIlai Persentase Total Kewajiban";
-        BigDecimal persentaseTotalKewajiban = getNilaiPersentaseTotalKewajiban(conn, dto, log, logger);
-
-        functionName = "Get NIlai Persentase MI";
-        BigDecimal persentaseMi = getNilaiPersentaseMI(conn, dto, log, logger);
-
-        functionName = "Get NIlai MKBD Dilaporkan";
-        BigDecimal mkbdDilaporkan = getNilaiMkbdDilaporkan(conn, dto, log, logger);
-
-        functionName = "Get NIlai MKBD Dipersyaratkan";
-        BigDecimal mkbdDipersyaratkan = getNilaiMkbdDipersyaratkan(conn, dto, log, logger);
-
-        log.process(dto.getUsername(), dto.getFilename(), "Perhitungan Process Finished");
-        logger.info("=========== Perhitungan Process finished ===========");
-    }
-
-    private static BigDecimal getNilaiMinPPE(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws SQLException {
-        BigDecimal result = null;
-        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
-                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
-                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
-                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.18' ";
-        logger.info(query);
-
-        log.process(dto.getUsername(), dto.getFilename(), functionName);
-        logger.info("Process " + functionName);
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1, dto.getKodePe());
-        ResultSet myRs = stmt.executeQuery();
-
-        while (myRs.next()) {
-            result = myRs.getBigDecimal("nilai");
-        }
-
-        return result;
-    }
-
-    private static BigDecimal getNilaiMinMI(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws SQLException {
-        BigDecimal result = null;
-        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
-                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
-                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
-                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.22' ";
-
-        log.process(dto.getUsername(), dto.getFilename(), functionName);
-        logger.info("Process " + functionName);
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1, dto.getKodePe());
-        ResultSet myRs = stmt.executeQuery();
-
-        while (myRs.next()) {
-            result = myRs.getBigDecimal("nilai");
-        }
-
-        return result;
-    }
-
-    private static BigDecimal getNilaiPersentaseTotalKewajiban(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws SQLException {
-        BigDecimal result = null;
-        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
-                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
-                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
-                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.19' ";
-
-        log.process(dto.getUsername(), dto.getFilename(), functionName);
-        logger.info("Process " + functionName);
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1, dto.getKodePe());
-        ResultSet myRs = stmt.executeQuery();
-
-        while (myRs.next()) {
-            result = myRs.getBigDecimal("nilai");
-        }
-
-        return result;
-    }
-
-    private static BigDecimal getNilaiPersentaseMI(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws SQLException {
-        BigDecimal result = null;
-        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
-                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
-                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
-                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.24' ";
-
-        log.process(dto.getUsername(), dto.getFilename(), functionName);
-        logger.info("Process " + functionName);
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1, dto.getKodePe());
-        ResultSet myRs = stmt.executeQuery();
-
-        while (myRs.next()) {
-            result = myRs.getBigDecimal("nilai");
-        }
-
-        return result;
-    }
-
-    private static BigDecimal getNilaiMkbdDilaporkan(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws SQLException {
-        BigDecimal result = null;
-        String query = "select \"Nilai\" as nilai from \"Tr_VD59_KPEI\" " +
-                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
-                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
-                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD59.102' ";
-
-        log.process(dto.getUsername(), dto.getFilename(), functionName);
-        logger.info("Process " + functionName);
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1, dto.getKodePe());
-        ResultSet myRs = stmt.executeQuery();
-
-        while (myRs.next()) {
-            result = myRs.getBigDecimal("nilai");
-        }
-
-        return result;
-    }
-
-    private static BigDecimal getNilaiMkbdDipersyaratkan(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws SQLException {
-        BigDecimal result = null;
-        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
-                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
-                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
-                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.26' ";
-
-        log.process(dto.getUsername(), dto.getFilename(), functionName);
-        logger.info("Process " + functionName);
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setString(1, dto.getKodePe());
-        ResultSet myRs = stmt.executeQuery();
-
-        while (myRs.next()) {
-            result = myRs.getBigDecimal("nilai");
-        }
-
-        return result;
     }
 
     private static void updateManagerName(
@@ -2146,5 +1972,274 @@ public class ProcessService {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.executeUpdate();
         }
+    }
+
+    private static void processPerhitungan(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws Exception {
+        log.process(dto.getUsername(), dto.getFilename(), "Perhitungan Process Started");
+        logger.info("=========== Perhitungan Process Started ===========");
+
+        functionName = "Get Jenis Usaha PPE";
+        String jenisUsahaPpe = getJenisUsahaPPE(conn, dto, log, logger);
+
+        functionName = "Get Jenis Usaha MI";
+        String jenisUsahaMi = getJenisUsahaMI(conn, dto, log, logger);
+
+        String jenis = "";
+        if (jenisUsahaPpe.equalsIgnoreCase("NONE") && jenisUsahaMi.equalsIgnoreCase("NONE")) {
+            jenis = "NON AB";
+        } else if (!jenisUsahaMi.equalsIgnoreCase("NONE")) {
+            jenis = jenisUsahaPpe + jenisUsahaMi;
+        } else {
+            jenis = jenisUsahaPpe;
+        }
+
+        functionName = "Get NIlai Min Ppe";
+        BigDecimal nilaiMinPpe = getNilaiMinPPE(conn, dto, log, logger);
+
+        functionName = "Get NIlai Min MI";
+        BigDecimal nilaiMinMi = getNilaiMinMI(conn, dto, log, logger);
+
+        functionName = "Get NIlai Persentase Total Kewajiban";
+        BigDecimal persentaseTotalKewajiban = getNilaiPersentaseTotalKewajiban(conn, dto, log, logger);
+
+        functionName = "Get NIlai Persentase MI";
+        BigDecimal persentaseMi = getNilaiPersentaseMI(conn, dto, log, logger);
+
+        functionName = "Get NIlai MKBD Dilaporkan";
+        BigDecimal mkbdDilaporkan = getNilaiMkbdDilaporkan(conn, dto, log, logger);
+
+        functionName = "Get NIlai MKBD Dipersyaratkan";
+        BigDecimal mkbdDipersyaratkan = getNilaiMkbdDipersyaratkan(conn, dto, log, logger);
+
+        functionName = "Get Count Row Perhitungan MKBD";
+        Integer countRowPerhitunganMkbd = getCountPerhitunganMKBD(conn, dto, log, logger);
+
+        Integer memenuhi = 0;
+        if (mkbdDilaporkan.compareTo(mkbdDipersyaratkan) > 0) {
+            memenuhi = 1;
+        }
+
+        functionName = "Insert or Update Perhitungan MKBD";
+        processInsertOrUpdatePerhitunganMKBD(conn, dto, log, logger,
+                nilaiMinPpe, nilaiMinMi, persentaseTotalKewajiban,
+                persentaseMi, mkbdDilaporkan, mkbdDipersyaratkan, memenuhi, jenis, countRowPerhitunganMkbd);
+
+        log.process(dto.getUsername(), dto.getFilename(), "Perhitungan Process Finished");
+        logger.info("=========== Perhitungan Process finished ===========");
+    }
+
+    private static BigDecimal getNilaiMinPPE(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.18' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiMinMI(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.22' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiPersentaseTotalKewajiban(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.19' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiPersentaseMI(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.24' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiMkbdDilaporkan(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Total\" as nilai from \"Tr_VD59_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD59.102' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiMkbdDipersyaratkan(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.26' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static Integer getCountPerhitunganMKBD(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        Integer result = null;
+        String query = "select count(*) as amount from \"Ms_PerhitunganMkbd\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "'";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getInt("amount");
+        }
+
+        return result;
+    }
+
+    private static void processInsertOrUpdatePerhitunganMKBD(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger,
+            BigDecimal minPe, BigDecimal minMi, BigDecimal persentaseTotalKewajiban,
+            BigDecimal persentaseMi, BigDecimal mkbdDilaporkan, BigDecimal mkbdDipersyaratkan,
+            Integer memenuhi, String jenisUsaha, Integer countRow
+    ) throws Exception {
+        if (countRow > 0) {
+            log.process(dto.getUsername(), dto.getFilename(), functionName + " - Update applied");
+            logger.info("Process " + functionName + " - Update applied");
+            String query = "UPDATE public.\"Ms_PerhitunganMkbd\" " +
+                    "SET \"JenisUsaha\"=?, \"MinMKBD_PE\"=?, \"MinMKBD_MI\"=?, \"Persentase_TotalKewajiban\"=?, " +
+                    "\"Persentase_TotalDanaMI\"=?, \"MKBD_Dilaporkan\"=?, \"MKBD_Dipersyaratkan\"=?, " +
+                    "\"Memenuhi\"=?, \"ModifiedAt\"=?, \"ModifiedBy\"=? " +
+                    "WHERE \"KodePe\"=? and \"Tahun\"=? and \"Bulan\"=? and \"Tanggal\"=?";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, jenisUsaha);
+            stmt.setBigDecimal(2, minPe);
+            stmt.setBigDecimal(3, minMi);
+            stmt.setBigDecimal(4, persentaseTotalKewajiban);
+            stmt.setBigDecimal(5, persentaseMi);
+            stmt.setBigDecimal(6, mkbdDilaporkan);
+            stmt.setBigDecimal(7, mkbdDipersyaratkan);
+            stmt.setInt(8, memenuhi);
+            stmt.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setString(10, dto.getUserId());
+            stmt.setString(11, dto.getKodePe());
+            stmt.setInt(12, dto.getTahun());
+            stmt.setInt(13, dto.getBulan());
+            stmt.setInt(14, dto.getTanggal());
+
+            stmt.executeUpdate();
+        } else {
+            log.process(dto.getUsername(), dto.getFilename(), functionName + " - Insert applied");
+            logger.info("Process " + functionName + " - Insert applied");
+            String query = "INSERT INTO public.\"Ms_PerhitunganMkbd\" " +
+                    "(\"Id\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                    "\"JenisUsaha\", \"MinMKBD_PE\", \"MinMKBD_MI\", \"Persentase_TotalKewajiban\", " +
+                    "\"Persentase_TotalDanaMI\", \"MKBD_Dilaporkan\", \"MKBD_Dipersyaratkan\", \"Memenuhi\", " +
+                    "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, UUID.randomUUID().toString());
+            stmt.setString(2, dto.getKodePe());
+            stmt.setInt(3, dto.getTahun());
+            stmt.setInt(4, dto.getBulan());
+            stmt.setInt(5, dto.getTanggal());
+            stmt.setString(6, jenisUsaha);
+            stmt.setBigDecimal(7, minPe);
+            stmt.setBigDecimal(8, minMi);
+            stmt.setBigDecimal(9, persentaseTotalKewajiban);
+            stmt.setBigDecimal(10, persentaseMi);
+            stmt.setBigDecimal(11, mkbdDilaporkan);
+            stmt.setBigDecimal(12, mkbdDipersyaratkan);
+            stmt.setInt(13, memenuhi);
+            stmt.setTimestamp(14, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setString(15, dto.getUserId());
+            stmt.setTimestamp(16, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setString(17, dto.getUserId());
+
+            stmt.executeUpdate();
+        }
+
     }
 }
