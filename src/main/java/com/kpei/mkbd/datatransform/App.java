@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -53,7 +55,13 @@ public class App
         Connection finalConn = conn;
         service.submit(new Runnable() {
             public void run() {
+                LocalDateTime start = LocalDateTime.now();
+                logger.info("Background service started at " + LocalDateTime.now());
                 ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
+                logger.info("Background service finished at " + LocalDateTime.now());
+                LocalDateTime end = LocalDateTime.now();
+                Duration duration = Duration.between(start, end);
+                logger.info("Background service finished in " + duration.getSeconds() + "s");
                 service.shutdown();
             }
         });
