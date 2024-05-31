@@ -21,6 +21,7 @@ public class ProcessService {
             processInsertCurrent(conn, dto, log, logger);
             processInsertCurrentKPEI(conn, dto, log, logger);
             processKPEI(conn, dto, log, logger);
+//            processPerhitungan(conn, dto, log, logger);
 
             conn.commit();
         } catch (Exception e) {
@@ -40,6 +41,182 @@ public class ProcessService {
                 }
             }
         }
+    }
+
+    private static void processPerhitungan(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws Exception {
+        log.process(dto.getUsername(), dto.getFilename(), "Perhitungan Process Started");
+        logger.info("=========== Perhitungan Process Started ===========");
+
+        functionName = "Get Jenis Usaha PPE";
+        String jenisUsahaPpe = getJenisUsahaPPE(conn, dto, log, logger);
+
+        functionName = "Get Jenis Usaha MI";
+        String jenisUsahaMi = getJenisUsahaMI(conn, dto, log, logger);
+
+        String jenis = "";
+        if (jenisUsahaPpe.equalsIgnoreCase("NONE") && jenisUsahaMi.equalsIgnoreCase("NONE")) {
+            jenis = "NON AB";
+        } else if (!jenisUsahaMi.equalsIgnoreCase("NONE")) {
+            jenis = jenisUsahaPpe + jenisUsahaMi;
+        } else {
+            jenis = jenisUsahaPpe;
+        }
+
+        functionName = "Get NIlai Min Ppe";
+        BigDecimal nilaiMinPpe = getNilaiMinPPE(conn, dto, log, logger);
+
+        functionName = "Get NIlai Min MI";
+        BigDecimal nilaiMinMi = getNilaiMinMI(conn, dto, log, logger);
+
+        functionName = "Get NIlai Persentase Total Kewajiban";
+        BigDecimal persentaseTotalKewajiban = getNilaiPersentaseTotalKewajiban(conn, dto, log, logger);
+
+        functionName = "Get NIlai Persentase MI";
+        BigDecimal persentaseMi = getNilaiPersentaseMI(conn, dto, log, logger);
+
+        functionName = "Get NIlai MKBD Dilaporkan";
+        BigDecimal mkbdDilaporkan = getNilaiMkbdDilaporkan(conn, dto, log, logger);
+
+        functionName = "Get NIlai MKBD Dipersyaratkan";
+        BigDecimal mkbdDipersyaratkan = getNilaiMkbdDipersyaratkan(conn, dto, log, logger);
+
+        log.process(dto.getUsername(), dto.getFilename(), "Perhitungan Process Finished");
+        logger.info("=========== Perhitungan Process finished ===========");
+    }
+
+    private static BigDecimal getNilaiMinPPE(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.18' ";
+        logger.info(query);
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiMinMI(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.22' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiPersentaseTotalKewajiban(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.19' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiPersentaseMI(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.24' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiMkbdDilaporkan(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD59_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD59.102' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
+    }
+
+    private static BigDecimal getNilaiMkbdDipersyaratkan(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
+        BigDecimal result = null;
+        String query = "select \"Nilai\" as nilai from \"Tr_VD58_KPEI\" " +
+                "WHERE \"Tahun\"= " + dto.getTahun() + " AND \"Bulan\"= " + dto.getBulan() + " " +
+                "AND \"Tanggal\"= " + dto.getTanggal() + " " +
+                "AND \"KodePe\"= '" + dto.getKodePe() + "' AND \"KodeAkun\"= 'VD58.26' ";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, dto.getKodePe());
+        ResultSet myRs = stmt.executeQuery();
+
+        while (myRs.next()) {
+            result = myRs.getBigDecimal("nilai");
+        }
+
+        return result;
     }
 
     private static void updateManagerName(
@@ -159,7 +336,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd52(
@@ -186,7 +363,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd53(
@@ -213,7 +390,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd54(
@@ -248,7 +425,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd55(
@@ -284,7 +461,7 @@ public class ProcessService {
             stmt.setString(16, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd56A(
@@ -314,7 +491,7 @@ public class ProcessService {
             stmt.setString(11, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd56B(
@@ -345,7 +522,7 @@ public class ProcessService {
             stmt.setString(12, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd56C(
@@ -379,7 +556,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd57A(
@@ -409,7 +586,7 @@ public class ProcessService {
             stmt.setString(11, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd57B(
@@ -440,7 +617,7 @@ public class ProcessService {
             stmt.setString(12, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd57C(
@@ -472,7 +649,7 @@ public class ProcessService {
             stmt.setString(13, temp.getPenjelasan());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd58(
@@ -499,7 +676,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd59(
@@ -527,7 +704,7 @@ public class ProcessService {
             stmt.setString(10, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510A(
@@ -565,7 +742,7 @@ public class ProcessService {
             stmt.setString(18, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510B(
@@ -603,7 +780,7 @@ public class ProcessService {
             stmt.setString(18, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510C(
@@ -640,7 +817,7 @@ public class ProcessService {
             stmt.setString(17, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510D(
@@ -675,7 +852,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510E(
@@ -706,7 +883,7 @@ public class ProcessService {
             stmt.setString(12, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510F(
@@ -743,7 +920,7 @@ public class ProcessService {
             stmt.setString(17, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510G(
@@ -779,7 +956,7 @@ public class ProcessService {
             stmt.setString(16, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510H(
@@ -814,7 +991,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510I(
@@ -847,7 +1024,7 @@ public class ProcessService {
             stmt.setString(14, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void processInsertCurrentKPEI(
@@ -950,7 +1127,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd52KPEI(
@@ -977,7 +1154,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd53KPEI(
@@ -1004,7 +1181,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd54KPEI(
@@ -1039,7 +1216,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd55KPEI(
@@ -1075,7 +1252,7 @@ public class ProcessService {
             stmt.setString(16, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd56AKPEI(
@@ -1105,7 +1282,7 @@ public class ProcessService {
             stmt.setString(11, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd56BKPEI(
@@ -1136,7 +1313,7 @@ public class ProcessService {
             stmt.setString(12, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd56CKPEI(
@@ -1170,7 +1347,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd57AKPEI(
@@ -1200,7 +1377,7 @@ public class ProcessService {
             stmt.setString(11, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd57BKPEI(
@@ -1231,7 +1408,7 @@ public class ProcessService {
             stmt.setString(12, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd57CKPEI(
@@ -1263,7 +1440,7 @@ public class ProcessService {
             stmt.setString(13, temp.getPenjelasan());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd58KPEI(
@@ -1290,7 +1467,7 @@ public class ProcessService {
             stmt.setString(9, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd59KPEI(
@@ -1318,7 +1495,7 @@ public class ProcessService {
             stmt.setString(10, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510AKPEI(
@@ -1356,7 +1533,7 @@ public class ProcessService {
             stmt.setString(18, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510BKPEI(
@@ -1394,7 +1571,7 @@ public class ProcessService {
             stmt.setString(18, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510CKPEI(
@@ -1431,7 +1608,7 @@ public class ProcessService {
             stmt.setString(17, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510DKPEI(
@@ -1466,7 +1643,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510EKPEI(
@@ -1497,7 +1674,7 @@ public class ProcessService {
             stmt.setString(12, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510FKPEI(
@@ -1534,7 +1711,7 @@ public class ProcessService {
             stmt.setString(17, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510GKPEI(
@@ -1570,7 +1747,7 @@ public class ProcessService {
             stmt.setString(16, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510HKPEI(
@@ -1605,7 +1782,7 @@ public class ProcessService {
             stmt.setString(15, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void insertDataTrVd510IKPEI(
@@ -1638,7 +1815,7 @@ public class ProcessService {
             stmt.setString(14, temp.getCreatedBy());
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static void processKPEI(
@@ -1715,6 +1892,7 @@ public class ProcessService {
 
         while (myRs.next()) {
             result = myRs.getString("jenis_usaha_pe");
+            break;
         }
 
         return result;
@@ -1740,6 +1918,7 @@ public class ProcessService {
 
         while (myRs.next()) {
             result = myRs.getString("jenis_usaha_mi");
+            break;
         }
 
         return result;
@@ -1760,6 +1939,7 @@ public class ProcessService {
 
         while (myRs.next()) {
             result = myRs.getBigDecimal("nilai");
+            break;
         }
 
         return result;
@@ -1802,7 +1982,7 @@ public class ProcessService {
 
             stmt.addBatch();
         }
-        stmt.executeUpdate();
+        stmt.executeBatch();
     }
 
     private static List<FormulaAkun> getFormulaAkun(
