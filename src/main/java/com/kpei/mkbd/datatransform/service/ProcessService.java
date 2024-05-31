@@ -16,29 +16,11 @@ public class ProcessService {
     public static void processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
         try {
             conn.setAutoCommit(false);
+
             updateManagerName(conn, dto, log, logger);
             processInsertCurrent(conn, dto, log, logger);
             processInsertCurrentKPEI(conn, dto, log, logger);
-
-            functionName = "Get Jenis Usaha PPE";
-            String jenisUsahaPpe = getJenisUsahaPPE(conn, dto, log, logger);
-
-            functionName = "Get Jenis Usaha MI";
-            String jenisUsahaMi = getJenisUsahaMI(conn, dto, log, logger);
-
-            functionName = "Get Nilai PPE";
-            BigDecimal nilaiPpe = getNilaiBigDecimalByParameter(conn, dto, log, logger, jenisUsahaPpe);
-
-            functionName = "Get Nilai MI";
-            BigDecimal nilaiMi = getNilaiBigDecimalByParameter(conn, dto, log, logger, jenisUsahaMi);
-
-            functionName = "Update Nilai Transaksi Table Tr_VD58_KPEI based on Jenis Usaha";
-            updateNilaiTransaksiKpeiByJenisUsaha(
-                    conn, dto, log, logger, jenisUsahaPpe, jenisUsahaMi, nilaiPpe, nilaiMi);
-
-            functionName = "Get List Formula Akun";
-            List<FormulaAkun> formulaAkun = getFormulaAkun(conn, dto, log, logger);
-            logger.info(formulaAkun.size() + " item");
+            processKPEI(conn, dto, log, logger);
 
             conn.commit();
         } catch (Exception e) {
@@ -151,82 +133,6 @@ public class ProcessService {
 
         log.process(dto.getUsername(), dto.getFilename(), "Insert Current Process Finished");
         logger.info("=========== Insert Current Process Finished ===========");
-    }
-
-    private static void processInsertCurrentKPEI(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
-            throws Exception {
-        log.process(dto.getUsername(), dto.getFilename(), "Insert Current KPEI Process Started");
-        logger.info("========= Insert Current KPEI Process Started =========");
-
-        functionName = "Inserting data Tr_VD51_KPEI";
-        insertDataTrVd51KPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD52_KPEI";
-        insertDataTrVd52KPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD53_KPEI";
-        insertDataTrVd53KPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD54_KPEI";
-        insertDataTrVd54KPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD55_KPEI";
-        insertDataTrVd55KPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD56A_KPEI";
-        insertDataTrVd56AKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD56B_KPEI";
-        insertDataTrVd56BKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD56C_KPEI";
-        insertDataTrVd56CKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD57A_KPEI";
-        insertDataTrVd57AKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_D57B_KPEI";
-        insertDataTrVd57BKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD57C_KPEI";
-        insertDataTrVd57CKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD58_KPEI";
-        insertDataTrVd58KPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD59_KPEI";
-        insertDataTrVd59KPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510A_KPEI";
-        insertDataTrVd510AKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510B_KPEI";
-        insertDataTrVd510BKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510C_KPEI";
-        insertDataTrVd510CKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510D_KPEI";
-        insertDataTrVd510DKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510E_KPEI";
-        insertDataTrVd510EKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510F_KPEI";
-        insertDataTrVd510FKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510G_KPEI";
-        insertDataTrVd510GKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510H_KPEI";
-        insertDataTrVd510HKPEI(conn, dto, log, logger);
-
-        functionName = "Inserting data Tr_VD510I_KPEI";
-        insertDataTrVd510IKPEI(conn, dto, log, logger);
-
-        log.process(dto.getUsername(), dto.getFilename(), "Insert Current KPEI Process Finished");
-        logger.info("========= Insert Current KPEI Process Finished =========");
     }
 
     private static void insertDataTrVd51(
@@ -944,6 +850,82 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
+    private static void processInsertCurrentKPEI(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws Exception {
+        log.process(dto.getUsername(), dto.getFilename(), "Insert Current KPEI Process Started");
+        logger.info("========= Insert Current KPEI Process Started =========");
+
+        functionName = "Inserting data Tr_VD51_KPEI";
+        insertDataTrVd51KPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD52_KPEI";
+        insertDataTrVd52KPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD53_KPEI";
+        insertDataTrVd53KPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD54_KPEI";
+        insertDataTrVd54KPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD55_KPEI";
+        insertDataTrVd55KPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD56A_KPEI";
+        insertDataTrVd56AKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD56B_KPEI";
+        insertDataTrVd56BKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD56C_KPEI";
+        insertDataTrVd56CKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD57A_KPEI";
+        insertDataTrVd57AKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_D57B_KPEI";
+        insertDataTrVd57BKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD57C_KPEI";
+        insertDataTrVd57CKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD58_KPEI";
+        insertDataTrVd58KPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD59_KPEI";
+        insertDataTrVd59KPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510A_KPEI";
+        insertDataTrVd510AKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510B_KPEI";
+        insertDataTrVd510BKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510C_KPEI";
+        insertDataTrVd510CKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510D_KPEI";
+        insertDataTrVd510DKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510E_KPEI";
+        insertDataTrVd510EKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510F_KPEI";
+        insertDataTrVd510FKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510G_KPEI";
+        insertDataTrVd510GKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510H_KPEI";
+        insertDataTrVd510HKPEI(conn, dto, log, logger);
+
+        functionName = "Inserting data Tr_VD510I_KPEI";
+        insertDataTrVd510IKPEI(conn, dto, log, logger);
+
+        log.process(dto.getUsername(), dto.getFilename(), "Insert Current KPEI Process Finished");
+        logger.info("========= Insert Current KPEI Process Finished =========");
+    }
+
     private static void insertDataTrVd51KPEI(
             Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
             throws Exception {
@@ -1659,11 +1641,40 @@ public class ProcessService {
         stmt.executeUpdate();
     }
 
+    private static void processKPEI(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws Exception {
+        log.process(dto.getUsername(), dto.getFilename(), "Update KPEI Process Started");
+        logger.info("=========== Update KPEI Process Started ===========");
+
+        functionName = "Get Jenis Usaha PPE";
+        String jenisUsahaPpe = getJenisUsahaPPE(conn, dto, log, logger);
+
+        functionName = "Get Jenis Usaha MI";
+        String jenisUsahaMi = getJenisUsahaMI(conn, dto, log, logger);
+
+        functionName = "Get Nilai PPE";
+        BigDecimal nilaiPpe = getNilaiBigDecimalByParameter(conn, dto, log, logger, jenisUsahaPpe);
+
+        functionName = "Get Nilai MI";
+        BigDecimal nilaiMi = getNilaiBigDecimalByParameter(conn, dto, log, logger, jenisUsahaMi);
+
+        functionName = "Update Nilai Transaksi Table Tr_VD58_KPEI based on Jenis Usaha";
+        updateNilaiTransaksiKpeiByJenisUsaha(
+                conn, dto, log, logger, jenisUsahaPpe, jenisUsahaMi, nilaiPpe, nilaiMi);
+
+        functionName = "Get List Formula Akun";
+        List<FormulaAkun> formulaAkun = getFormulaAkun(conn, dto, log, logger);
+
+        functionName = "Updated data Tr_VD_KPEI";
+        processUpdateByFormula(conn, dto, log, logger, formulaAkun);
+
+        log.process(dto.getUsername(), dto.getFilename(), "Update KPEI Process Finished");
+        logger.info("=========== Update KPEI Process finished ===========");
+    }
+
     private static String getJenisUsahaPPE(
-            Connection conn,
-            MkbTransformDto dto,
-            LogUtil log,
-            Logger logger)
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
             throws SQLException {
         String result = "";
         String query = "SELECT " +
@@ -1710,10 +1721,7 @@ public class ProcessService {
     }
 
     private static String getJenisUsahaMI(
-            Connection conn,
-            MkbTransformDto dto,
-            LogUtil log,
-            Logger logger)
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
             throws SQLException {
         String result = "";
         String query = "SELECT " +
@@ -1738,11 +1746,7 @@ public class ProcessService {
     }
 
     private static BigDecimal getNilaiBigDecimalByParameter(
-            Connection conn,
-            MkbTransformDto dto,
-            LogUtil log,
-            Logger logger,
-            String jenisUsaha)
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger, String jenisUsaha)
             throws SQLException {
         BigDecimal result = null;
         String query = "SELECT CAST(mp.\"Value\" AS FLOAT) as nilai " +
@@ -1762,14 +1766,9 @@ public class ProcessService {
     }
 
     private static void updateNilaiTransaksiKpeiByJenisUsaha(
-            Connection conn,
-            MkbTransformDto dto,
-            LogUtil log,
-            Logger logger,
-            String jenisUsahaPpe,
-            String jenisUsahaMi,
-            BigDecimal nilaiPpe,
-            BigDecimal nilaiMi) throws SQLException {
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger, String jenisUsahaPpe,
+            String jenisUsahaMi, BigDecimal nilaiPpe, BigDecimal nilaiMi)
+            throws SQLException {
         String[] kodeAkunArr = {"VD58.18", "VD58.22"};
 
         String updateQuery = "UPDATE public.\"Tr_VD58_KPEI\" " +
@@ -1807,7 +1806,8 @@ public class ProcessService {
     }
 
     private static List<FormulaAkun> getFormulaAkun(
-            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws SQLException {
         List<FormulaAkun> result = new ArrayList<>();
 
         String query = "select kode_akun, tabel, mf.\"KdFormula\" as kd_formula, a.kolom_a as kolom " +
@@ -1850,10 +1850,121 @@ public class ProcessService {
                     .tabel(myRs.getString("tabel"))
                     .kodeAkun(myRs.getString("kode_akun"))
                     .kdFormula(myRs.getString("kd_formula"))
-                    .kolom(myRs.getString("koloma"))
+                    .kolom(myRs.getString("kolom"))
                     .build());
         }
 
         return result;
+    }
+
+    private static void processUpdateByFormula(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger, List<FormulaAkun> list)
+            throws SQLException {
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName + ". Please waiting...");
+
+        int tahun = dto.getTahun();
+        int bulan = dto.getBulan();
+        int tanggal = dto.getTanggal();
+
+        List<String> table59a = new ArrayList<>();
+        List<String> table59b = new ArrayList<>();
+
+        for (FormulaAkun item : list) {
+            String query1 = "update \"Tr_" + item.getTabel() + "_KPEI\" " +
+                    "set \"CreatedAt\" = now(), \"" + item.getKolom() + "\" = " +
+                    "(select coalesce(\"Nilai\", 0) from vw_" + item.getKdFormula().toLowerCase() + "_kpei " +
+                    "where \"KodePe\" = '" + dto.getKodePe() + "' and \"Tanggal\" = "+ dto.getTanggal() + " " +
+                    "and \"Bulan\" = " + dto.getBulan() + " and \"Tahun\" = " + dto.getTahun() + ") " +
+                    "where \"KodeAkun\" = '" + item.getKodeAkun() + "' and \"KodePe\" = '" + dto.getKodePe() + "' " +
+                    "and \"Tanggal\" = " + dto.getTanggal() + " and \"Bulan\" = " + dto.getBulan() + " " +
+                    "and \"Tahun\" = " + dto.getTahun();
+
+            String query2 = "update \"Tr_" + item.getTabel() + "_KPEI\" " +
+                    "set \"" + item.getKolom() + "\" = 0 " +
+                    "where \"KodeAkun\" = '" + item.getKodeAkun() + "' and \"KodePe\" = '" + dto.getKodePe() + "' " +
+                    "and \"Tanggal\" = " + dto.getTanggal() + " and \"Bulan\" = " + dto.getBulan() + " " +
+                    "and \"Tahun\" = " + dto.getTahun();
+
+            String kodeAkun = item.getKodeAkun();
+            String kolom = item.getKolom();
+            String viewName = "vw_" + item.getKdFormula().toLowerCase() + "_kpei";
+
+            String checkViewQuery = "SELECT EXISTS (" +
+                    "    SELECT 1 " +
+                    "    FROM pg_views " +
+                    "    WHERE viewname = '" + viewName + "'" +
+                    ") AS is_exists";
+
+            PreparedStatement stmtCheck = conn.prepareStatement(checkViewQuery);
+            ResultSet checkQueryRes = stmtCheck.executeQuery();
+
+            boolean isViewExist = false;
+            while (checkQueryRes.next()) {
+                isViewExist = checkQueryRes.getBoolean("is_exists");
+            }
+
+            String countRowInView = "select count(*) as total from " + viewName + " " +
+                    "where \"KodePe\" = '" + dto.getKodePe() + "' " +
+                    "and \"Tanggal\" = " + tanggal + " and \"Bulan\" = " + bulan + " " +
+                    "and \"Tahun\" = " + tahun;
+
+            PreparedStatement stmtCount = conn.prepareStatement(countRowInView);
+            ResultSet countQueryRes = stmtCount.executeQuery();
+
+            int countResult = 0;
+            while (countQueryRes.next()) {
+                countResult = countQueryRes.getInt("total");
+            }
+
+            if (kodeAkun.equalsIgnoreCase("VD59.96") ||
+                    kodeAkun.equalsIgnoreCase("VD59.97") ||
+                    kodeAkun.equalsIgnoreCase("VD59.98") ||
+                    kodeAkun.equalsIgnoreCase("VD59.99")) {
+                table59a.add(kodeAkun + "||" + kolom + "||" + query1);
+            }
+
+            if (kodeAkun.equalsIgnoreCase("VD59.101") ||
+                    kodeAkun.equalsIgnoreCase("VD59.102") ||
+                    kodeAkun.equalsIgnoreCase("VD59.103") ||
+                    kodeAkun.equalsIgnoreCase("VD59.104")) {
+                table59b.add(kodeAkun + "|" + kolom + "|" + query1);
+            }
+
+            if (isViewExist) {
+                PreparedStatement stmt = null;
+                if (countResult == 1) {
+                    stmt = conn.prepareStatement(query1);
+                } else {
+                    stmt = conn.prepareStatement(query2);
+                }
+                stmt.executeUpdate();
+            }
+        }
+
+        for(String item : table59a) {
+            String[] arr = item.split("\\|");
+            String akun = arr[0];
+            String kolom = arr[1];
+            String query = arr[2];
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.executeUpdate();
+
+            String queryUpdateNew = "update \"Tr_VD59_KPEI\" " +
+                    "set \"" + kolom + "\" = 0 " +
+                    "where \"KodeAkun\" = '" + akun + "' and \"KodePe\" = '" + dto.getKodePe() + "' " +
+                    "and \"Tanggal\" = " + tanggal + " and \"Bulan\" = " + bulan + " " +
+                    "and \"Tahun\" = " + tahun + " and \"" + kolom + "\" < 0";
+
+            stmt = conn.prepareStatement(queryUpdateNew);
+            stmt.executeUpdate();
+        }
+
+        for(String item : table59b) {
+            String[] arr = item.split("\\|");
+            String query = arr[2];
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.executeUpdate();
+        }
     }
 }
