@@ -577,7 +577,8 @@ public class ProcessService {
         String insertQuery = "INSERT INTO public.\"Tr_VD510B\" " +
                 "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", " +
                 "\"Bulan\", \"Tanggal\", \"Penjual\", \"TanggalPembelian\", \"TanggalPenjualan\", " +
-                "\"NilaiPembelian\", \"NilaiPenjualan\", \"KodeEfekKolateral\", \"JumlahJaminan\", \"NilaiPasarWajar\", " +
+                "\"NilaiPembelian\", \"NilaiPenjualan\", \"KodeEfekKolateral\", \"JumlahJaminan\", " +
+                "\"NilaiPasarWajar\", " +
                 "\"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\") " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
