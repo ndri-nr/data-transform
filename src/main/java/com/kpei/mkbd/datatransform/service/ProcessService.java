@@ -25,6 +25,7 @@ public class ProcessService {
             processKPEI(conn, dto, log, logger);
             processPerhitungan(conn, dto, log, logger);
             processHistorical(conn, dto, log, logger);
+            processHistoricalKPEI(conn, dto, log, logger);
 
             conn.commit();
         } catch (Exception e) {
@@ -2794,6 +2795,566 @@ public class ProcessService {
                 "\"UntungRugiBelumTerealisasi\", \"NilaiRankingLiabilitas\", \"CreatedAt\", " +
                 "\"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
                 "FROM \"Tr_VD510I\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processHistoricalKPEI(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger)
+            throws Exception {
+        log.process(dto.getUsername(), dto.getFilename(), "Historical KPEI Process Started");
+        logger.info("=========== Historical KPEI Process Started ===========");
+
+        functionName = "Insert VD51 KPEI History Data";
+        processVd51KpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD52 KPEI History Data";
+        processVd52KpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD53 KPEI History Data";
+        processVd53KpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD54 KPEI History Data";
+        processVd54KpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD55 KPEI History Data";
+        processVd55KpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD56A KPEI History Data";
+        processVd56AKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD56B KPEI History Data";
+        processVd56BKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD56C KPEI History Data";
+        processVd56CKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD57A KPEI History Data";
+        processVd57AKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD57B KPEI History Data";
+        processVd57BKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD57C KPEI History Data";
+        processVd57CKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD58 KPEI History Data";
+        processVd58KpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD59 KPEI History Data";
+        processVd59KpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510A KPEI History Data";
+        processVd510AKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510B KPEI History Data";
+        processVd510BKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510C KPEI History Data";
+        processVd510CKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510D KPEI History Data";
+        processVd510DKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510E KPEI History Data";
+        processVd510EKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510F KPEI History Data";
+        processVd510FKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510G KPEI History Data";
+        processVd510GKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510H KPEI History Data";
+        processVd510HKpeiHist(conn, dto, log, logger);
+
+        functionName = "Insert VD510I KPEI History Data";
+        processVd510IKpeiHist(conn, dto, log, logger);
+
+        log.process(dto.getUsername(), dto.getFilename(), "Historical KPEI Process Finished");
+        logger.info("=========== Historical KPEI Process finished ===========");
+    }
+
+    private static void processVd51KpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD51_KPEI_Hist\" " +
+                "(\"Id\", \"Saldo\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", \"KodeAkun\", \"CreatedAt\", " +
+                "\"ModifiedAt\", \"CreatedBy\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Saldo\", \"Tanggal\", \"Bulan\", \"Tahun\", \"KodePe\", \"KodeAkun\", \"CreatedAt\", " +
+                "\"ModifiedAt\", \"CreatedBy\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD51_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd52KpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD52_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"KodeAkun\", \"CreatedAt\", " +
+                "\"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"KodeAkun\", \"CreatedAt\", " +
+                "\"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD52_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd53KpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD53_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"NilaiDitambahkan\", \"KodeAkun\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"NilaiDitambahkan\", \"KodeAkun\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD53_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd54KpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD54_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"KodeJenisReksadana\", " +
+                "\"NamaJenisReksadana\", \"IsAfiliasi\", \"NilaiAktivaBersihUnit\", \"NilaiAktivaBersihReksadana\", " +
+                "\"BatasanMkbd\", \"KelebihanMkbd\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"KodeJenisReksadana\", " +
+                "\"NamaJenisReksadana\", \"IsAfiliasi\", \"NilaiAktivaBersihUnit\", \"NilaiAktivaBersihReksadana\", " +
+                "\"BatasanMkbd\", \"KelebihanMkbd\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD54_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd55KpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD55_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"KodeEfek\", \"NilaiEfek\", " +
+                "\"KodeEfekLN\", \"NilaiEfekLN\", \"NilaiEfekTutupLN\", \"NilaiHaircutTutupLN\", \"NilaiHaircutLN\", " +
+                "\"JmlPengembalianHaircut\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"KodeEfek\", \"NilaiEfek\", " +
+                "\"KodeEfekLN\", \"NilaiEfekLN\", \"NilaiEfekTutupLN\", \"NilaiHaircutTutupLN\", \"NilaiHaircutLN\", " +
+                "\"JmlPengembalianHaircut\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD55_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd56AKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD56A_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Terafiliasi\", " +
+                "\"TidakTerafiliasi\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Terafiliasi\", " +
+                "\"TidakTerafiliasi\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD56A_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd56BKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD56B_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Dimiliki\", \"Dipisahkan\", " +
+                "\"TidakDipisahkan\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Dimiliki\", \"Dipisahkan\", " +
+                "\"TidakDipisahkan\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD56B_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd56CKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD56C_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"KodeBank\", \"Saldo\", " +
+                "\"IsSendiriNasabah\", \"NoRekening\", \"KodeCurrency\", \"SaldoRupiah\", \"Penjelasan\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"KodeBank\", \"Saldo\", " +
+                "\"IsSendiriNasabah\", \"NoRekening\", \"KodeCurrency\", \"SaldoRupiah\", \"Penjelasan\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD56C_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd57AKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD57A_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Terafiliasi\", " +
+                "\"TidakTerafiliasi\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Terafiliasi\", " +
+                "\"TidakTerafiliasi\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD57A_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd57BKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD57B_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Dimiliki\", " +
+                "\"Dipisahkan\", \"TidakDipisahkan\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", " +
+                "\"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"Dimiliki\", " +
+                "\"Dipisahkan\", \"TidakDipisahkan\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", " +
+                "\"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD57B_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd57CKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD57C_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"LmHrKerja\", " +
+                "\"Dimiliki\", \"Dipisahkan\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", " +
+                "\"ModifiedAt\", \"ModifiedBy\", \"Penjelasan\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Saldo\", \"LmHrKerja\", " +
+                "\"Dimiliki\", \"Dipisahkan\", \"KodeAkun\", \"CreatedAt\", \"CreatedBy\", " +
+                "\"ModifiedAt\", \"ModifiedBy\", \"Penjelasan\" " +
+                "FROM \"Tr_VD57C_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd58KpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD58_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Nilai\", \"KodeAkun\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"Nilai\", \"KodeAkun\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD58_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd59KpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD59_KPEI_Hist\" " +
+                "(\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"Jumlah\", " +
+                "\"Total\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"Tahun\", \"Bulan\", \"Tanggal\", \"KodePe\", \"KodeAkun\", \"Jumlah\", " +
+                "\"Total\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD59_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510AKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510A_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Pembeli\", \"TanggalPembelian\", \"TanggalPenjualan\", \"NilaiPembelian\", \"NilaiPenjualan\", " +
+                "\"KodeEfekKolateral\", \"JumlahJaminan\", \"NilaiPasarWajar\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\", \"Prev_ID\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Pembeli\", \"TanggalPembelian\", \"TanggalPenjualan\", \"NilaiPembelian\", \"NilaiPenjualan\", " +
+                "\"KodeEfekKolateral\", \"JumlahJaminan\", \"NilaiPasarWajar\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\", \"Prev_ID\" " +
+                "FROM \"Tr_VD510A_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510BKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510B_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Penjual\", \"TanggalPembelian\", \"TanggalPenjualan\", \"NilaiPembelian\", \"NilaiPenjualan\", " +
+                "\"KodeEfekKolateral\", \"JumlahJaminan\", \"NilaiPasarWajar\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Penjual\", \"TanggalPembelian\", \"TanggalPenjualan\", \"NilaiPembelian\", \"NilaiPenjualan\", " +
+                "\"KodeEfekKolateral\", \"JumlahJaminan\", \"NilaiPasarWajar\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510B_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510CKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510C_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Terafiliasi\", \"GrupEmiten\", \"PersentaseNilaiPasar\", \"LembarNominal\", " +
+                "\"HargaPerolehan\", \"HargaPasarWajar\", \"NilaiPasarWajar\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Terafiliasi\", \"GrupEmiten\", \"PersentaseNilaiPasar\", \"LembarNominal\", " +
+                "\"HargaPerolehan\", \"HargaPasarWajar\", \"NilaiPasarWajar\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510C_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510DKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510D_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"NamaNasabah\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"MarginSelling\", \"NilaiPembiayaan\", \"NilaiJaminan\", \"RasioPembiayaan\", " +
+                "\"NilaiRankingLiabilitiesNasabah\", \"NilaiRankingLiabilitiesRasio\", \"CreatedAt\", " +
+                "\"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"NamaNasabah\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"MarginSelling\", \"NilaiPembiayaan\", \"NilaiJaminan\", \"RasioPembiayaan\", " +
+                "\"NilaiRankingLiabilitiesNasabah\", \"NilaiRankingLiabilitiesRasio\", \"CreatedAt\", " +
+                "\"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510D_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510EKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510E_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Volume\", \"Harga\", \"NilaiPasarWajar\", \"CreatedAt\", \"CreatedBy\", " +
+                "\"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"KodeEfek\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"Volume\", \"Harga\", \"NilaiPasarWajar\", \"CreatedAt\", \"CreatedBy\", " +
+                "\"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510E_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510FKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510F_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", \"TanggalKontrak\", " +
+                "\"JenisPenjaminan\", \"PihakDijamin\", \"StatuPenjaminan\", \"NilaiKomitmenPenjaminan\", " +
+                "\"HaircutAtasEfek\", \"NilaiBelumTerserap\", \"NilaiBankGaransi\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", \"TanggalKontrak\", " +
+                "\"JenisPenjaminan\", \"PihakDijamin\", \"StatuPenjaminan\", \"NilaiKomitmenPenjaminan\", " +
+                "\"HaircutAtasEfek\", \"NilaiBelumTerserap\", \"NilaiBankGaransi\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510F_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510GKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510G_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"TanggalKontrak\", \"Terafiliasi\", \"PihakDijamin\", \"RincianPenjaminan\", " +
+                "\"JangkaWaktuPnejaminan\", \"TanggalBerakhir\", \"NilaiPenjaminan\", " +
+                "\"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"TanggalKontrak\", \"Terafiliasi\", \"PihakDijamin\", \"RincianPenjaminan\", " +
+                "\"JangkaWaktuPnejaminan\", \"TanggalBerakhir\", \"NilaiPenjaminan\", " +
+                "\"NilaiRankingLiabilitas\", \"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510G_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510HKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510H_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"TanggalKomitmen\", \"RincianBelanja\", \"TanggalRealisasi\", \"RincianPenjaminan\", " +
+                "\"KomitmenTerealisasi\", \"KomitmenBelumTerealisasi\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"TanggalKomitmen\", \"RincianBelanja\", \"TanggalRealisasi\", \"RincianPenjaminan\", " +
+                "\"KomitmenTerealisasi\", \"KomitmenBelumTerealisasi\", \"NilaiRankingLiabilitas\", " +
+                "\"CreatedAt\", \"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510H_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
+
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+        PreparedStatement stmt = conn.prepareStatement(insertQuery);
+        stmt.setInt(1, dto.getTanggal());
+        stmt.setInt(2, dto.getBulan());
+        stmt.setInt(3, dto.getTahun());
+        stmt.setString(4, dto.getKodePe());
+        stmt.executeUpdate();
+    }
+
+    private static void processVd510IKpeiHist(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) throws SQLException {
+        String insertQuery = "INSERT INTO \"Tr_VD510I_KPEI_Hist\" " +
+                "(\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"TanggalTransaksi\", \"JenisTransaksi\", \"JenisMataUang\", \"NilaiTransaksi\", " +
+                "\"UntungRugiBelumTerealisasi\", \"NilaiRankingLiabilitas\", \"CreatedAt\", " +
+                "\"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\") " +
+                "(SELECT " +
+                "\"Id\", \"KodeAkun\", \"KodePe\", \"Tahun\", \"Bulan\", \"Tanggal\", " +
+                "\"TanggalTransaksi\", \"JenisTransaksi\", \"JenisMataUang\", \"NilaiTransaksi\", " +
+                "\"UntungRugiBelumTerealisasi\", \"NilaiRankingLiabilitas\", \"CreatedAt\", " +
+                "\"CreatedBy\", \"ModifiedAt\", \"ModifiedBy\" " +
+                "FROM \"Tr_VD510I_KPEI\" a where a.\"Tanggal\" = ? and a.\"Bulan\" = ? and a.\"Tahun\" = ? and \"KodePe\" = ?)";
 
         log.process(dto.getUsername(), dto.getFilename(), functionName);
         logger.info("Process " + functionName);
