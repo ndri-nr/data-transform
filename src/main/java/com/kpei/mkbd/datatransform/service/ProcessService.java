@@ -3378,14 +3378,6 @@ public class ProcessService {
             } catch (Exception ex) {
                 logger.error("Failed to rollback because : " + e.getMessage());
             }
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
