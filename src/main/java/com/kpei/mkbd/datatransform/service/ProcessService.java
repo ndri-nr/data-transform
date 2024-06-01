@@ -15,7 +15,7 @@ import java.util.UUID;
 public class ProcessService {
     private static String functionName = "";
 
-    public static void processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
+    public static Integer processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
         try {
             conn.setAutoCommit(false);
 
@@ -28,21 +28,16 @@ public class ProcessService {
             processHistoricalKPEI(conn, dto, log, logger);
 
             conn.commit();
+
+            return 1;
         } catch (Exception e) {
             try {
                 log.error(dto.getUsername(), dto.getFilename(), functionName, e.getMessage());
                 logger.error("Rollback because : " + e.getMessage());
                 conn.rollback();
+                return 0;
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                return 0;
             }
         }
     }
@@ -3364,5 +3359,81 @@ public class ProcessService {
         stmt.setInt(3, dto.getTahun());
         stmt.setString(4, dto.getKodePe());
         stmt.executeUpdate();
+    }
+
+    public static void processSaveLog(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger, Integer status) {
+        try {
+            conn.setAutoCommit(false);
+
+            functionName = "Save Log";
+            saveLog(conn, dto, log, logger, status);
+
+            conn.commit();
+        } catch (Exception e) {
+            try {
+                log.error(dto.getUsername(), dto.getFilename(), functionName, e.getMessage());
+                logger.error("Failed to save log because : " + e.getMessage());
+                conn.rollback();
+            } catch (Exception ex) {
+                logger.error("Failed to rollback because : " + e.getMessage());
+            }
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static Integer countLog(Connection conn, MkbTransformDto dto)
+            throws Exception {
+        String query = "Select count(*) as total from \"TableLog\" where \"NamaFile\" = '" + dto.getFilename() + "'";
+
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet res = stmt.executeQuery();
+
+        Integer result = 0;
+
+        while (res.next()) {
+            result = res.getInt("total");
+            break;
+        }
+
+        return result;
+    }
+
+    private static void saveLog(
+            Connection conn, MkbTransformDto dto, LogUtil log, Logger logger, Integer status)
+            throws Exception {
+        log.process(dto.getUsername(), dto.getFilename(), functionName);
+        logger.info("Process " + functionName);
+
+        Integer count = countLog(conn, dto);
+
+        if (count == 0) {
+            String insertQuery = "INSERT INTO \"TableLog\" " +
+                    "(\"NamaFile\", \"Waktu\", \"IsValid\") " +
+                    "VALUES(?, ?, ?)";
+
+            PreparedStatement stmt = conn.prepareStatement(insertQuery);
+            stmt.setString(1, dto.getFilename());
+            stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(3, status);
+            stmt.executeUpdate();
+        } else {
+            String updateQuery = "update \"TableLog\" " +
+                    "set \"Waktu\" = ?, \"IsValid\" = ? where \"NamaFile\" = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(updateQuery);
+            stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(2, status);
+            stmt.setString(3, dto.getFilename());
+            stmt.executeUpdate();
+        }
+
     }
 }

@@ -55,14 +55,24 @@ public class App
         Connection finalConn = conn;
         service.submit(new Runnable() {
             public void run() {
-                LocalDateTime start = LocalDateTime.now();
-                logger.info("Background service started at " + LocalDateTime.now());
-                ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
-                logger.info("Background service finished at " + LocalDateTime.now());
-                LocalDateTime end = LocalDateTime.now();
-                Duration duration = Duration.between(start, end);
-                logger.info("Background service finished in " + duration.getSeconds() + "s");
-                service.shutdown();
+                try {
+                    LocalDateTime start = LocalDateTime.now();
+                    logger.info("Background service started at " + LocalDateTime.now());
+                    Integer status = ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
+                    ProcessService.processSaveLog(finalConn, mkbTransformDto, logUtil, logger, status);
+                    logger.info("Background service finished at " + LocalDateTime.now());
+                    LocalDateTime end = LocalDateTime.now();
+                    Duration duration = Duration.between(start, end);
+                    logger.info("Background service finished in " + duration.getSeconds() + "s");
+                } finally {
+                    if (finalConn != null) {
+                        try {
+                            finalConn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         });
     }
