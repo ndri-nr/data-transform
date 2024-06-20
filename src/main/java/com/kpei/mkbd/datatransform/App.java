@@ -24,7 +24,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        File file = new File("/Users/andri/Documents/solecode/datatransform/XA231006.mkb");
+        File file = new File("/Users/andri/Documents/solecode/datatransform/A0240620.mkb");
         File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
         String baseDirectoryLog = "/Users/andri/Documents/solecode/datatransform/documents/logs";
         LogUtil logUtil = new LogUtil(baseDirectoryLog);
@@ -36,8 +36,8 @@ public class App
         MkbTransformDto mkbTransformDto = new MkbTransformDto();
         mkbTransformDto.setUserId("fb68b928-f8f9-46f0-8cd1-2081f27483e7");
         mkbTransformDto.setUsername("admin");
-        mkbTransformDto.setFilename("XA231006");
-        mkbTransformDto.setKodePe("XA");
+        mkbTransformDto.setFilename("A0240620");
+        mkbTransformDto.setKodePe("A0");
         mkbTransformDto.constructVd5Dto(file, key);
 
         String url = "jdbc:postgresql://pgsql15-dev.solecode.tech:5432/kpei_mkbd";
