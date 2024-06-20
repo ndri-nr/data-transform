@@ -39,4 +39,18 @@ public class LogDto {
                 + "|"
                 + message + "\n";
     }
+
+    public String hashCheckLogToString() {
+        return DateUtil.getTodayDateTime("yyyy-MM-dd HH:mm:ss")
+                + "|"
+                + filename
+                + "|"
+                + message + "\n";
+    }
+
+    public String hashCheckLogToString2() {
+        return DateUtil.getTodayDateTime("yyyy-MM-dd HH:mm:ss")
+                + "|"
+                + message + "\n";
+    }
 }

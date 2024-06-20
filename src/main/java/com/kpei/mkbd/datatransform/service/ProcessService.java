@@ -1875,9 +1875,13 @@ public class ProcessService {
         List<String> table59b = new ArrayList<>();
 
         for (FormulaAkun item : list) {
+            String kodeAkun = item.getKodeAkun();
+            String kolom = item.getKolom();
+            String viewName = "vw_" + item.getKdFormula().toLowerCase().replaceAll(" ", "") + "_kpei";
+
             String query1 = "update \"Tr_" + item.getTabel() + "_KPEI\" " +
                     "set \"CreatedAt\" = now(), \"" + item.getKolom() + "\" = " +
-                    "(select coalesce(\"Nilai\", 0) from vw_" + item.getKdFormula().toLowerCase() + "_kpei " +
+                    "(select coalesce(\"Nilai\", 0) from \"" + viewName + "\" " +
                     "where \"KodePe\" = '" + dto.getKodePe() + "' and \"Tanggal\" = "+ dto.getTanggal() + " " +
                     "and \"Bulan\" = " + dto.getBulan() + " and \"Tahun\" = " + dto.getTahun() + ") " +
                     "where \"KodeAkun\" = '" + item.getKodeAkun() + "' and \"KodePe\" = '" + dto.getKodePe() + "' " +
@@ -1889,10 +1893,6 @@ public class ProcessService {
                     "where \"KodeAkun\" = '" + item.getKodeAkun() + "' and \"KodePe\" = '" + dto.getKodePe() + "' " +
                     "and \"Tanggal\" = " + dto.getTanggal() + " and \"Bulan\" = " + dto.getBulan() + " " +
                     "and \"Tahun\" = " + dto.getTahun();
-
-            String kodeAkun = item.getKodeAkun();
-            String kolom = item.getKolom();
-            String viewName = "vw_" + item.getKdFormula().toLowerCase() + "_kpei";
 
             String checkViewQuery = "SELECT EXISTS (" +
                     "    SELECT 1 " +
@@ -1908,7 +1908,7 @@ public class ProcessService {
                 isViewExist = checkQueryRes.getBoolean("is_exists");
             }
 
-            String countRowInView = "select count(*) as total from " + viewName + " " +
+            String countRowInView = "select count(*) as total from \"" + viewName + "\" " +
                     "where \"KodePe\" = '" + dto.getKodePe() + "' " +
                     "and \"Tanggal\" = " + tanggal + " and \"Bulan\" = " + bulan + " " +
                     "and \"Tahun\" = " + tahun;
@@ -1925,7 +1925,7 @@ public class ProcessService {
                     kodeAkun.equalsIgnoreCase("VD59.97") ||
                     kodeAkun.equalsIgnoreCase("VD59.98") ||
                     kodeAkun.equalsIgnoreCase("VD59.99")) {
-                table59a.add(kodeAkun + "||" + kolom + "||" + query1);
+                table59a.add(kodeAkun + "|" + kolom + "|" + query1);
             }
 
             if (kodeAkun.equalsIgnoreCase("VD59.101") ||
