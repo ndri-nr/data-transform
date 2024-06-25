@@ -1,8 +1,6 @@
 package com.kpei.mkbd.datatransform.dto;
 
-import com.kpei.mkbd.datatransform.util.LogUtil;
 import lombok.*;
-import org.slf4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
