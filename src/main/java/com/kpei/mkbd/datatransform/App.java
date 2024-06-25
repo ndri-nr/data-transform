@@ -29,7 +29,6 @@ public class App
         String baseDirectoryLog = "/Users/andri/Documents/solecode/datatransform/documents/logs";
         LogUtil logUtil = new LogUtil(baseDirectoryLog);
         Logger logger = LoggerFactory.getLogger(App.class);
-        logger.info("logger already set");
 
         Map<String, String> key = generateMappingKey(mappingKey);
 
@@ -50,32 +49,42 @@ public class App
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        mkbTransformDto.validateContent(conn);
 
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        Connection finalConn = conn;
-        service.submit(new Runnable() {
-            public void run() {
-                try {
-                    LocalDateTime start = LocalDateTime.now();
-                    logger.info("Background service started at " + LocalDateTime.now());
-                    Integer status = ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
-                    ProcessService.processSaveLog(finalConn, mkbTransformDto, logUtil, logger, status);
-                    logger.info("Background service finished at " + LocalDateTime.now());
-                    LocalDateTime end = LocalDateTime.now();
-                    Duration duration = Duration.between(start, end);
-                    logger.info("Background service finished in " + duration.getSeconds() + "s");
-                } finally {
-                    if (finalConn != null) {
-                        try {
-                            finalConn.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+        logger.info("Terdapat " + mkbTransformDto.getLogValidation().size() + " error content validation");
+
+        for (LogValidationDto item : mkbTransformDto.getLogValidation()) {
+            logger.info(item.getMessageDescription());
+        }
+
+        if (mkbTransformDto.getLogValidation().isEmpty()) {
+            ExecutorService service = Executors.newSingleThreadExecutor();
+            Connection finalConn = conn;
+            service.submit(new Runnable() {
+                public void run() {
+                    try {
+                        LocalDateTime start = LocalDateTime.now();
+                        logger.info("Background service started at " + LocalDateTime.now());
+                        Integer status = ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
+                        ProcessService.processSaveLog(finalConn, mkbTransformDto, logUtil, logger, status);
+                        logger.info("Background service finished at " + LocalDateTime.now());
+                        LocalDateTime end = LocalDateTime.now();
+                        Duration duration = Duration.between(start, end);
+                        logger.info("Background service finished in " + duration.getSeconds() + "s");
+                    } finally {
+                        if (finalConn != null) {
+                            try {
+                                finalConn.close();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        service.shutdown();
                     }
-                    service.shutdown();
                 }
-            }
-        });
+            });
+        }
+
     }
 
     public static Map<String, String> generateMappingKey(File file) {
