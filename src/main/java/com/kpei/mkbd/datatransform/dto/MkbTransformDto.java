@@ -8,12 +8,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Setter
 @Getter
@@ -1131,9 +1129,59 @@ public class MkbTransformDto {
                 processContentValidation(kode, group, requirements);
             }
 
-            insertDataLogValidation(conn);
+            if (!this.logValidation.isEmpty()) {
+                Collections.sort(this.logValidation, new Comparator<LogValidationDto>() {
+                    @Override
+                    public int compare(LogValidationDto logValidationDto, LogValidationDto t1) {
+                        String[] akun1Arr = logValidationDto.getKodeAkun().split("\\.");
+                        String[] akun2Arr = t1.getKodeAkun().split("\\.");
+
+                        int min = Integer.min(akun1Arr.length, akun2Arr.length);
+                        int result = 0;
+                        for(int i = 0; i < min; i++) {
+                            String akun1 = akun1Arr[i].replaceAll("VD", "");
+                            String akun2 = akun2Arr[i].replaceAll("VD", "");
+                            boolean isAkun1Integer = isInteger(akun1);
+                            boolean isAkun2Integer = isInteger(akun2);
+
+                            if (isAkun1Integer && !isAkun2Integer) {
+                                result = -1;
+                                break;
+                            } else if (!isAkun1Integer && isAkun2Integer) {
+                                result = 1;
+                                break;
+                            } else if (isAkun1Integer) {
+                                int res = Integer.compare(Integer.parseInt(akun1), Integer.parseInt(akun2));
+                                if (res != 0) {
+                                    result = res;
+                                    break;
+                                }
+                            } else {
+                                int res = akun1.compareTo(akun2);
+                                if (res != 0) {
+                                    result = res;
+                                    break;
+                                }
+                            }
+                        }
+
+                        return result;
+                    }
+                });
+
+                insertDataLogValidation(conn);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 
