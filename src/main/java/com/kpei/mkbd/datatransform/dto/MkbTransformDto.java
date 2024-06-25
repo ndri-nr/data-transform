@@ -1102,10 +1102,10 @@ public class MkbTransformDto {
 
         return keys;
     }
-    
+
     private Date convertStringToDate(String dateStr) {
         Date sqlDate = null;
-        
+
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             java.util.Date parsed = format.parse(dateStr);
@@ -1113,7 +1113,7 @@ public class MkbTransformDto {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return sqlDate;
     }
 
@@ -1243,11 +1243,11 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1259,11 +1259,11 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1275,11 +1275,11 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiDitambahkan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiDitambahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiDitambahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiDitambahkan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiDitambahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiDitambahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1291,29 +1291,29 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiAktivaBersihUnit() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiAktivaBersihUnit untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiAktivaBersihUnit untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiAktivaBersihReksadana() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getBatasanMkbd() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field BatasanMkbd untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space BatasanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getKelebihanMkbd() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field KelebihanMkbd untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space KelebihanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiAktivaBersihUnit() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiAktivaBersihUnit untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiAktivaBersihUnit untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiAktivaBersihReksadana() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getBatasanMkbd() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field BatasanMkbd untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space BatasanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getKelebihanMkbd() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field KelebihanMkbd untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space KelebihanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1325,41 +1325,41 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiEfek() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiEfek untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiEfek untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiEfekLn() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiEfekLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiEfekLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiEfekTutupLn() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiEfekTutupLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiEfekTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiHaircutTutupLn() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiHaircutTutupLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiHaircutTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiHaircutLn() == null && requirements[4].equals("t")) {
-                    addLogValidation(akun, "Field NilaiHaircutLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiHaircutLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getJmlPengembalianHaircut() == null && requirements[5].equals("t")) {
-                    addLogValidation(akun, "Field JmlPengembalianHaircut untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space JmlPengembalianHaircut untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiEfek() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiEfek untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiEfek untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiEfekLn() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiEfekLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiEfekLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiEfekTutupLn() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiEfekTutupLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiEfekTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiHaircutTutupLn() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiHaircutTutupLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiHaircutTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiHaircutLn() == null && requirements[4].equals("t")) {
-                    addLogValidation(akun, "Field NilaiHaircutLN untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiHaircutLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getJmlPengembalianHaircut() == null && requirements[5].equals("t")) {
-                    addLogValidation(akun, "Field JmlPengembalianHaircut untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space JmlPengembalianHaircut untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1371,23 +1371,23 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Terafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field TidakTerafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Terafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field TidakTerafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1399,29 +1399,29 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDimiliki() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Dimiliki untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field Dipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field TidakDipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDimiliki() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Dimiliki untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field Dipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field TidakDipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1433,35 +1433,35 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getIsSendiriNasabah() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field IsSendiriNasabah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space IsSendiriNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNoRekening() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NoRekening untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NoRekening untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getKodeCurrency() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field KodeCurrency untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space KodeCurrency untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getSaldo() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getSaldoRupiah() == null && requirements[4].equals("t")) {
-                    addLogValidation(akun, "Field SaldoRupiah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space SaldoRupiah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getIsSendiriNasabah() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field IsSendiriNasabah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space IsSendiriNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNoRekening() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NoRekening untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NoRekening untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getKodeCurrency() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field KodeCurrency untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space KodeCurrency untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getSaldo() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getSaldoRupiah() == null && requirements[4].equals("t")) {
-                    addLogValidation(akun, "Field SaldoRupiah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space SaldoRupiah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1473,23 +1473,23 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Terafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field TidakTerafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Terafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field TidakTerafiliasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1501,29 +1501,29 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDimiliki() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Dimiliki untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field Dipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field TidakDipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDimiliki() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field Dimiliki untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field Dipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field TidakDipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1535,29 +1535,29 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getLmHrKerja() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field LmHrKerja untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space LmHrKerja untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDimiliki() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field Dimiliki untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field Dipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Saldo untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getLmHrKerja() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field LmHrKerja untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space LmHrKerja untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDimiliki() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field Dimiliki untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field Dipisahkan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1569,11 +1569,11 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilai() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Nilai untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Nilai untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilai() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Nilai untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Nilai untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1585,17 +1585,17 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getJumlah() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Jumlah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Jumlah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTotal() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Total untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Total untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getJumlah() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Jumlah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Jumlah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getTotal() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field Total untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space Total untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1607,29 +1607,29 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiPenjualan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPenjualan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPenjualan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPembelian() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPembelianKembali untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPembelianKembali untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiPenjualan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPenjualan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPenjualan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPembelian() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPembelianKembali untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPembelianKembali untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1641,29 +1641,29 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiPembelian() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPembelian untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPembelian untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPenjualan() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPenjualanKembali untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPenjualanKembali untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiPembelian() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPembelian untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPembelian untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPenjualan() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPenjualanKembali untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPenjualanKembali untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1675,17 +1675,17 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1697,29 +1697,29 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getMarginSelling() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPembiayaanMarjin untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPembiayaan() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiJaminanPembiayaan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitiesRasio() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getMarginSelling() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPembiayaanMarjin untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiPembiayaan() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiJaminanPembiayaan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitiesRasio() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1731,11 +1731,11 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPasarWajar untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1747,17 +1747,17 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiKomitmenPenjaminan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiKomitmenPenjaminan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1769,17 +1769,17 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiPenjaminan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPenjaminan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiPenjaminan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiPenjaminan untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1791,23 +1791,23 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getKomitmenTerealisasi() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getKomitmenBelumTerealisasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getKomitmenTerealisasi() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getKomitmenBelumTerealisasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1819,23 +1819,23 @@ public class MkbTransformDto {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
                 if (temp.getNilaiTransaksi() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiTransaksi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiTransaksi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getUntungRugiBelumTerealisasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiUntungRugi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiUntungRugi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (akun.contains(kode)) {
                 if (temp.getNilaiTransaksi() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Field NilaiTransaksi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiTransaksi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getUntungRugiBelumTerealisasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Field NilaiUntungRugi untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiUntungRugi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Field NilaiRankingLiabilities untuk akun " + akun + " dalam file tidak terisi");
+                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             }
         }
@@ -1843,13 +1843,13 @@ public class MkbTransformDto {
 
     private void addLogValidation(String akun, String message) {
         this.logValidation.add(LogValidationDto.builder()
-                        .kodeAkun(akun)
-                        .kodePe(this.kodePe)
-                        .fileName(this.filename)
-                        .detailDescription("EMPTYSPACE")
-                        .messageDescription(message)
-                        .createdAt(LocalDateTime.now())
-                        .createdBy(this.userId)
+                .kodeAkun(akun)
+                .kodePe(this.kodePe)
+                .fileName(this.filename)
+                .detailDescription("EMPTYSPACE")
+                .messageDescription(message)
+                .createdAt(LocalDateTime.now())
+                .createdBy(this.userId)
                 .build());
     }
 }
