@@ -24,7 +24,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        File file = new File("/Users/andri/Documents/solecode/datatransform/AF240621.mkb");
+        File file = new File("/Users/andri/Documents/solecode/datatransform/AI240514.MKB");
         File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
         String baseDirectoryLog = "/Users/andri/Documents/solecode/datatransform/documents/logs";
         LogUtil logUtil = new LogUtil(baseDirectoryLog);
@@ -35,7 +35,7 @@ public class App
         MkbTransformDto mkbTransformDto = new MkbTransformDto();
         mkbTransformDto.setUserId("fb68b928-f8f9-46f0-8cd1-2081f27483e7");
         mkbTransformDto.setUsername("admin");
-        mkbTransformDto.setFilename("AF240621.MKB");
+        mkbTransformDto.setFilename("AI240514.MKB");
         mkbTransformDto.setKodePe("A0");
         mkbTransformDto.constructVd5Dto(file, key);
 
