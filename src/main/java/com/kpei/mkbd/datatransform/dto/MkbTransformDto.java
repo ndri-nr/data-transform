@@ -1170,7 +1170,7 @@ public class MkbTransformDto {
                     }
                 });
 
-//                insertDataLogValidation(conn);
+                insertDataLogValidation(conn);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

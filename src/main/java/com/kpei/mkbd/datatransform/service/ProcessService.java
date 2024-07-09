@@ -1696,6 +1696,10 @@ public class ProcessService {
                 "        THEN 'PPE' " +
                 "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND \"IsPEE\"=true AND \"IsMI\" =false " +
                 "        THEN 'PPE' " +
+                "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =false AND \"IsPEE\"=true AND \"IsMI\" =false " +
+                "        THEN 'NONAB PEE' " +
+                "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =false AND \"IsPEE\"=true AND \"IsMI\" =true " +
+                "        THEN 'NONAB PEE MI' " +
                 "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND \"IsPEE\"=true AND \"IsMI\" =true " +
                 "        THEN 'PPE' " +
                 "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =false AND \"IsPEE\"=true AND \"IsMI\" =false " +
