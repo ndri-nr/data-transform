@@ -1743,10 +1743,10 @@ public class MkbTransformDto {
         for (Vd510dDto temp : this.vd510d) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getMarginSelling() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPembiayaan() == null && requirements[0].equals("t")) {
                     addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiPembiayaan() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiJaminan() == null && requirements[1].equals("t")) {
                     addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t")) {
@@ -1756,10 +1756,10 @@ public class MkbTransformDto {
                     addLogValidation(akun, "Space NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getMarginSelling() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPembiayaan() == null && requirements[0].equals("t")) {
                     addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiPembiayaan() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiJaminan() == null && requirements[1].equals("t")) {
                     addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
                 if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t")) {
