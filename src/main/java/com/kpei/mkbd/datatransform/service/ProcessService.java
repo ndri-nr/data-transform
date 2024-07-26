@@ -26,6 +26,7 @@ public class ProcessService {
             processPerhitungan(conn, dto, log, logger);
             processHistorical(conn, dto, log, logger);
             processHistoricalKPEI(conn, dto, log, logger);
+            setLogPengirimanActive(conn, dto);
 
             conn.commit();
 
@@ -3542,5 +3543,19 @@ public class ProcessService {
             stmt.executeUpdate();
         }
 
+    }
+
+    private static void setLogPengirimanActive(Connection conn, MkbTransformDto dto) throws SQLException {
+        String updateQuery = "UPDATE \"LogPengiriman\" " +
+                "SET \"IsActive\" = true, \"ModifiedAt\" = now(), \"ModifiedBy\" = ? " +
+                "WHERE \"Tanggal\" = ? and \"Bulan\" = ? and \"Tahun\" = ? and \"KodePe\" = ?";
+
+        PreparedStatement stmt = conn.prepareStatement(updateQuery);
+        stmt.setString(1, dto.getUserId());
+        stmt.setInt(2, dto.getTanggal());
+        stmt.setInt(3, dto.getBulan());
+        stmt.setInt(4, dto.getTahun());
+        stmt.setString(5, dto.getKodePe());
+        stmt.executeUpdate();
     }
 }
