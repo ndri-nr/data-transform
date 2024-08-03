@@ -15,7 +15,7 @@ import java.util.UUID;
 public class ProcessService {
     private static String functionName = "";
 
-    public static Integer processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
+    public static String processDataVD(Connection conn, MkbTransformDto dto, LogUtil log, Logger logger) {
         try {
             conn.setAutoCommit(false);
 
@@ -28,19 +28,22 @@ public class ProcessService {
             processPerhitungan(conn, dto, log, logger);
             processHistorical(conn, dto, log, logger);
             processHistoricalKPEI(conn, dto, log, logger);
+
+            log.process(dto.getUsername(), dto.getFilename(), "Set Log Pengiriman Status to ACTIVE");
+            logger.info("Process " + "Set Log Pengiriman Status to ACTIVE");
             setLogPengirimanActive(conn, dto);
 
             conn.commit();
 
-            return 1;
+            return 1 + "|SUCCESS";
         } catch (Exception e) {
             try {
                 log.error(dto.getUsername(), dto.getFilename(), functionName, e.getMessage());
                 logger.error("Rollback because : " + e.getMessage());
                 conn.rollback();
-                return 0;
+                return 0 + "|" + e.getMessage();
             } catch (Exception ex) {
-                return 0;
+                return 0 + "|" + ex.getMessage();
             }
         }
     }
@@ -57,7 +60,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + updateQuery);
         PreparedStatement stmt = conn.prepareStatement(updateQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
         stmt.setString(1, dto.getManagerName());
         stmt.setString(2, dto.getUserId());
         stmt.setString(3, dto.getKodePe());
@@ -152,7 +155,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd51Dto temp : dto.getVd51()) {
             stmt.setString(1, temp.getId());
@@ -181,7 +184,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd52Dto temp : dto.getVd52()) {
             stmt.setString(1, temp.getId());
@@ -210,7 +213,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd53Dto temp : dto.getVd53()) {
             stmt.setString(1, temp.getId());
@@ -241,7 +244,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd54Dto temp : dto.getVd54()) {
             stmt.setString(1, temp.getId());
@@ -278,7 +281,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd55Dto temp : dto.getVd55()) {
             stmt.setString(1, temp.getId());
@@ -315,7 +318,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd56aDto temp : dto.getVd56a()) {
             stmt.setString(1, temp.getId());
@@ -347,7 +350,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd56bDto temp : dto.getVd56b()) {
             stmt.setString(1, temp.getId());
@@ -380,7 +383,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd56cDto temp : dto.getVd56c()) {
             stmt.setString(1, temp.getId());
@@ -416,7 +419,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd57aDto temp : dto.getVd57a()) {
             stmt.setString(1, temp.getId());
@@ -448,7 +451,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd57bDto temp : dto.getVd57b()) {
             stmt.setString(1, temp.getId());
@@ -481,7 +484,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd57cDto temp : dto.getVd57c()) {
             stmt.setString(1, temp.getId());
@@ -514,7 +517,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd58Dto temp : dto.getVd58()) {
             stmt.setString(1, temp.getId());
@@ -543,7 +546,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd59Dto temp : dto.getVd59()) {
             stmt.setString(1, temp.getId());
@@ -575,7 +578,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510aDto temp : dto.getVd510a()) {
             stmt.setString(1, temp.getId());
@@ -616,7 +619,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510bDto temp : dto.getVd510b()) {
             stmt.setString(1, temp.getId());
@@ -656,7 +659,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510cDto temp : dto.getVd510c()) {
             stmt.setString(1, temp.getId());
@@ -695,7 +698,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510dDto temp : dto.getVd510d()) {
             stmt.setString(1, temp.getId());
@@ -731,7 +734,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510eDto temp : dto.getVd510e()) {
             stmt.setString(1, temp.getId());
@@ -765,7 +768,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510fDto temp : dto.getVd510f()) {
             stmt.setString(1, temp.getId());
@@ -804,7 +807,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510gDto temp : dto.getVd510g()) {
             stmt.setString(1, temp.getId());
@@ -842,7 +845,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510hDto temp : dto.getVd510h()) {
             stmt.setString(1, temp.getId());
@@ -878,7 +881,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510iDto temp : dto.getVd510i()) {
             stmt.setString(1, temp.getId());
@@ -988,7 +991,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd51Dto temp : dto.getVd51()) {
             stmt.setString(1, temp.getId());
@@ -1017,7 +1020,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd52Dto temp : dto.getVd52()) {
             stmt.setString(1, temp.getId());
@@ -1046,7 +1049,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd53Dto temp : dto.getVd53()) {
             stmt.setString(1, temp.getId());
@@ -1077,7 +1080,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd54Dto temp : dto.getVd54()) {
             stmt.setString(1, temp.getId());
@@ -1114,7 +1117,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd55Dto temp : dto.getVd55()) {
             stmt.setString(1, temp.getId());
@@ -1151,7 +1154,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd56aDto temp : dto.getVd56a()) {
             stmt.setString(1, temp.getId());
@@ -1183,7 +1186,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd56bDto temp : dto.getVd56b()) {
             stmt.setString(1, temp.getId());
@@ -1216,7 +1219,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd56cDto temp : dto.getVd56c()) {
             stmt.setString(1, temp.getId());
@@ -1252,7 +1255,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd57aDto temp : dto.getVd57a()) {
             stmt.setString(1, temp.getId());
@@ -1284,7 +1287,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd57bDto temp : dto.getVd57b()) {
             stmt.setString(1, temp.getId());
@@ -1317,7 +1320,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd57cDto temp : dto.getVd57c()) {
             stmt.setString(1, temp.getId());
@@ -1350,7 +1353,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd58Dto temp : dto.getVd58()) {
             stmt.setString(1, temp.getId());
@@ -1379,7 +1382,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd59Dto temp : dto.getVd59()) {
             stmt.setString(1, temp.getId());
@@ -1411,7 +1414,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510aDto temp : dto.getVd510a()) {
             stmt.setString(1, temp.getId());
@@ -1451,7 +1454,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510bDto temp : dto.getVd510b()) {
             stmt.setString(1, temp.getId());
@@ -1491,7 +1494,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510cDto temp : dto.getVd510c()) {
             stmt.setString(1, temp.getId());
@@ -1530,7 +1533,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510dDto temp : dto.getVd510d()) {
             stmt.setString(1, temp.getId());
@@ -1566,7 +1569,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510eDto temp : dto.getVd510e()) {
             stmt.setString(1, temp.getId());
@@ -1600,7 +1603,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510fDto temp : dto.getVd510f()) {
             stmt.setString(1, temp.getId());
@@ -1638,7 +1641,7 @@ public class ProcessService {
         log.process(dto.getUsername(), dto.getFilename(), functionName);
         logger.info("Process " + functionName);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510gDto temp : dto.getVd510g()) {
             stmt.setString(1, temp.getId());
@@ -1676,7 +1679,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510hDto temp : dto.getVd510h()) {
             stmt.setString(1, temp.getId());
@@ -1712,7 +1715,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         for (Vd510iDto temp : dto.getVd510i()) {
             stmt.setString(1, temp.getId());
@@ -1774,8 +1777,6 @@ public class ProcessService {
                 "    CASE " +
                 "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =false AND \"IsPEE\"=false " +
                 "        THEN 'NON AB' " +
-                "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =false AND \"IsPEE\"=true " +
-                "        THEN 'NON AB' " +
                 "        WHEN \"IsNonAB\"=false AND \"IsPPE\" =true AND  \"IsPEE\"=false AND \"IsMI\" =false " +
                 "        THEN 'PPE' " +
                 "        WHEN \"IsNonAB\"=true AND \"IsPPE\" =true AND  \"IsPEE\"=false AND \"IsMI\" =false " +
@@ -1808,7 +1809,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
         stmt.setString(1, dto.getKodePe());
         ResultSet myRs = stmt.executeQuery();
 
@@ -1836,7 +1837,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
         stmt.setString(1, dto.getKodePe());
         ResultSet myRs = stmt.executeQuery();
 
@@ -1859,7 +1860,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
         stmt.setString(1, jenisUsaha);
         ResultSet myRs = stmt.executeQuery();
 
@@ -1886,7 +1887,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + updateQuery);
         PreparedStatement stmt = conn.prepareStatement(updateQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
         for (String kodeAKun : kodeAkunArr) {
             if (kodeAKun.equalsIgnoreCase("VD58.18")) {
                 if (!jenisUsahaPpe.equalsIgnoreCase("NONE")) {
@@ -1952,7 +1953,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
         ResultSet myRs = stmt.executeQuery();
 
         while (myRs.next()) {
@@ -2008,7 +2009,7 @@ public class ProcessService {
 
             logger.info("Execute query " + checkViewQuery);
             PreparedStatement stmtCheck = conn.prepareStatement(checkViewQuery);
-            stmtCheck.setQueryTimeout(30);
+            stmtCheck.setQueryTimeout(10);
             ResultSet checkQueryRes = stmtCheck.executeQuery();
 
             boolean isViewExist = false;
@@ -2023,7 +2024,7 @@ public class ProcessService {
 
             logger.info("Execute query " + countRowInView);
             PreparedStatement stmtCount = conn.prepareStatement(countRowInView);
-            stmtCount.setQueryTimeout(30);
+            stmtCount.setQueryTimeout(10);
 
             ResultSet countQueryRes = stmtCount.executeQuery();
 
@@ -2051,12 +2052,12 @@ public class ProcessService {
                 if (countResult == 1) {
                     logger.info("Execute query " + query1);
                     stmt = conn.prepareStatement(query1);
-                    stmt.setQueryTimeout(30);
+                    stmt.setQueryTimeout(10);
 
                 } else {
                     logger.info("Execute query " + query2);
                     stmt = conn.prepareStatement(query2);
-                    stmt.setQueryTimeout(30);
+                    stmt.setQueryTimeout(10);
 
                 }
                 stmt.executeUpdate();
@@ -2070,7 +2071,7 @@ public class ProcessService {
             String query = arr[2];
             logger.info("Execute query " + query);
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setQueryTimeout(30);
+            stmt.setQueryTimeout(10);
 
             stmt.executeUpdate();
 
@@ -2082,7 +2083,7 @@ public class ProcessService {
 
             logger.info("Execute query " + queryUpdateNew);
             stmt = conn.prepareStatement(queryUpdateNew);
-            stmt.setQueryTimeout(30);
+            stmt.setQueryTimeout(10);
 
             stmt.executeUpdate();
         }
@@ -2165,7 +2166,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet myRs = stmt.executeQuery();
 
@@ -2189,7 +2190,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet myRs = stmt.executeQuery();
 
@@ -2213,7 +2214,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet myRs = stmt.executeQuery();
 
@@ -2237,7 +2238,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet myRs = stmt.executeQuery();
 
@@ -2261,7 +2262,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet myRs = stmt.executeQuery();
 
@@ -2285,7 +2286,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet myRs = stmt.executeQuery();
 
@@ -2309,7 +2310,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + query);
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet myRs = stmt.executeQuery();
 
@@ -2337,7 +2338,7 @@ public class ProcessService {
 
             logger.info("Execute query " + query);
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setQueryTimeout(30);
+            stmt.setQueryTimeout(10);
 
             stmt.setString(1, jenisUsaha);
             stmt.setBigDecimal(2, minPe);
@@ -2367,7 +2368,7 @@ public class ProcessService {
 
             logger.info("Execute query " + query);
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setQueryTimeout(30);
+            stmt.setQueryTimeout(10);
 
             stmt.setString(1, UUID.randomUUID().toString());
             stmt.setString(2, dto.getKodePe());
@@ -2482,7 +2483,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2505,7 +2506,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2528,7 +2529,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2553,7 +2554,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2578,7 +2579,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2601,7 +2602,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2624,7 +2625,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2649,7 +2650,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2672,7 +2673,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2697,7 +2698,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2722,7 +2723,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2745,7 +2746,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2768,7 +2769,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2795,7 +2796,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2822,7 +2823,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2849,7 +2850,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2876,7 +2877,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2901,7 +2902,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2928,7 +2929,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2955,7 +2956,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -2982,7 +2983,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3009,7 +3010,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3108,7 +3109,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3131,7 +3132,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3154,7 +3155,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3179,7 +3180,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3204,7 +3205,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3227,7 +3228,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3250,7 +3251,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3275,7 +3276,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3298,7 +3299,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3323,7 +3324,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3348,7 +3349,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3371,7 +3372,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3394,7 +3395,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3421,7 +3422,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3448,7 +3449,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3475,7 +3476,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3502,7 +3503,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3527,7 +3528,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3554,7 +3555,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3581,7 +3582,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3608,7 +3609,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3635,7 +3636,7 @@ public class ProcessService {
         logger.info("Process " + functionName);
         logger.info("Execute query " + insertQuery);
         PreparedStatement stmt = conn.prepareStatement(insertQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setInt(1, dto.getTanggal());
         stmt.setInt(2, dto.getBulan());
@@ -3669,7 +3670,7 @@ public class ProcessService {
         String query = "Select count(*) as total from \"TableLog\" where \"NamaFile\" = '" + dto.getFilename() + "'";
 
         PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         ResultSet res = stmt.executeQuery();
 
@@ -3698,7 +3699,7 @@ public class ProcessService {
 
             logger.info("Execute query " + insertQuery);
             PreparedStatement stmt = conn.prepareStatement(insertQuery);
-            stmt.setQueryTimeout(30);
+            stmt.setQueryTimeout(10);
 
             stmt.setString(1, dto.getFilename());
             stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
@@ -3710,7 +3711,7 @@ public class ProcessService {
 
             logger.info("Execute query " + updateQuery);
             PreparedStatement stmt = conn.prepareStatement(updateQuery);
-            stmt.setQueryTimeout(30);
+            stmt.setQueryTimeout(10);
 
             stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
             stmt.setInt(2, status);
@@ -3726,7 +3727,7 @@ public class ProcessService {
                 "WHERE \"Tanggal\" = ? and \"Bulan\" = ? and \"Tahun\" = ? and \"KodePe\" = ?";
 
         PreparedStatement stmt = conn.prepareStatement(updateQuery);
-        stmt.setQueryTimeout(30);
+        stmt.setQueryTimeout(10);
 
         stmt.setString(1, dto.getUserId());
         stmt.setInt(2, dto.getTanggal());
@@ -3743,7 +3744,7 @@ public class ProcessService {
             String deleteQuery = "DELETE from \""+ table +"\" " +
                     "WHERE \"Tanggal\" = ? and \"Bulan\" = ? and \"Tahun\" = ? and \"KodePe\" = ?";
             PreparedStatement stmt = conn.prepareStatement(deleteQuery);
-            stmt.setQueryTimeout(30);
+            stmt.setQueryTimeout(10);
 
             stmt.setInt(1, dto.getTanggal());
             stmt.setInt(2, dto.getBulan());
