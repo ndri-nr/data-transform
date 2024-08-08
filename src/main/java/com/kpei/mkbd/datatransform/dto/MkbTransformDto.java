@@ -1019,10 +1019,10 @@ public class MkbTransformDto {
             dto.setKomitmenTerealisasi(normalizeBigDecimalValue(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setKomitmenBelumTerealisasi(normalizeBigDecimalValue(items[4]));
+            dto.setKomitmenBelumTerealisasi(normalizeBigDecimalValue(items[5]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[4]));
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[6]));
         }
 
         this.vd510h.add(dto);
@@ -1053,10 +1053,10 @@ public class MkbTransformDto {
         dto.setKodeAkun(items[0]);
 
         if (items.length > 1 && !items[1].trim().isEmpty()) {
-            dto.setJenisTransaksi(items[2]);
+            dto.setJenisTransaksi(items[1]);
         }
         if (items.length > 2 && !items[2].trim().isEmpty()) {
-            dto.setTanggalTransaksi(convertStringToDate(items[1]));
+            dto.setTanggalTransaksi(convertStringToDate(items[2]));
         }
         if (items.length > 3 && !items[3].trim().isEmpty()) {
             dto.setJenisMataUang(items[3]);
@@ -1065,10 +1065,10 @@ public class MkbTransformDto {
             dto.setNilaiTransaksi(normalizeBigDecimalValue(items[4]));
         }
         if (items.length > 5 && !items[5].trim().isEmpty()) {
-            dto.setUntungRugiBelumTerealisasi(normalizeBigDecimalValue(items[4]));
+            dto.setUntungRugiBelumTerealisasi(normalizeBigDecimalValue(items[5]));
         }
         if (items.length > 6 && !items[6].trim().isEmpty()) {
-            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[4]));
+            dto.setNilaiRankingLiabilitas(normalizeBigDecimalValue(items[6]));
         }
 
         this.vd510i.add(dto);
