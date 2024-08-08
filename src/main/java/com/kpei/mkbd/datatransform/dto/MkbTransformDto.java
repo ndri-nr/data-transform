@@ -1,5 +1,6 @@
 package com.kpei.mkbd.datatransform.dto;
 
+import com.kpei.mkbd.datatransform.model.MappingAkunRequirement;
 import lombok.*;
 
 import java.io.BufferedReader;
@@ -299,6 +300,9 @@ public class MkbTransformDto {
 
         List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
+        for (String allKey : allKeys) {
+            System.out.println(allKey);
+        }
         for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
                 exist = true;
@@ -1087,9 +1091,13 @@ public class MkbTransformDto {
         String[] kodeAkunArr = kodeAkun.split("\\.");
         List<String> keys = new ArrayList<>();
 
-        String baseKey = kodeAkunArr[0] + "." + kodeAkunArr[1];
+        String baseKey = kodeAkunArr[0] + ".";
         keys.add(baseKey);
-        keys.add(baseKey + ".");
+        baseKey = baseKey + kodeAkunArr[1];
+        keys.add(baseKey);
+        baseKey = baseKey + ".";
+        keys.add(baseKey);
+
         for (int i = 2; i < kodeAkunArr.length; i++) {
             baseKey = baseKey + "." + kodeAkunArr[i];
             keys.add(baseKey);
@@ -1120,6 +1128,7 @@ public class MkbTransformDto {
         try {
             stmt = conn.prepareStatement(query);
             ResultSet list = stmt.executeQuery();
+            Map<String, MappingAkunRequirement> map = new HashMap<>();
 
             while (list.next()) {
                 String kode = list.getString("kode");
@@ -1127,8 +1136,24 @@ public class MkbTransformDto {
                 String[] requirements = list.getString("requirements").split("\\|");
 
                 System.out.println(kode + " : " + group + " : " + list.getString("requirements"));
-                processContentValidation(kode, group, requirements);
+                map.put(
+                        kode,
+                        MappingAkunRequirement.builder()
+                                .kode(kode)
+                                .group(group)
+                                .requirements(requirements)
+                        .build()
+                );
             }
+
+            map.forEach((kode, mappingAkunRequirement) -> {
+                processContentValidation(
+                        kode,
+                        mappingAkunRequirement.getGroup(),
+                        mappingAkunRequirement.getRequirements(),
+                        map
+                );
+            });
 
             if (!this.logValidation.isEmpty()) {
                 Collections.sort(this.logValidation, new Comparator<LogValidationDto>() {
@@ -1186,73 +1211,76 @@ public class MkbTransformDto {
         }
     }
 
-    private void processContentValidation(String kode, String group, String[] requirements) {
+    private void processContentValidation(
+            String kode, String group, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         switch (group) {
             case "VD51":
-                validateVD51(kode, requirements);
+                validateVD51(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD52":
-                validateVD52(kode, requirements);
+                validateVD52(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD53":
-                validateVD53(kode, requirements);
+                validateVD53(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD54":
-                validateVD54(kode, requirements);
+                validateVD54(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD55":
-                validateVD55(kode, requirements);
+                validateVD55(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD56A":
-                validateVD56A(kode, requirements);
+                validateVD56A(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD56B":
-                validateVD56B(kode, requirements);
+                validateVD56B(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD56C":
-                validateVD56C(kode, requirements);
+                validateVD56C(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD57A":
-                validateVD57A(kode, requirements);
+                validateVD57A(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD57B":
-                validateVD57B(kode, requirements);
+                validateVD57B(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD57C":
-                validateVD57C(kode, requirements);
+                validateVD57C(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD58":
-                validateVD58(kode, requirements);
+                validateVD58(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD59":
-                validateVD59(kode, requirements);
+                validateVD59(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510A":
-                validateVD510A(kode, requirements);
+                validateVD510A(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510B":
-                validateVD510B(kode, requirements);
+                validateVD510B(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510C":
-                validateVD510C(kode, requirements);
+                validateVD510C(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510D":
-                validateVD510D(kode, requirements);
+                validateVD510D(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510E":
-                validateVD510E(kode, requirements);
+                validateVD510E(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510F":
-                validateVD510F(kode, requirements);
+                validateVD510F(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510G":
-                validateVD510G(kode, requirements);
+                validateVD510G(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510H":
-                validateVD510H(kode, requirements);
+                validateVD510H(kode, requirements, mappingAkunRequirementMap);
                 break;
             case "VD510I":
-                validateVD510I(kode, requirements);
+                validateVD510I(kode, requirements, mappingAkunRequirementMap);
                 break;
             default:
                 break;
@@ -1284,605 +1312,951 @@ public class MkbTransformDto {
         }
     }
 
-    private void validateVD51(String kode, String[] requirements) {
+    private void validateVD51(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd51Dto temp : this.vd51) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
+                if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getSaldo() == null && req[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD52(String kode, String[] requirements) {
+    private void validateVD52(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd52Dto temp : this.vd52) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
+                if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getSaldo() == null && req[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD53(String kode, String[] requirements) {
+    private void validateVD53(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd53Dto temp : this.vd53) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiDitambahkan() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiDitambahkan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiDitambahkan")) {
                     addLogValidation(akun, "Space NilaiDitambahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiDitambahkan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiDitambahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiDitambahkan() == null && req[0].equals("t") && isNotExist(akun, "NilaiDitambahkan")) {
+                        addLogValidation(akun, "Space NilaiDitambahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiDitambahkan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiDitambahkan")) {
+                        addLogValidation(akun, "Space NilaiDitambahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD54(String kode, String[] requirements) {
+    private void validateVD54(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd54Dto temp : this.vd54) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiAktivaBersihUnit() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiAktivaBersihUnit() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiAktivaBersihUnit")) {
                     addLogValidation(akun, "Space NilaiAktivaBersihUnit untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiAktivaBersihReksadana() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiAktivaBersihReksadana() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiAktivaBersihReksadana")) {
                     addLogValidation(akun, "Space NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getBatasanMkbd() == null && requirements[2].equals("t")) {
+                if (temp.getBatasanMkbd() == null && requirements[2].equals("t") && isNotExist(akun, "BatasanMkbd")) {
                     addLogValidation(akun, "Space BatasanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getKelebihanMkbd() == null && requirements[3].equals("t")) {
+                if (temp.getKelebihanMkbd() == null && requirements[3].equals("t") && isNotExist(akun, "KelebihanMkbd")) {
                     addLogValidation(akun, "Space KelebihanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiAktivaBersihUnit() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiAktivaBersihUnit untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiAktivaBersihReksadana() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getBatasanMkbd() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space BatasanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getKelebihanMkbd() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space KelebihanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiAktivaBersihUnit() == null && req[0].equals("t") && isNotExist(akun, "NilaiAktivaBersihUnit")) {
+                        addLogValidation(akun, "Space NilaiAktivaBersihUnit untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiAktivaBersihReksadana() == null && req[1].equals("t") && isNotExist(akun, "NilaiAktivaBersihReksadana")) {
+                        addLogValidation(akun, "Space NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getBatasanMkbd() == null && req[2].equals("t") && isNotExist(akun, "BatasanMkbd")) {
+                        addLogValidation(akun, "Space BatasanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getKelebihanMkbd() == null && req[3].equals("t") && isNotExist(akun, "KelebihanMkbd")) {
+                        addLogValidation(akun, "Space KelebihanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiAktivaBersihUnit() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiAktivaBersihUnit")) {
+                        addLogValidation(akun, "Space NilaiAktivaBersihUnit untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiAktivaBersihReksadana() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiAktivaBersihReksadana")) {
+                        addLogValidation(akun, "Space NilaiAktivaBersihReksadana untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getBatasanMkbd() == null && requirements[2].equals("t") && isNotExist(akun, "BatasanMkbd")) {
+                        addLogValidation(akun, "Space BatasanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getKelebihanMkbd() == null && requirements[3].equals("t") && isNotExist(akun, "KelebihanMkbd")) {
+                        addLogValidation(akun, "Space KelebihanMkbd untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD55(String kode, String[] requirements) {
+    private void validateVD55(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd55Dto temp : this.vd55) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiEfek() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiEfek() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiEfek")) {
                     addLogValidation(akun, "Space NilaiEfek untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiEfekLn() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiEfekLn() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiEfekLN")) {
                     addLogValidation(akun, "Space NilaiEfekLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiEfekTutupLn() == null && requirements[2].equals("t")) {
+                if (temp.getNilaiEfekTutupLn() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiEfekTutupLN")) {
                     addLogValidation(akun, "Space NilaiEfekTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiHaircutTutupLn() == null && requirements[3].equals("t")) {
+                if (temp.getNilaiHaircutTutupLn() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiHaircutTutupLN")) {
                     addLogValidation(akun, "Space NilaiHaircutTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiHaircutLn() == null && requirements[4].equals("t")) {
+                if (temp.getNilaiHaircutLn() == null && requirements[4].equals("t") && isNotExist(akun, "NilaiHaircutLN")) {
                     addLogValidation(akun, "Space NilaiHaircutLN untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getJmlPengembalianHaircut() == null && requirements[5].equals("t")) {
+                if (temp.getJmlPengembalianHaircut() == null && requirements[5].equals("t") && isNotExist(akun, "JmlPengembalianHaircut")) {
                     addLogValidation(akun, "Space JmlPengembalianHaircut untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiEfek() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiEfek untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiEfekLn() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiEfekLN untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiEfekTutupLn() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space NilaiEfekTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiHaircutTutupLn() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space NilaiHaircutTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiHaircutLn() == null && requirements[4].equals("t")) {
-                    addLogValidation(akun, "Space NilaiHaircutLN untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getJmlPengembalianHaircut() == null && requirements[5].equals("t")) {
-                    addLogValidation(akun, "Space JmlPengembalianHaircut untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiEfek() == null && req[0].equals("t") && isNotExist(akun, "NilaiEfek")) {
+                        addLogValidation(akun, "Space NilaiEfek untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiEfekLn() == null && req[1].equals("t") && isNotExist(akun, "NilaiEfekLN")) {
+                        addLogValidation(akun, "Space NilaiEfekLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiEfekTutupLn() == null && req[2].equals("t") && isNotExist(akun, "NilaiEfekTutupLN")) {
+                        addLogValidation(akun, "Space NilaiEfekTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiHaircutTutupLn() == null && req[3].equals("t") && isNotExist(akun, "NilaiHaircutTutupLN")) {
+                        addLogValidation(akun, "Space NilaiHaircutTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiHaircutLn() == null && req[4].equals("t") && isNotExist(akun, "NilaiHaircutLN")) {
+                        addLogValidation(akun, "Space NilaiHaircutLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getJmlPengembalianHaircut() == null && req[5].equals("t") && isNotExist(akun, "JmlPengembalianHaircut")) {
+                        addLogValidation(akun, "Space JmlPengembalianHaircut untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiEfek() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiEfek")) {
+                        addLogValidation(akun, "Space NilaiEfek untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiEfekLn() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiEfekLN")) {
+                        addLogValidation(akun, "Space NilaiEfekLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiEfekTutupLn() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiEfekTutupLN")) {
+                        addLogValidation(akun, "Space NilaiEfekTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiHaircutTutupLn() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiHaircutTutupLN")) {
+                        addLogValidation(akun, "Space NilaiHaircutTutupLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiHaircutLn() == null && requirements[4].equals("t") && isNotExist(akun, "NilaiHaircutLN")) {
+                        addLogValidation(akun, "Space NilaiHaircutLN untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getJmlPengembalianHaircut() == null && requirements[5].equals("t") && isNotExist(akun, "JmlPengembalianHaircut")) {
+                        addLogValidation(akun, "Space JmlPengembalianHaircut untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD56A(String kode, String[] requirements) {
+    private void validateVD56A(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd56aDto temp : this.vd56a) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
+                if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
+                if (temp.getTerafiliasi() == null && requirements[1].equals("t") && isNotExist(akun, "Terafiliasi")) {
                     addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
+                if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t") && isNotExist(akun, "TidakTerafiliasi")) {
                     addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getSaldo() == null && req[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTerafiliasi() == null && req[1].equals("t") && isNotExist(akun, "Terafiliasi")) {
+                        addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakTerafiliasi() == null && req[2].equals("t") && isNotExist(akun, "TidakTerafiliasi")) {
+                        addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTerafiliasi() == null && requirements[1].equals("t") && isNotExist(akun, "Terafiliasi")) {
+                        addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t") && isNotExist(akun, "TidakTerafiliasi")) {
+                        addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD56B(String kode, String[] requirements) {
+    private void validateVD56B(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd56bDto temp : this.vd56b) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
+                if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getDimiliki() == null && requirements[1].equals("t")) {
+                if (temp.getDimiliki() == null && requirements[1].equals("t") && isNotExist(akun, "Dimiliki")) {
                     addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
+                if (temp.getDipisahkan() == null && requirements[2].equals("t") && isNotExist(akun, "Dipisahkan")) {
                     addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
+                if (temp.getTidakDipisahkan() == null && requirements[3].equals("t") && isNotExist(akun, "TidakDipisahkan")) {
                     addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getDimiliki() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getSaldo() == null && req[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDimiliki() == null && req[1].equals("t") && isNotExist(akun, "Dimiliki")) {
+                        addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDipisahkan() == null && req[2].equals("t") && isNotExist(akun, "Dipisahkan")) {
+                        addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakDipisahkan() == null && req[3].equals("t") && isNotExist(akun, "TidakDipisahkan")) {
+                        addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDimiliki() == null && requirements[1].equals("t") && isNotExist(akun, "Dimiliki")) {
+                        addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDipisahkan() == null && requirements[2].equals("t") && isNotExist(akun, "Dipisahkan")) {
+                        addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakDipisahkan() == null && requirements[3].equals("t") && isNotExist(akun, "TidakDipisahkan")) {
+                        addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD56C(String kode, String[] requirements) {
+    private void validateVD56C(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd56cDto temp : this.vd56c) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getIsSendiriNasabah() == null && requirements[0].equals("t")) {
+                if (temp.getIsSendiriNasabah() == null && requirements[0].equals("t") && isNotExist(akun, "IsSendiriNasabah")) {
                     addLogValidation(akun, "Space IsSendiriNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNoRekening() == null && requirements[1].equals("t")) {
+                if (temp.getNoRekening() == null && requirements[1].equals("t") && isNotExist(akun, "NoRekening")) {
                     addLogValidation(akun, "Space NoRekening untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getKodeCurrency() == null && requirements[2].equals("t")) {
+                if (temp.getKodeCurrency() == null && requirements[2].equals("t") && isNotExist(akun, "KodeCurrency")) {
                     addLogValidation(akun, "Space KodeCurrency untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getSaldo() == null && requirements[3].equals("t")) {
+                if (temp.getSaldo() == null && requirements[3].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getSaldoRupiah() == null && requirements[4].equals("t")) {
+                if (temp.getSaldoRupiah() == null && requirements[4].equals("t") && isNotExist(akun, "SaldoRupiah")) {
                     addLogValidation(akun, "Space SaldoRupiah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getIsSendiriNasabah() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space IsSendiriNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNoRekening() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NoRekening untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getKodeCurrency() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space KodeCurrency untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getSaldo() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getSaldoRupiah() == null && requirements[4].equals("t")) {
-                    addLogValidation(akun, "Space SaldoRupiah untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getIsSendiriNasabah() == null && req[0].equals("t") && isNotExist(akun, "IsSendiriNasabah")) {
+                        addLogValidation(akun, "Space IsSendiriNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNoRekening() == null && req[1].equals("t") && isNotExist(akun, "NoRekening")) {
+                        addLogValidation(akun, "Space NoRekening untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getKodeCurrency() == null && req[2].equals("t") && isNotExist(akun, "KodeCurrency")) {
+                        addLogValidation(akun, "Space KodeCurrency untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getSaldo() == null && req[3].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getSaldoRupiah() == null && req[4].equals("t") && isNotExist(akun, "SaldoRupiah")) {
+                        addLogValidation(akun, "Space SaldoRupiah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getIsSendiriNasabah() == null && requirements[0].equals("t") && isNotExist(akun, "IsSendiriNasabah")) {
+                        addLogValidation(akun, "Space IsSendiriNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNoRekening() == null && requirements[1].equals("t") && isNotExist(akun, "NoRekening")) {
+                        addLogValidation(akun, "Space NoRekening untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getKodeCurrency() == null && requirements[2].equals("t") && isNotExist(akun, "KodeCurrency")) {
+                        addLogValidation(akun, "Space KodeCurrency untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getSaldo() == null && requirements[3].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getSaldoRupiah() == null && requirements[4].equals("t") && isNotExist(akun, "SaldoRupiah")) {
+                        addLogValidation(akun, "Space SaldoRupiah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD57A(String kode, String[] requirements) {
+    private void validateVD57A(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd57aDto temp : this.vd57a) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
+                if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
+                if (temp.getTerafiliasi() == null && requirements[1].equals("t") && isNotExist(akun, "Terafiliasi")) {
                     addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
+                if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t") && isNotExist(akun, "TidakTerafiliasi")) {
                     addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getTerafiliasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getSaldo() == null && req[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTerafiliasi() == null && req[1].equals("t") && isNotExist(akun, "Terafiliasi")) {
+                        addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakTerafiliasi() == null && req[2].equals("t") && isNotExist(akun, "TidakTerafiliasi")) {
+                        addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTerafiliasi() == null && requirements[1].equals("t") && isNotExist(akun, "Terafiliasi")) {
+                        addLogValidation(akun, "Space Terafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakTerafiliasi() == null && requirements[2].equals("t") && isNotExist(akun, "TidakTerafiliasi")) {
+                        addLogValidation(akun, "Space TidakTerafiliasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD57B(String kode, String[] requirements) {
+    private void validateVD57B(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd57bDto temp : this.vd57b) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
+                if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getDimiliki() == null && requirements[1].equals("t")) {
+                if (temp.getDimiliki() == null && requirements[1].equals("t") && isNotExist(akun, "Dimiliki")) {
                     addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
+                if (temp.getDipisahkan() == null && requirements[2].equals("t") && isNotExist(akun, "Dipisahkan")) {
                     addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
+                if (temp.getTidakDipisahkan() == null && requirements[3].equals("t") && isNotExist(akun, "TidakDipisahkan")) {
                     addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getDimiliki() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getDipisahkan() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getTidakDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getSaldo() == null && req[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDimiliki() == null && req[1].equals("t") && isNotExist(akun, "Dimiliki")) {
+                        addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDipisahkan() == null && req[2].equals("t") && isNotExist(akun, "Dipisahkan")) {
+                        addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakDipisahkan() == null && req[3].equals("t") && isNotExist(akun, "TidakDipisahkan")) {
+                        addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDimiliki() == null && requirements[1].equals("t") && isNotExist(akun, "Dimiliki")) {
+                        addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDipisahkan() == null && requirements[2].equals("t") && isNotExist(akun, "Dipisahkan")) {
+                        addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTidakDipisahkan() == null && requirements[3].equals("t") && isNotExist(akun, "TidakDipisahkan")) {
+                        addLogValidation(akun, "Space TidakDipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD57C(String kode, String[] requirements) {
+    private void validateVD57C(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd57cDto temp : this.vd57c) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
+                if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
                     addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getLmHrKerja() == null && requirements[1].equals("t")) {
+                if (temp.getLmHrKerja() == null && requirements[1].equals("t") && isNotExist(akun, "LmHrKerja")) {
                     addLogValidation(akun, "Space LmHrKerja untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getDimiliki() == null && requirements[2].equals("t")) {
+                if (temp.getDimiliki() == null && requirements[2].equals("t") && isNotExist(akun, "Dimiliki")) {
                     addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getDipisahkan() == null && requirements[3].equals("t")) {
+                if (temp.getDipisahkan() == null && requirements[3].equals("t") && isNotExist(akun, "Dipisahkan")) {
                     addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getSaldo() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getLmHrKerja() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space LmHrKerja untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getDimiliki() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getDipisahkan() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getSaldo() == null && req[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getLmHrKerja() == null && req[1].equals("t") && isNotExist(akun, "LmHrKerja")) {
+                        addLogValidation(akun, "Space LmHrKerja untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDimiliki() == null && req[2].equals("t") && isNotExist(akun, "Dimiliki")) {
+                        addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDipisahkan() == null && req[3].equals("t") && isNotExist(akun, "Dipisahkan")) {
+                        addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getSaldo() == null && requirements[0].equals("t") && isNotExist(akun, "Saldo")) {
+                        addLogValidation(akun, "Space Saldo untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getLmHrKerja() == null && requirements[1].equals("t") && isNotExist(akun, "LmHrKerja")) {
+                        addLogValidation(akun, "Space LmHrKerja untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDimiliki() == null && requirements[2].equals("t") && isNotExist(akun, "Dimiliki")) {
+                        addLogValidation(akun, "Space Dimiliki untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getDipisahkan() == null && requirements[3].equals("t") && isNotExist(akun, "Dipisahkan")) {
+                        addLogValidation(akun, "Space Dipisahkan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD58(String kode, String[] requirements) {
+    private void validateVD58(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd58Dto temp : this.vd58) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilai() == null && requirements[0].equals("t")) {
+                if (temp.getNilai() == null && requirements[0].equals("t") && isNotExist(akun, "Nilai")) {
                     addLogValidation(akun, "Space Nilai untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilai() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Nilai untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilai() == null && req[0].equals("t") && isNotExist(akun, "Nilai")) {
+                        addLogValidation(akun, "Space Nilai untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilai() == null && requirements[0].equals("t") && isNotExist(akun, "Nilai")) {
+                        addLogValidation(akun, "Space Nilai untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD59(String kode, String[] requirements) {
+    private void validateVD59(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd59Dto temp : this.vd59) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getJumlah() == null && requirements[0].equals("t")) {
+                if (temp.getJumlah() == null && requirements[0].equals("t") && isNotExist(akun, "Jumlah")) {
                     addLogValidation(akun, "Space Jumlah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getTotal() == null && requirements[1].equals("t")) {
+                if (temp.getTotal() == null && requirements[1].equals("t") && isNotExist(akun, "Total")) {
                     addLogValidation(akun, "Space Total untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getJumlah() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space Jumlah untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getTotal() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space Total untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getJumlah() == null && req[0].equals("t") && isNotExist(akun, "Jumlah")) {
+                        addLogValidation(akun, "Space Jumlah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTotal() == null && req[1].equals("t") && isNotExist(akun, "Total")) {
+                        addLogValidation(akun, "Space Total untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getJumlah() == null && requirements[0].equals("t") && isNotExist(akun, "Jumlah")) {
+                        addLogValidation(akun, "Space Jumlah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getTotal() == null && requirements[1].equals("t") && isNotExist(akun, "Total")) {
+                        addLogValidation(akun, "Space Total untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510A(String kode, String[] requirements) {
+    private void validateVD510A(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510aDto temp : this.vd510a) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiPenjualan() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPenjualan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPenjualan")) {
                     addLogValidation(akun, "Space NilaiPenjualan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiPembelian() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiPembelian() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiPembelianKembali")) {
                     addLogValidation(akun, "Space NilaiPembelianKembali untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
+                if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
                     addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
+                if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiPenjualan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPenjualan untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiPembelian() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPembelianKembali untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiPenjualan() == null && req[0].equals("t") && isNotExist(akun, "NilaiPenjualan")) {
+                        addLogValidation(akun, "Space NilaiPenjualan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPembelian() == null && req[1].equals("t") && isNotExist(akun, "NilaiPembelianKembali")) {
+                        addLogValidation(akun, "Space NilaiPembelianKembali untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPasarWajar() == null && req[2].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && req[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiPenjualan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPenjualan")) {
+                        addLogValidation(akun, "Space NilaiPenjualan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPembelian() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiPembelianKembali")) {
+                        addLogValidation(akun, "Space NilaiPembelianKembali untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510B(String kode, String[] requirements) {
+    private void validateVD510B(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510bDto temp : this.vd510b) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiPembelian() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPembelian() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPembelian")) {
                     addLogValidation(akun, "Space NilaiPembelian untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiPenjualan() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiPenjualan() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiPenjualanKembali")) {
                     addLogValidation(akun, "Space NilaiPenjualanKembali untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
+                if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
                     addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
+                if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiPembelian() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPembelian untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiPenjualan() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPenjualanKembali untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiPembelian() == null && req[0].equals("t") && isNotExist(akun, "NilaiPembelian")) {
+                        addLogValidation(akun, "Space NilaiPembelian untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPenjualan() == null && req[1].equals("t") && isNotExist(akun, "NilaiPenjualanKembali")) {
+                        addLogValidation(akun, "Space NilaiPenjualanKembali untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPasarWajar() == null && req[2].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && req[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiPembelian() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPembelian")) {
+                        addLogValidation(akun, "Space NilaiPembelian untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPenjualan() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiPenjualanKembali")) {
+                        addLogValidation(akun, "Space NilaiPenjualanKembali untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiPasarWajar() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510C(String kode, String[] requirements) {
+    private void validateVD510C(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510cDto temp : this.vd510c) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
                     addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiPasarWajar() == null && req[0].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && req[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510D(String kode, String[] requirements) {
+    private void validateVD510D(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510dDto temp : this.vd510d) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiPembiayaan() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPembiayaan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPembiayaanMarjin")) {
                     addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiJaminan() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiJaminan() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiJaminanPembiayaan")) {
                     addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t")) {
+                if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilitiesNasabah")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitiesRasio() == null && requirements[3].equals("t")) {
+                if (temp.getNilaiRankingLiabilitiesRasio() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilitiesKelebihan")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiPembiayaan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiJaminan() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitiesRasio() == null && requirements[3].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiPembiayaan() == null && req[0].equals("t") && isNotExist(akun, "NilaiPembiayaanMarjin")) {
+                        addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiJaminan() == null && req[1].equals("t") && isNotExist(akun, "NilaiJaminanPembiayaan")) {
+                        addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitiesNasabah() == null && req[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilitiesNasabah")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitiesRasio() == null && req[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilitiesKelebihan")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiPembiayaan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPembiayaanMarjin")) {
+                        addLogValidation(akun, "Space NilaiPembiayaanMarjin untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiJaminan() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiJaminanPembiayaan")) {
+                        addLogValidation(akun, "Space NilaiJaminanPembiayaan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitiesNasabah() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilitiesNasabah")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilitiesNasabah untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitiesRasio() == null && requirements[3].equals("t") && isNotExist(akun, "NilaiRankingLiabilitiesKelebihan")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilitiesKelebihan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510E(String kode, String[] requirements) {
+    private void validateVD510E(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510eDto temp : this.vd510e) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
                     addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiPasarWajar() == null && req[0].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiPasarWajar() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPasarWajar")) {
+                        addLogValidation(akun, "Space NilaiPasarWajar untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510F(String kode, String[] requirements) {
+    private void validateVD510F(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510fDto temp : this.vd510f) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiKomitmenPenjaminan() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiKomitmenPenjaminan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPorsiKomitmenPenjaminan")) {
                     addLogValidation(akun, "Space NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiKomitmenPenjaminan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiKomitmenPenjaminan() == null && req[0].equals("t") && isNotExist(akun, "NilaiPorsiKomitmenPenjaminan")) {
+                        addLogValidation(akun, "Space NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && req[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiKomitmenPenjaminan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPorsiKomitmenPenjaminan")) {
+                        addLogValidation(akun, "Space NilaiPorsiKomitmenPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510G(String kode, String[] requirements) {
+    private void validateVD510G(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510gDto temp : this.vd510g) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiPenjaminan() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiPenjaminan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPenjaminan")) {
                     addLogValidation(akun, "Space NilaiPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
+                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiPenjaminan() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiPenjaminan() == null && req[0].equals("t") && isNotExist(akun, "NilaiPenjaminan")) {
+                        addLogValidation(akun, "Space NilaiPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && req[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiPenjaminan() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiPenjaminan")) {
+                        addLogValidation(akun, "Space NilaiPenjaminan untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510H(String kode, String[] requirements) {
+    private void validateVD510H(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510hDto temp : this.vd510h) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getKomitmenTerealisasi() == null && requirements[0].equals("t")) {
+                if (temp.getKomitmenTerealisasi() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiKomitmenTerealisasi")) {
                     addLogValidation(akun, "Space NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getKomitmenBelumTerealisasi() == null && requirements[1].equals("t")) {
+                if (temp.getKomitmenBelumTerealisasi() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiKomitmenBelumTerealisasi")) {
                     addLogValidation(akun, "Space NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
+                if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getKomitmenTerealisasi() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getKomitmenBelumTerealisasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getKomitmenTerealisasi() == null && req[0].equals("t") && isNotExist(akun, "NilaiKomitmenTerealisasi")) {
+                        addLogValidation(akun, "Space NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getKomitmenBelumTerealisasi() == null && req[1].equals("t") && isNotExist(akun, "NilaiKomitmenBelumTerealisasi")) {
+                        addLogValidation(akun, "Space NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && req[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getKomitmenTerealisasi() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiKomitmenTerealisasi")) {
+                        addLogValidation(akun, "Space NilaiKomitmenTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getKomitmenBelumTerealisasi() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiKomitmenBelumTerealisasi")) {
+                        addLogValidation(akun, "Space NilaiKomitmenBelumTerealisasi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
     }
 
-    private void validateVD510I(String kode, String[] requirements) {
+    private void validateVD510I(
+            String kode, String[] requirements,
+            Map<String, MappingAkunRequirement> mappingAkunRequirementMap
+    ) {
         boolean isWildcard = kode.charAt(kode.length() - 1) == '.';
         for (Vd510iDto temp : this.vd510i) {
             String akun = temp.getKodeAkun();
             if (!isWildcard && akun.equals(kode)) {
-                if (temp.getNilaiTransaksi() == null && requirements[0].equals("t")) {
+                if (temp.getNilaiTransaksi() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiTransaksi")) {
                     addLogValidation(akun, "Space NilaiTransaksi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getUntungRugiBelumTerealisasi() == null && requirements[1].equals("t")) {
+                if (temp.getUntungRugiBelumTerealisasi() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiUntungRugi")) {
                     addLogValidation(akun, "Space NilaiUntungRugi untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
+                if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
                     addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
                 }
             } else if (isWildcard && akun.contains(kode)) {
-                if (temp.getNilaiTransaksi() == null && requirements[0].equals("t")) {
-                    addLogValidation(akun, "Space NilaiTransaksi untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getUntungRugiBelumTerealisasi() == null && requirements[1].equals("t")) {
-                    addLogValidation(akun, "Space NilaiUntungRugi untuk akun " + akun + " dalam file required dan tidak terisi");
-                }
-                if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t")) {
-                    addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                if (mappingAkunRequirementMap.containsKey(akun)) {
+                    String[] req = mappingAkunRequirementMap.get(akun).getRequirements();
+                    if (temp.getNilaiTransaksi() == null && req[0].equals("t") && isNotExist(akun, "NilaiTransaksi")) {
+                        addLogValidation(akun, "Space NilaiTransaksi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getUntungRugiBelumTerealisasi() == null && req[1].equals("t") && isNotExist(akun, "NilaiUntungRugi")) {
+                        addLogValidation(akun, "Space NilaiUntungRugi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && req[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                } else {
+                    if (temp.getNilaiTransaksi() == null && requirements[0].equals("t") && isNotExist(akun, "NilaiTransaksi")) {
+                        addLogValidation(akun, "Space NilaiTransaksi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getUntungRugiBelumTerealisasi() == null && requirements[1].equals("t") && isNotExist(akun, "NilaiUntungRugi")) {
+                        addLogValidation(akun, "Space NilaiUntungRugi untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
+                    if (temp.getNilaiRankingLiabilitas() == null && requirements[2].equals("t") && isNotExist(akun, "NilaiRankingLiabilities")) {
+                        addLogValidation(akun, "Space NilaiRankingLiabilities untuk akun " + akun + " dalam file required dan tidak terisi");
+                    }
                 }
             }
         }
@@ -1898,5 +2272,15 @@ public class MkbTransformDto {
                 .createdAt(LocalDateTime.now())
                 .createdBy(this.userId)
                 .build());
+    }
+
+    private boolean isNotExist(String akun, String word) {
+        for (LogValidationDto logValidationDto : this.logValidation) {
+            if (logValidationDto.getKodeAkun().equals(akun) && logValidationDto.getMessageDescription().contains(word+ " ")) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
