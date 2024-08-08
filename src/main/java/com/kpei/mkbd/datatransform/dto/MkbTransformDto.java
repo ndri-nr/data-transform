@@ -301,9 +301,6 @@ public class MkbTransformDto {
         List<String> allKeys = getAllKeysPossibilities(items[0]);
         boolean exist = false;
         for (String allKey : allKeys) {
-            System.out.println(allKey);
-        }
-        for (String allKey : allKeys) {
             if (key.containsKey(allKey)) {
                 exist = true;
                 break;
@@ -1135,7 +1132,6 @@ public class MkbTransformDto {
                 String group = list.getString("sub");
                 String[] requirements = list.getString("requirements").split("\\|");
 
-                System.out.println(kode + " : " + group + " : " + list.getString("requirements"));
                 map.put(
                         kode,
                         MappingAkunRequirement.builder()
