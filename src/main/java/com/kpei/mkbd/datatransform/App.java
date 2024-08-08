@@ -24,7 +24,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        File file = new File("/Users/andri/Documents/solecode/datatransform/AI240514.MKB");
+        File file = new File("/Users/andri/Documents/solecode/datatransform/LG240514.MKB");
         File mappingKey = new File("/Users/andri/Documents/solecode/datatransform/mapping-key-list.txt");
         String baseDirectoryLog = "/Users/andri/Documents/solecode/datatransform/documents/logs";
         LogUtil logUtil = new LogUtil(baseDirectoryLog);
@@ -35,8 +35,8 @@ public class App
         MkbTransformDto mkbTransformDto = new MkbTransformDto();
         mkbTransformDto.setUserId("fb68b928-f8f9-46f0-8cd1-2081f27483e7");
         mkbTransformDto.setUsername("admin");
-        mkbTransformDto.setFilename("AI240514.MKB");
-        mkbTransformDto.setKodePe("A0");
+        mkbTransformDto.setFilename("LG240514.MKB");
+        mkbTransformDto.setKodePe("LG");
         mkbTransformDto.constructVd5Dto(file, key);
 
         String url = "jdbc:postgresql://pgsql15-dev.solecode.tech:5432/kpei_mkbd";
@@ -65,7 +65,20 @@ public class App
                     try {
                         LocalDateTime start = LocalDateTime.now();
                         logger.info("Background service started at " + LocalDateTime.now());
-                        Integer status = ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
+                        int status = 0;
+
+                        for (int i = 0; i < 3; i++) {
+                            String resultProcessData = ProcessService.processDataVD(finalConn, mkbTransformDto, logUtil, logger);
+                            String[] resultArr = resultProcessData.split("\\|");
+                            status = Integer.parseInt(resultArr[0]);
+                            if (status == 1) break;
+                            if (!(status == 0 && resultArr[1].trim().equalsIgnoreCase("ERROR: canceling statement due to user request"))) {
+                                break;
+                            } else {
+                                logger.info("Error occurred, after trying to retry " + (i + 1) + " times");
+                            }
+                        }
+
                         ProcessService.processSaveLog(finalConn, mkbTransformDto, logUtil, logger, status);
                         logger.info("Background service finished at " + LocalDateTime.now());
                         LocalDateTime end = LocalDateTime.now();
