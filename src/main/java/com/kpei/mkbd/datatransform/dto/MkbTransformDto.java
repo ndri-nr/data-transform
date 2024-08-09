@@ -1096,9 +1096,10 @@ public class MkbTransformDto {
         keys.add(baseKey);
 
         for (int i = 2; i < kodeAkunArr.length; i++) {
-            baseKey = baseKey + "." + kodeAkunArr[i];
+            baseKey = baseKey + kodeAkunArr[i];
             keys.add(baseKey);
-            keys.add(baseKey + ".");
+            baseKey = baseKey + ".";
+            keys.add(baseKey);
         }
 
         return keys;
